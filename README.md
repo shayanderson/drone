@@ -238,8 +238,10 @@ The `view()->display()` method is used to display a template file. If `view()->d
 
 When the view display method is called from the controller it will automatically display a similarly named template file, for example, the controller file `_app/mod/test-controller.php` will display the `_app/tpl/test-controller.tpl` when `view()->display()` is called.
 
-> To assign a custom view template file use a template name, for example: <br />
-> `view()->display('my-dir/my-template')` (will display template file `_app/tpl/my-dir/my-template.tpl`)
+To assign a custom view template file use a template name, for example:
+```php
+view()->display('my-dir/my-template'); // will display template file '_app/tpl/my-dir/my-template.tpl'
+```
 
 #### View Templates
 Now the variables set in the view example above are accessed in the view template file like:

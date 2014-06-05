@@ -32,6 +32,7 @@ Rapid Development Framework for PHP 5.5.0+ by Shay Anderson
   - [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**
   - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
+- **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -384,7 +385,18 @@ Now if a `100` error is triggered the handler would call the controller action m
 > The `error_last()` helper function can be used to get the last error message.
 
 ## Request Variables
-
+Request variables can be accessed using the `request()` helper function, for example:
+```php
+$name = request()->get('name'); // set value from GET variable 'name'
+```
+Methods used to get various request variables are:
+- `cookie()` - $_COOKIE alias
+- `get()` - $_GET alias
+- `evn()` - $_ENV alias
+- `file()` - $_FILES alias
+- `get()` - $_GET alias
+- `post()` - $_POST alias
+- `server()` - $_SERVER alias
 
 
 

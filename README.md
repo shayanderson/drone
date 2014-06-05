@@ -121,6 +121,11 @@ Finally, visit your Web application with request `/hello-world.htm` in a browser
 ## Routes
 There are two types of routes in Drone: *static* and *mapped*.
 
+The Drone routing workflow is:
+1. Check for mapped route
+2. Check for static route
+3. Trigger 404 handler
+
 #### Static Routes
 Static routes require no mapping and instead rely on static file paths. For example, the application request `/hello-world.htm` will search for the controller file `_app/mod/hello-world.php`.
 

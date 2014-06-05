@@ -24,7 +24,7 @@ Drone Framework for PHP 5.5.0+
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
 
-All of the Drone bootstrapping is done in the *index.php* file.
+All of the Drone bootstrapping is done in the `index.php` file.
 
 #### Directory Structure
 By default Drone uses the following directory structure:
@@ -36,7 +36,7 @@ By default Drone uses the following directory structure:
     - **_global** (global view template files)
 - **skin** (front asset files)
 
-The directories for controllers (*_app/mod*), templates (*_app/tpl*) and global templates (*_app/tpl/_global*) can be changed using Drone settings.
+The directories for controllers (`_app/mod`), templates (`_app/tpl`) and global templates (`_app/tpl/_global`) can be changed using Drone settings.
 
 #### Class Autoloading
 Class autoloading is completed using the *autoload()* function in the *index.php* file, example:
@@ -122,7 +122,9 @@ Finally, visit your Web application with request '/hello-world.htm' in a browser
 There are two types of routes in Drone: static and mapped.
 
 #### Static Routes
-Static routes require no mapping and instead rely on static file paths. For example, the application request '/hello-world.htm' will search for the controller file *_app/mod/hello-world.php*
+Static routes require no mapping and instead rely on static file paths. For example, the application request '/hello-world.htm' will search for the controller file *_app/mod/hello-world.php*.
+
+
 
 #### Mapped Routes
 

@@ -100,7 +100,7 @@ Drone helper functions available:
 - **view()** - `drone->view` alias
 
 #### Settings
-Drone can run without changing the default settings, however, the default settings should be changed when Drone is used in a production environment in the `index.php` file:
+Drone can run without changing the default settings, however, the default settings should be changed in the `index.php` file when Drone is used in a production environment:
 ```php
 // turn debug mode off - this will prevent unwanted output in a production environment
 drone()->set(\Drone\Core::KEY_DEBUG, false);

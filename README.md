@@ -234,9 +234,9 @@ view()->another_var = 'another value';
 view()->display(); // display template file
 ```
 
-The `view()->display()` method is used to display a template file. If `view()->display()` is not called then no view will be displayed.
+The `view()->display()` method is used to display a template file. If `view()->display()` is not called then no view will be displayed (no output buffer).
 
-When the view display method is called from the controller it will automatically display a similarly named template file, for example, the controller file `_app/mod/test-controller.php` will display the `_app/tpl/test-controller.tpl`.
+When the view display method is called from the controller it will automatically display a similarly named template file, for example, the controller file `_app/mod/test-controller.php` will display the `_app/tpl/test-controller.tpl` when `view()->display()` is called.
 
 > To assign a custom view template file name use a template name, for example: `view()->display('my-dir/my-template')` (will display template file `_app/tpl/my-dir/my-template.tpl`)
 

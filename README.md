@@ -11,7 +11,7 @@ Drone Framework for PHP 5.5.0+
 - Filesystem Handling
 
 #### Documentation Topics
- &nbsp; &nbsp; **[Quick Start](https://github.com/shayanderson/drone#quick-start)**: [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)<br />
+ &nbsp; &nbsp; **[Quick Start](https://github.com/shayanderson/drone#quick-start):** [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)<br />
  
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -73,7 +73,7 @@ Drone can run without changing the default settings, however, the default settin
 // turn debug mode off - this will prevent unwanted output in a production environment
 drone()->set(\Drone\Core::KEY_DEBUG, false);
 
-// turn off backtrace in log - this should only be used in a development environment (or while debugging)
+// turn off backtrace in log - this should only be used in a development environment
 drone()->set(\Drone\Core::KEY_ERROR_BACKTRACE, false);
 
 // turn on logging of errors in the default Web server log file
@@ -87,5 +87,14 @@ drone()->run();
 ```
 Nothing should happen after this call as the output buffer has already ended.
 
-
+To setup an application response simply create a new controller file in the *_app/mod* directory, for example *_app/mod/hello-world.php*:
+```php
+// display view template with auto template name
+view()->display();
+```
+Next, create a view template *_app/tpl/hello-world.tpl*:
+```html
+Hello world
+```
+Finally, visit your Web application with request '/hello-world.htm' in a browser and you should see the *Hello world* text.
 

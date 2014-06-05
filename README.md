@@ -23,11 +23,11 @@ All of the Drone bootstrapping is done in the *index.php* file.
 #### Directory Structure
 By default Drone uses the following directory structure:
 - _app (framework + application source files)
-..- com (common application files)
-..- lib (framework + application class files)
-..- mod (controller files)
-..- tpl (view template files)
-...- _global (global view template files)
+  - com (common application files)
+  - lib (framework + application class files)
+  - mod (controller files)
+  - tpl (view template files)
+   - _global (global view template files)
 
 #### Class Autoloading
 Class autoloading is completed using the *autoload()* function in the *index.php* file, example:

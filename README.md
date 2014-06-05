@@ -289,12 +289,12 @@ Log a simple application message example:
 ```php
 logger()->debug('My log message'); // log message with debug level
 ```
-Data (a an array) can also be passed to the log handler using the `data()` method:
+Data (as an array) can also be passed to the log handler using the `data()` method:
 ```php
 logger()->data([1, 2, 3]);
 logger()->debug('My message with data');
 ```
-Now the message will be formatted with the data array as a string.
+Now the message will include the data as a flattened string.
 
 #### Log Levels
 Drone uses the following logging methods for the logging levels: *debug*, *warn*, *error* and *fatal*:
@@ -327,7 +327,8 @@ This will output log messages to the log file `_app/var/drone.log`.
 Setting a custom log handler is simple, for example:
 ```php
 drone()->log->setLogHandler(function($message, $level, $category, $data) {
-	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category, 'data' => $data]);
+	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category, 
+		'data' => $data]);
 	return false;
 });
 ```

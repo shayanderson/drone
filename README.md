@@ -465,14 +465,14 @@ if(session()->has('user', 'id'))
 ```
 
 > Other useful session methods:
-> - `session->clear()` - clear a session variable
-> - `session->count()` - used to get count of session array variable
-> - `session->destroy()` - destroy a session
-> - `session->flush()` - flush all session variables
-> - `session->getId()` - get session ID
-> - `session->isArray()` - check if session variable is array
-> - `session->isSession()` - check if session has been started
-> - `session->newId()` - regenerate session ID
+> - `session()->clear()` - clear a session variable
+> - `session()->count()` - used to get count of session array variable
+> - `session()->destroy()` - destroy a session
+> - `session()->flush()` - flush all session variables
+> - `session()->getId()` - get session ID
+> - `session()->isArray()` - check if session variable is array
+> - `session()->isSession()` - check if session has been started
+> - `session()->newId()` - regenerate session ID
 
 #### Flash Messages
 Flash messages are simple session messages that last only until they are used. The `\Drone\Core\Flash` object handles flash messages and can be accessed using the `flash()` helper function, example:
@@ -505,6 +505,12 @@ This will output the HTML:
 ```html
 <div class="error">Please enter your email address</div>
 ```
+
+> Other useful flash methods:
+> - `flash()->clear()` - clear a flash message
+> - `flash()->flush()` - flush all flash messages
+> - `flash()->has()` - check if flash message exists
+
 
 
 

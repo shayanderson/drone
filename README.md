@@ -385,20 +385,45 @@ Now if a `100` error is triggered the handler would call the controller action m
 > The `error_last()` helper function can be used to get the last error message.
 
 ## Request Variables
-Request variables can be accessed using the `request()` helper function, for example:
+Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:
 ```php
 $name = request()->get('name'); // get value from GET variable 'name'
 ```
-Methods used to get various request variables are:
-- `request()->cookie()` - $_COOKIE alias
-- `request()->get()` - $_GET alias
-- `request()->evn()` - $_ENV alias
-- `request()->file()` - $_FILES alias
-- `request()->get()` - $_GET alias
-- `request()->post()` - $_POST alias
-- `request()->server()` - $_SERVER alias
+Methods used to *get* request variables:
+- `request()->cookie()` - `$_COOKIE` alias
+- `request()->get()` - `$_GET` alias
+- `request()->evn()` - `$_ENV` alias
+- `request()->file()` - `$_FILES` alias
+- `request()->get()` - `$_GET` alias
+- `request()->post()` - `$_POST` alias
+- `request()->request()` - `$_REQUEST` alias
+- `request()->server()` - `$_SERVER` alias
 
+Methods used to check if request variables *exist*:
+- `request()->hasCookie()`
+- `request()->hasFile()`
+- `request()->hasGet()`
+- `request()->hasPost()`
+- `request()->hasRequest()`
 
+Methods used to *remove* request variables:
+- `request()->removeCookie()`
+- `request()->removeGet()`
+- `request()->removePost()`
+- `request()->removeRequest()`
+
+Request variable values can be globally sanitized using the `request()->filter()` method, for example:
+```php
+// auto trim all GET + POST variable values
+request()->filter(\Drone\Core\Request::TYPE_GET | \Drone\Core\Request::TYPE_POST,
+	function($v) { return trim($v); });
+```
+
+Cookies are easy to set using:
+```php
+// set cookie 'my_cookie' that will expire in 10 days
+request()->setCookie('my_cookie', 'cookie value', '+10 days');
+```
 
 
 

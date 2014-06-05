@@ -30,6 +30,8 @@ Rapid Development Framework for PHP 5.5.0+
   - [Log Levels](https://github.com/shayanderson/drone#log-levels)
   - [Log Configuration](https://github.com/shayanderson/drone#log-configuration)
   - [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
+- **[Error Handling](https://github.com/shayanderson/drone#error-handling)**
+  - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -323,10 +325,46 @@ In the above example a custom log handler has been set and allows the log messag
 
 > If a custom log handler is set and returns boolean value `false` Drone will continue on with the default logging logic (caching log messages and writing to a log file if configured), however, if `true` is returned by the log handler Drone will stop the default logging processes.
 
+## Error Handling
+Errors can be triggered using the `error()` helper function, here is an example:
+```php
+if($something_bad)
+{
+	// trigger 500 error handler
+	error('Something bad happened');
+}
+```
+Errors can also be triggered using error codes, for example a *404 Not Found*:
+```php
+error(404, 'This page is not found'); // trigger 404 error handler
+```
+Or, use custom error codes (cannot be `403`, `404` or `500` as these are used by Drone):
+```php
+error(100, 'My custom error code'); // trigger 100 error handler
+```
 
+> A custom error code will attempt to trigger a custom error handler, if the handler is not found the `500` error handler will be triggered
 
+#### Setting Error Handlers
+By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
+```php
+drone()->error(function($error) { pa('<div style="color:#f00;">' . $error,
+	debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), '</div>'); });
+drone()->error(404, function() { drone()->run('error->_404'); });
+drone()->error(500, function() { drone()->run('error->_500'); });
+```
+This example registers these error handlers. 
 
+The *default* error handler will be called when errors are triggered inside the application (like E_USER_ERROR, E_USER_WARNING, etc.). This happens because of the default Drone error handler, which can be changed using:
+```php
+drone()->set(\Drone\Core::KEY_ERROR_HANDLER, ['\My\Class', 'errorHandlerMethod']);
+```
 
+Custom error handlers can also be set, for example:
+```php
+drone()->error(100, function() { drone()->run('error->_100'); }
+```
+Now if a `100` error is triggered the handler would call the controller action method `_100()` in the `_app/mod/error.php` controller file.
 
 
 

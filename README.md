@@ -8,15 +8,26 @@ Drone Framework for PHP 5.5.0+
 - Logging / Debugging
 - Data Handling (filtering, formatting and validation)
 - Session Handling
+- Database Handling
 - Filesystem Handling
 
 #### Documentation Topics
- &nbsp; &nbsp; **[Quick Start](https://github.com/shayanderson/drone#quick-start):** [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)<br />
- 
+ &nbsp; &nbsp; **[Quick Start](https://github.com/shayanderson/drone#quick-start):** [Directory Structure](https://github.com/shayanderson/drone#directory-structure), [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)<br />
+ &nbsp; &nbsp; **[Routes](https://github.com/shayanderson/drone#routes):**
+
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
 
 All of the Drone bootstrapping is done in the *index.php* file.
+
+#### Directory Structure
+By default Drone uses the following directory structure:
+- _app (framework + application source files)
+..- com (common application files)
+..- lib (framework + application class files)
+..- mod (controller files)
+..- tpl (view template files)
+...- _global (global view template files)
 
 #### Class Autoloading
 Class autoloading is completed using the *autoload()* function in the *index.php* file, example:
@@ -29,7 +40,7 @@ autoload([
 ```
 In this example classes will be autoloaded from the *_app/lib* and the *_app/mdl* directories. The autoloader expects the use of namespaces, example:
 ```php
-new \Mylib\Myclass;
+$myobj = new \Mylib\Myclass;
 ```
 Would load the class *_app/lib/Mylib/Myclass.php* or *_app/mdl/Mylib/Myclass.php* (depending on where the class is located).
 
@@ -97,4 +108,16 @@ Next, create a view template *_app/tpl/hello-world.tpl*:
 Hello world
 ```
 Finally, visit your Web application with request '/hello-world.htm' in a browser and you should see the *Hello world* text.
+
+## Routes
+There are two types of routes in Drone: static and mapped.
+
+#### Static Routes
+Static routes require no mapping and instead rely on static file paths. For example, the application request '/hello-world.htm' will search for the controller file *_app/mod/hello-world.php*
+
+#### Mapped Routes
+
+
+
+
 

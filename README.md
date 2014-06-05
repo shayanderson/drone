@@ -276,9 +276,9 @@ This example includes the global template files `_app/tpl/_global/header.tpl` an
 ## Logging
 The `\Drone\Core\Logger` object is used for logging and accessed using the `logger()` helper function.
 
-Logging a simple application message example:
+Log a simple application message example:
 ```php
-logger()->debug('My log message'); // log debug level message
+logger()->debug('My log message'); // log message with debug level
 ```
 
 #### Logging Levels
@@ -290,6 +290,44 @@ Drone uses the following logging methods for the logging levels: *debug*, *warn*
 - `logger()->fatal()` - fatal error messages
 
 > The `logger()->trace` method is used by the framework for debugging purposes
+
+#### Logging Configuration
+Logging configuration is done in the `index.php` file.
+
+To set the global *logging level* use:
+```php
+drone()->log->setLogLevel(\Drone\Core\Logger::LEVEL_DEBUG);
+```
+This means only messages with the *debug* level or higher will be logged.
+
+To set a log file where log messages will be outputted to use something like:
+```php
+drone()->log->setLogFile('_app/var/drone.log');
+```
+This will output log messages to the log file `_app/var/drone.log`.
+
+> Using a log file is *not* recommended for production environments
+
+#### Custom Log Handler
+Setting a custom log handler is simple, for example:
+```php
+drone()->log->setLogHandler(function($message, $level, $category) {
+	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category]);
+	return false;
+});
+```
+In the above example a custom log handler has been set and allows the log messages to be saved in the database table `drone_log`.
+
+
+
+
+
+
+
+
+
+
+
 
 
 

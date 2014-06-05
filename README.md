@@ -26,6 +26,7 @@ Rapid Development Framework for PHP 5.5.0+
   - [Controller Class](https://github.com/shayanderson/drone#controller-class)
 - **[Views](https://github.com/shayanderson/drone#views)**
   - [View Templates](https://github.com/shayanderson/drone#view-templates)
+- **[Logging](https://github.com/shayanderson/drone#logging)**
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -247,8 +248,8 @@ view()->display('my-dir/my-template');
 ```
 
 > Other useful view methods:
-> - **clearProperties()** - clears all view variables/properties
-> - **getProperties()** - get array of all view variables/properties
+> - `clearProperties()` - clears all view variables/properties
+> - `getProperties()` - get array of all view variables/properties
 
 #### View Templates
 Now the variables set in the view example above are accessed in the view template file like:
@@ -257,7 +258,7 @@ Value for 'my_var' is: <?=$my_var?> <br />
 Value for 'another_var' is: <?=$another_var?>
 ```
 Which would output:
-```html+php
+```html
 Value for 'my_var' is: my value
 Value for 'another_var' is: another value
 ```
@@ -268,9 +269,27 @@ Value for 'another_var' is: another value
 Some body text
 <?php include template_global('footer'); ?>
 ```
-This example includes the header global template files `_app/tpl/_global/header.tpl` and `_app/tpl/_global/footer.tpl`
+This example includes the global template files `_app/tpl/_global/header.tpl` and `_app/tpl/_global/footer.tpl`
 
-> The helper function `template()` can be used to include non-global template file
+> The helper function `template()` can be used to include non-global template files
+
+## Logging
+The `\Drone\Core\Logger` object is used for logging and accessed using the `logger()` helper function.
+
+Logging a simple application message example:
+```php
+logger()->debug('My log message'); // log debug level message
+```
+
+#### Logging Levels
+Drone uses the following logging methods for the logging levels: *debug*, *warn*, *error* and *fatal*:
+
+- `logger()->debug()` - debugging messages
+- `logger()->warn()` - warning messages
+- `logger()->error()` - error messages (non-fatal)
+- `logger()->fatal()` - fatal error messages
+
+> The `logger()->trace` method is used by the framework for debugging purposes
 
 
 

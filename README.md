@@ -328,7 +328,7 @@ Setting a custom log handler is simple, for example:
 ```php
 drone()->log->setLogHandler(function($message, $level, $category, $data) {
 	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category, 
-		'data' => $data]);
+		'data' => serialize($data)]);
 	return false;
 });
 ```

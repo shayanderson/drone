@@ -497,7 +497,7 @@ Then set the flash message in the controller:
 ```php
 flash('error.email', 'Please enter your email address');
 ```
-Now when the `flash()` helper function is called with the group `error` (set with syntax `[group].[name]`) the template is applied:
+Now in the view template when the `flash()` helper function is called with the group `error` (set with syntax `[group].[name]`) the template is applied:
 ```html+php
 <?=flash('error.email')?>
 ```

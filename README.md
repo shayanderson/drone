@@ -352,8 +352,7 @@ error(100, 'My custom error'); // trigger 100 error handler
 #### Setting Error Handlers
 By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
 ```php
-drone()->error(function($error) { pa('<div style="color:#f00;">' . $error,
-	debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), '</div>'); });
+drone()->error(function($error) { echo '<div style="color:#f00;">' . $error . '</div>'; });
 drone()->error(404, function() { drone()->run('error->_404'); });
 drone()->error(500, function() { drone()->run('error->_500'); });
 ```

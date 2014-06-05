@@ -240,7 +240,8 @@ When the view display method is called from the controller it will automatically
 
 To assign a custom view template file use a template name, for example:
 ```php
-view()->display('my-dir/my-template'); // will display template file '_app/tpl/my-dir/my-template.tpl'
+// display template file '_app/tpl/my-dir/my-template.tpl'
+view()->display('my-dir/my-template');
 ```
 
 #### View Templates

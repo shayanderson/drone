@@ -162,7 +162,9 @@ Likewise the request `/user/5/delete.htm` will be mapped to the controller file 
 > A missing `Controller` class public method will trigger the 500 error handler
 
 > The `Controller` class constant `DENY` will deny all static requests (or mapped requests without an action)
+
 ---
+
 > Mapped route lookups happen *before* static route lookups
 
 

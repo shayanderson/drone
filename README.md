@@ -387,16 +387,16 @@ Now if a `100` error is triggered the handler would call the controller action m
 ## Request Variables
 Request variables can be accessed using the `request()` helper function, for example:
 ```php
-$name = request()->get('name'); // set value from GET variable 'name'
+$name = request()->get('name'); // get value from GET variable 'name'
 ```
 Methods used to get various request variables are:
-- `cookie()` - $_COOKIE alias
-- `get()` - $_GET alias
-- `evn()` - $_ENV alias
-- `file()` - $_FILES alias
-- `get()` - $_GET alias
-- `post()` - $_POST alias
-- `server()` - $_SERVER alias
+- `request()->cookie()` - $_COOKIE alias
+- `request()->get()` - $_GET alias
+- `request()->evn()` - $_ENV alias
+- `request()->file()` - $_FILES alias
+- `request()->get()` - $_GET alias
+- `request()->post()` - $_POST alias
+- `request()->server()` - $_SERVER alias
 
 
 

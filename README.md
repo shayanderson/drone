@@ -23,6 +23,7 @@ Rapid Development Framework for PHP 5.5.0+
   - [Static Routes](https://github.com/shayanderson/drone#static-routes)
   - [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)
 - **[Controllers](https://github.com/shayanderson/drone#controllers)**
+  - [Controller Class](https://github.com/shayanderson/drone#controller-class)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -184,7 +185,7 @@ logger()->debug('Index controller start');
 view()->drone_ver = \Drone\Core::VERSION;
 view()->drone_params = drone()->getAll();
 
-// display view (displays app/tpl/index.tpl when no template name)
+// display view (displays _app/tpl/index.tpl when no template name)
 view()->display();
 
 // log example
@@ -201,7 +202,7 @@ Now the variable `my_var` is accessible from the view template file.
 > Controller files should never output anything (and outputs will be flushed when debug mode is off), instead output from view template files
 
 #### Controller Class
-When a route is mapped with an action (for example: `'/my/route' => 'controller->action'`) the controller file *must* contain a `Controller` class, otherwise a 404 error will be triggered.
+When a route is mapped with an action (for example: `'/my/route' => 'controller->action'`) the controller file *must* contain a `Controller` class, otherwise a 500 error will be triggered.
 
 Here is an example of a simple `Controller` class in a controller file:
 ```php
@@ -209,13 +210,53 @@ class Controller
 {
 	public function action()
 	{
+		logger()->debug('Controller action called');
+		
 		// action logic here
 	}
 }
 ```
-In our mapped route example above the class method `action()` will be called for the request `/my/route.htm`.
+In the mapped route example above the class method `action()` will be called for the request `/my/route.htm`.
 
 <blockquote>Mapped route params are accessible from the `param()` helper function (example: `param('id')`)</blockquote>
 
 <blockquote>The `Controller` class constant `DENY` will deny all static requests (or mapped requests with no action)</blockquote>
+
+## Views
+The Drone `\Drone\Core\View` object handles all view logic like view variables and template path formatting.
+
+The view object is accessible via the `view()` helper function.
+
+View variables (or properties) are set in controller files, for example:
+```php
+view()->my_var = 'my value';
+view()->another_var = 'another value';
+view()->display(); // display template file
+```
+
+The `view()->display()` method is used to display a template file. If `view()->display()` is not called then no view will be displayed.
+
+When the view display method is called from the controller it will automatically display a similarly named template file, for example, the controller file `_app/mod/test-controller.php` will display the `_app/tpl/test-controller.tpl`.
+
+> To assign a custom view template file name use a template name, for example: `view()->display('my-dir/my-template')` (will display template file `_app/tpl/my-dir/my-template.tpl`)
+
+#### View Templates
+Now the variables set in the view example above are accessed in the view template file like:
+```php
+Value for 'my_var' is: <?=$my_var?> <br />
+Value for 'another_var' is: <?=$another_var?>
+```
+Which would output:
+```html
+Value for 'my_var' is: my value
+Value for 'another_var' is: another value
+```
+
+
+
+
+
+
+
+
 

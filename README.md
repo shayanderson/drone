@@ -156,13 +156,10 @@ class Controller
 ```
 Likewise the request `/user/5/delete.htm` will be mapped to the controller file `_app/mod/user.php` with the route param `id` set to `5` and call the `Controller` public class method `delete`.
 
-> A missing `Controller` class will trigger the 500 error handler
-
-> A missing `Controller` action (class public method) will trigger the 500 error handler
-
-> The `Controller` class constant `DENY` will deny all static requests (or mapped requests with no action)
-
-> Mapped route lookups happen *before* static route lookups
+> - A missing `Controller` class will trigger the 500 error handler
+> - A missing `Controller` action (class public method) will trigger the 500 error handler
+> - The `Controller` class constant `DENY` will deny all static requests (or mapped requests with no action)
+> - Mapped route lookups happen *before* static route lookups
 
 
 

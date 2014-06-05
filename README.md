@@ -321,7 +321,7 @@ drone()->log->setLogHandler(function($message, $level, $category) {
 ```
 In the above example a custom log handler has been set and allows the log messages to be saved in the database table *drone_log*.
 
-> If a custom log handler is set and returns boolean value `true` Drone will continue on with the default logging logic (caching log messages and writing to log file if configured), however, if `false` if returned by the log handler Drone will stop the default logging processes.
+> If a custom log handler is set and returns boolean value `false` Drone will continue on with the default logging logic (caching log messages and writing to a log file if configured), however, if `true` is returned by the log handler Drone will stop the default logging processes.
 
 
 

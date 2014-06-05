@@ -262,10 +262,15 @@ Value for 'my_var' is: my value
 Value for 'another_var' is: another value
 ```
 
+*Template global* files can be included using the `template_global()` helper function, for example:
+```html
+<?php include template_global('header'); ?>
+Some body text
+<?php include template_global('footer'); ?>
+```
+This example includes the header global template files `_app/tpl/_global/header.tpl` and `_app/tpl/_global/footer.tpl`
 
-
-
-
+> The helper function `template()` can be used to include non-global template file
 
 
 

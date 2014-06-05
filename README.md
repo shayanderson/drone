@@ -124,9 +124,8 @@ There are two types of routes in Drone: *static* and *mapped*.
 #### Static Routes
 Static routes require no mapping and instead rely on static file paths. For example, the application request `/hello-world.htm` will search for the controller file `_app/mod/hello-world.php`.
 
-> A missing static route file will trigger the 404 error handler
-
-> Static route lookups happen *after* mapped route lookups
+> - A missing static route file will trigger the 404 error handler
+> - Static route lookups happen *after* mapped route lookups
 
 #### Mapped Routes
 Mapped routes require mapping in the `index.php` file, example:
@@ -162,7 +161,7 @@ Likewise the request `/user/5/delete.htm` will be mapped to the controller file 
 > A missing `Controller` action (class public method) will trigger the 500 error handler
 
 > The `Controller` class constant `DENY` will deny all static requests (or mapped requests with no action)
-...
+
 > Mapped route lookups happen *before* static route lookups
 
 

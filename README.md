@@ -34,6 +34,7 @@ Rapid Development Framework for PHP 5.5.0+ by Shay Anderson
   - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
+  - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -473,10 +474,37 @@ if(session()->has('user', 'id'))
 > - `session->isSession()` - check if session has been started
 > - `session->newId()` - regenerate session ID
 
+#### Flash Messages
+Flash messages are simple session messages that last only until they are used. The `\Drone\Core\Flash` object handles flash messages and can be accessed using the `flash()` helper function, example:
+```php
+// in a controller a validation error is set as a flash message
+flash('error.email', 'Please enter your email address');
+```
+Next, in the view template file call the flash message:
+```html+php
+<?=flash('error.email')?>
+```
+The flash message will only appear once, and be destroyed after. This is very helpful for displaying one-time client messages and errors.
 
+> When the `flash()` helper function is called a session with be started automatically if required
 
-
-
+The true power of flash messages is the use of templates, for example in the `index.php` file set a flash message template:
+```php
+// sets template for flash message group 'error'
+\Drone\Core\Flash::template('error', '<div class="error">{$message}</div>');
+```
+Then set the flash message in the controller:
+```php
+flash('error.email', 'Please enter your email address');
+```
+Now when the `flash()` helper function is called with the group `error` (set with syntax `[group].[name]`) the template is applied:
+```html+php
+<?=flash('error.email')?>
+```
+This will output the HTML:
+```html
+<div class="error">Please enter your email address</div>
+```
 
 
 

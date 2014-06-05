@@ -24,6 +24,8 @@ Rapid Development Framework for PHP 5.5.0+
   - [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)
 - **[Controllers](https://github.com/shayanderson/drone#controllers)**
   - [Controller Class](https://github.com/shayanderson/drone#controller-class)
+- **[Views](https://github.com/shayanderson/drone#views)**
+  - [View Templates](https://github.com/shayanderson/drone#view-templates)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -246,7 +248,7 @@ view()->display('my-dir/my-template');
 
 #### View Templates
 Now the variables set in the view example above are accessed in the view template file like:
-```php
+```html
 Value for 'my_var' is: <?=$my_var?> <br />
 Value for 'another_var' is: <?=$another_var?>
 ```

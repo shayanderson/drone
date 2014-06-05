@@ -175,7 +175,7 @@ Likewise the request `/user/5/delete.htm` will be mapped to the controller file 
 <blockquote>Mapped route lookups happen *before* static route lookups</blockquote>
 
 ## Controllers
-Controllers are files that may or may not contain a `Controller` class depending on if the requested route is mapped, and mapped with a action (see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)).
+Controllers are files that may or may not contain a `Controller` class depending on if the requested route is mapped, and mapped with an action (see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)).
 
 An example of a simple controller file is the default `_app/mod/index.php` controller:
 ```php
@@ -192,10 +192,30 @@ view()->display();
 // log example
 logger()->debug('Index controller end');
 ```
-In the controller file serveral helper functions are called: `logger()` and `view`. These helper functions access Drone core components (in this case `drone()->log` and `drone()->view`). So instead of calling `drone()->log->debug('x')` a helper function can be used.
+In the controller file serveral helper functions are called: `logger()` and `view()`. These helper functions access Drone core components (in this case `drone()->log` and `drone()->view`). So instead of calling `drone()->log->debug('x')` a helper function can be used (see more [Helper Functions](https://github.com/shayanderson/drone#helper-functions).
 
-> Controller files should never output anything (and outputs will be silenced when debug mode is off), instead output from view template files
+View variables can be set using the `view()` helper function, which accesses the `\Drone\Core\View` object, for example:
+```php
+view()->my_var = 'my value';
+```
+Now the variable `my_var` is accessible from the view template file.
 
+> Controller files should never output anything (and outputs will be flushed when debug mode is off), instead output from view template files
 
+#### Controller Class
+When a route is mapped with an action (for example: `'/my/route' => 'controller->action'`) the controller file *must* contain a `Controller` class, otherwise a 404 error will be triggered.
 
+Here is an example of a simple `Controller` class in a controller file:
+```php
+class Controller
+{
+	public function action()
+	{
+		// action logic here
+	}
+}
+```
+In our mapped route example above the class method `action()` will be called for the request `/my/route.htm`.
+
+> Mapped route params are accessible from the `param()` helper function (example: `param('id')`)
 

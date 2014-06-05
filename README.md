@@ -252,18 +252,18 @@ view()->display('my-dir/my-template');
 
 #### View Templates
 Now the variables set in the view example above are accessed in the view template file like:
-```html
+```html+php
 Value for 'my_var' is: <?=$my_var?> <br />
 Value for 'another_var' is: <?=$another_var?>
 ```
 Which would output:
-```html
+```html+php
 Value for 'my_var' is: my value
 Value for 'another_var' is: another value
 ```
 
 *Template global* files can be included using the `template_global()` helper function, for example:
-```html
+```html+php
 <?php include template_global('header'); ?>
 Some body text
 <?php include template_global('footer'); ?>

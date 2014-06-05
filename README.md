@@ -227,6 +227,7 @@ class Controller
 In the mapped route example above the class method `action()` will be called for the request `/my/route.htm`.
 
 <blockquote>The `Controller` class can use two special methods:
+
 - `__before()` - called *before* the controller action method is called
 - `__after()` - called *after* the controller action method is called</blockquote>
 

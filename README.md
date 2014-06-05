@@ -389,7 +389,7 @@ Request variables can be accessed using the `request()` helper function (which u
 ```php
 $name = request()->get('name'); // get value from GET variable 'name'
 ```
-Methods used to *get* request variables:
+Methods used to get request variables:
 - `request()->cookie()` - `$_COOKIE` alias
 - `request()->get()` - `$_GET` alias
 - `request()->evn()` - `$_ENV` alias
@@ -399,14 +399,14 @@ Methods used to *get* request variables:
 - `request()->request()` - `$_REQUEST` alias
 - `request()->server()` - `$_SERVER` alias
 
-Methods used to check if request variables *exist*:
+Methods used to check if request variables exist:
 - `request()->hasCookie()`
 - `request()->hasFile()`
 - `request()->hasGet()`
 - `request()->hasPost()`
 - `request()->hasRequest()`
 
-Methods used to *remove* request variables:
+Methods used to remove request variables:
 - `request()->removeCookie()`
 - `request()->removeGet()`
 - `request()->removePost()`
@@ -424,6 +424,30 @@ Cookies are easy to set using:
 // set cookie 'my_cookie' that will expire in 10 days
 request()->setCookie('my_cookie', 'cookie value', '+10 days');
 ```
+
+> Other useful request methods:
+> - `getHost()`
+> - `getIpAddress()`
+> - `getMethod()` - get the request method
+> - `getPort()`
+> - `getProtocol()`
+> - `getQueryString()`
+> - `getReferrer()`
+> - `getSchema()`
+> - `getUri()`
+> - `isAjax()` - is Ajax request
+> - `isPost()` - is POST request method
+> - `isSecure()` is HTTPS request
+
+
+
+
+
+
+
+
+
+
 
 
 

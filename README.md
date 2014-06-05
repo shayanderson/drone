@@ -33,6 +33,7 @@ Rapid Development Framework for PHP 5.5.0+ by Shay Anderson
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**
   - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
+- **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -258,8 +259,8 @@ view()->display('my-dir/my-template');
 ```
 
 > Other useful view methods:
-> - `clearProperties()` - clears all view variables/properties
-> - `getProperties()` - get array of all view variables/properties
+> - `view()->clearProperties()` - clears all view variables/properties
+> - `view()->getProperties()` - get array of all view variables/properties
 
 #### View Templates
 Now the variables set in the view example above are accessed in the view template file like:
@@ -338,9 +339,9 @@ In the above example a custom log handler has been set and allows the log messag
 If a custom log handler is set and returns boolean value `false` Drone will continue on with the default logging logic (caching log messages and writing to a log file if configured), however, if `true` is returned by the log handler Drone will stop the default logging processes.
 
 > Other useful logger methods:
-> - `get()` - gets log as array
-> - `getString()` - gets log as string
-> - `setDateFormat()` - set log message date format
+> - `logger()->get()` - gets log as array
+> - `logger()->getString()` - gets log as string
+> - `logger()->setDateFormat()` - set log message date format
 
 ## Error Handling
 Errors can be triggered using the `error()` helper function, here is an example:
@@ -426,18 +427,18 @@ request()->setCookie('my_cookie', 'cookie value', '+10 days');
 ```
 
 > Other useful request methods:
-> - `getHost()`
-> - `getIpAddress()`
-> - `getMethod()` - get the request method
-> - `getPort()`
-> - `getProtocol()`
-> - `getQueryString()`
-> - `getReferrer()`
-> - `getSchema()`
-> - `getUri()`
-> - `isAjax()` - check if Ajax request
-> - `isPost()` - check if POST request method
-> - `isSecure()` - check if HTTPS request
+> - `request()->getHost()`
+> - `request()->getIpAddress()`
+> - `request()->getMethod()` - get the request method
+> - `request()->getPort()`
+> - `request()->getProtocol()`
+> - `request()->getQueryString()`
+> - `request()->getReferrer()`
+> - `request()->getSchema()`
+> - `request()->getUri()`
+> - `request()->isAjax()` - check if Ajax request
+> - `request()->isPost()` - check if POST request method
+> - `request()->isSecure()` - check if HTTPS request
 
 ## Session Handling
 Sessions are handled with the `\Drone\Core\Session` object and accessed using the `session()` helper function, example:
@@ -452,8 +453,25 @@ if(session()->has('my_key'))
 
 > The session handler will automatically start a session (if not already started) when the `session()` helper function is used in the application
 
+Using array values in session are simple:
+```php
+session()->add('user', 'id', $user_id);
+...
+if(session()->has('user', 'id'))
+{
+	$user_id = session()->get('user', 'id');
+}
+```
 
-
+> Other useful session methods:
+> - `session->clear()` - clear a session variable
+> - `session->count()` - used to get count of session array variable
+> - `session->destroy()` - destroy a session
+> - `session->flush()` - flush all session variables
+> - `session->getId()` - get session ID
+> - `session->isArray()` - check if session variable is array
+> - `session->isSession()` - check if session has been started
+> - `session->newId()` - regenerate session ID
 
 
 

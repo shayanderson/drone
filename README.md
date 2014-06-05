@@ -11,7 +11,7 @@ Drone Framework for PHP 5.5.0+
 - Filesystem Handling
 
 #### Documentation Topics
- &nbsp; &nbsp; **[Quick Start](https://github.com/shayanderson/link)**<br />
+ &nbsp; &nbsp; **[Quick Start](https://github.com/shayanderson/drone#quick-start)**: [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)<br />
  
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -19,7 +19,7 @@ To install Drone simply download the package and install in your project directo
 All of the Drone bootstrapping is done in the *index.php* file.
 
 #### Class Autoloading
-Class autoloading is completed using the *autload()* function in the *index.php* file, example:
+Class autoloading is completed using the *autoload()* function in the *index.php* file, example:
 ```php
 // set class autoloading paths
 autoload([
@@ -27,11 +27,11 @@ autoload([
 	PATH_ROOT . '_app/mdl'
 ]);
 ```
-In this example class will be autoloaded from the *_app/lib* and the *_app/mdl* directories. The autoloader expects the use of namespaces, example:
+In this example classes will be autoloaded from the *_app/lib* and the *_app/mdl* directories. The autoloader expects the use of namespaces, example:
 ```php
 new \Mylib\Myclass;
 ```
-Would load the class in *_app/lib/Mylib/Myclass.php* or *_app/mdl/Mylib/Myclass.php* (depending on where the class is located)
+Would load the class *_app/lib/Mylib/Myclass.php* or *_app/mdl/Mylib/Myclass.php* (depending on where the class is located).
 
 #### Drone Function
 The *drone()* function can be used to easily access the Drone core class, example:
@@ -45,30 +45,47 @@ Drone helper functions can be used to access Drone components easily, example of
 $name = request()->post('name'); // get POST request value for 'name'
 ```
 Drone helper functions available:
-- clear() - clear param key/value pair
-- error() - trigger error
-- error_last() - get last error
-- filter() - filter data
-- flash() - set flash message
-- format() - format data
-- get() - get param value
-- has() - check if param exists
-- load_com() - load common file
-- logger() - *drone()->log* alias
-- pa() - string/array printer
-- param() - get route param
-- redirect() - redirect to location
-- request() - *drone()->request* alias
-- session() - *drone()->session* alias
-- set() - set param value
-- stop() - stop application
-- template() - get template formatted name
-- template_global() - get gloabl template formatted name
-- validate() - validate value
-- view() - *drone->view* alias
+- **clear()** - clear param key/value pair
+- **error()** - trigger error
+- **error_last()** - get last error
+- **filter()** - filter data
+- **flash()** - set flash message
+- **format()** - format data
+- **get()** - get param value
+- **has()** - check if param exists
+- **load_com()** - load common file
+- **logger()** - *drone()->log* alias
+- **pa()** - string/array printer
+- **param()** - get route param
+- **redirect()** - redirect to location
+- **request()** - *drone()->request* alias
+- **session()** - *drone()->session* alias
+- **set()** - set param value
+- **stop()** - stop application
+- **template()** - get template formatted name
+- **template_global()** - get gloabl template formatted name
+- **validate()** - validate value
+- **view()** - *drone->view* alias
 
+#### Settings
+Drone can run without changing the default settings, however, the default settings should be changed when Drone is used in a production environment in the *index.php* file:
+```php
+// turn debug mode off - this will prevent unwanted output in a production environment
+drone()->set(\Drone\Core::KEY_DEBUG, false);
 
+// turn off backtrace in log - this should only be used in a development environment (or while debugging)
+drone()->set(\Drone\Core::KEY_ERROR_BACKTRACE, false);
 
+// turn on logging of errors in the default Web server log file
+drone()->set(\Drone\Core::KEY_ERROR_LOG, true);
+```
+
+#### Run Application
+The last call in the *index.php* file should run the application:
+```php
+drone()->run();
+```
+Nothing should happen after this call as the output buffer has already ended.
 
 
 

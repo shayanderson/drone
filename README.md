@@ -337,9 +337,9 @@ In the above example a custom log handler has been set and allows the log messag
 If a custom log handler is set and returns boolean value `false` Drone will continue on with the default logging logic (caching log messages and writing to a log file if configured), however, if `true` is returned by the log handler Drone will stop the default logging processes.
 
 > Other useful logger methods:
-> `get()` - gets log as array
-> `getString()` - gets log as string
-> `setDateFormat()` - set log message date format
+> - `get()` - gets log as array
+> - `getString()` - gets log as string
+> - `setDateFormat()` - set log message date format
 
 ## Error Handling
 Errors can be triggered using the `error()` helper function, here is an example:

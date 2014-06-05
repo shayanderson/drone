@@ -289,6 +289,12 @@ Log a simple application message example:
 ```php
 logger()->debug('My log message'); // log message with debug level
 ```
+Data (a an array) can also be passed to the log handler using the `data()` method:
+```php
+logger()->data([1, 2, 3]);
+logger()->debug('My message with data');
+```
+Now the message will be formatted with the data array as a string.
 
 #### Log Levels
 Drone uses the following logging methods for the logging levels: *debug*, *warn*, *error* and *fatal*:
@@ -320,14 +326,17 @@ This will output log messages to the log file `_app/var/drone.log`.
 #### Custom Log Handler
 Setting a custom log handler is simple, for example:
 ```php
-drone()->log->setLogHandler(function($message, $level, $category) {
-	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category]);
+drone()->log->setLogHandler(function($message, $level, $category, $data) {
+	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category, 'data' => $data]);
 	return false;
 });
 ```
 In the above example a custom log handler has been set and allows the log messages to be saved in the database table *drone_log*.
 
-> If a custom log handler is set and returns boolean value `false` Drone will continue on with the default logging logic (caching log messages and writing to a log file if configured), however, if `true` is returned by the log handler Drone will stop the default logging processes.
+If a custom log handler is set and returns boolean value `false` Drone will continue on with the default logging logic (caching log messages and writing to a log file if configured), however, if `true` is returned by the log handler Drone will stop the default logging processes.
+
+> Other useful logger methods:
+
 
 ## Error Handling
 Errors can be triggered using the `error()` helper function, here is an example:
@@ -371,7 +380,7 @@ Now if a `100` error is triggered the handler would call the controller action m
 
 > The `error_last()` helper function can be used to get the last error message.
 
-
+## Request Variables
 
 
 

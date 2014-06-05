@@ -354,10 +354,11 @@ drone()->error(404, function() { drone()->run('error->_404'); });
 drone()->error(500, function() { drone()->run('error->_500'); });
 ```
 
-The *default* error handler will be called when errors are triggered inside the application (like E_USER_ERROR, E_USER_WARNING, etc.). This happens because of the default Drone error handler, which can be changed using:
-```php
-drone()->set(\Drone\Core::KEY_ERROR_HANDLER, ['\My\Class', 'errorHandlerMethod']);
-```
+The *default* error handler will be called when errors are triggered inside the application (like E_USER_ERROR, E_USER_WARNING, etc.). This happens because of the default Drone error handler.
+> The default Drone error handler does not need to be changed, but it can be changed using:
+> ```php
+> drone()->set(\Drone\Core::KEY_ERROR_HANDLER, ['\My\Class', 'errorHandlerMethod']);
+> ```
 
 Custom error handlers can also be set, for example:
 ```php

@@ -439,7 +439,18 @@ request()->setCookie('my_cookie', 'cookie value', '+10 days');
 > - `isPost()` - check if POST request method
 > - `isSecure()` - check if HTTPS request
 
+## Session Handling
+Sessions are handled with the `\Drone\Core\Session` object and accessed using the `session()` helper function, example:
+```php
+session()->set('my_key', 'my value');
+...
+if(session()->has('my_key'))
+{
+	$key = session()->get('my_key');
+}
+```
 
+> The session handler will automatically start a session (if not already started) when the `session()` helper function is used in the application
 
 
 

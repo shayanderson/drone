@@ -366,7 +366,7 @@ drone()->error(100, function() { drone()->run('error->_100'); }
 ```
 Now if a `100` error is triggered the handler would call the controller action method `_100()` in the `_app/mod/error.php` controller file.
 
-
+> The `error_last()` helper function can be used to get the last error message.
 
 
 

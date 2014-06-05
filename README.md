@@ -435,9 +435,9 @@ request()->setCookie('my_cookie', 'cookie value', '+10 days');
 > - `getReferrer()`
 > - `getSchema()`
 > - `getUri()`
-> - `isAjax()` - is Ajax request
-> - `isPost()` - is POST request method
-> - `isSecure()` is HTTPS request
+> - `isAjax()` - check if Ajax request
+> - `isPost()` - check if POST request method
+> - `isSecure()` - check if HTTPS request
 
 
 

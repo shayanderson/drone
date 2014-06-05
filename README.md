@@ -170,8 +170,6 @@ Likewise the request `/user/5/delete.htm` will be mapped to the controller file 
 
 <blockquote>A missing `Controller` action (class public method) will trigger the 500 error handler</blockquote>
 
-<blockquote>The `Controller` class constant `DENY` will deny all static requests (or mapped requests with no action)</blockquote>
-
 <blockquote>Mapped route lookups happen *before* static route lookups</blockquote>
 
 ## Controllers
@@ -217,5 +215,7 @@ class Controller
 ```
 In our mapped route example above the class method `action()` will be called for the request `/my/route.htm`.
 
-> Mapped route params are accessible from the `param()` helper function (example: `param('id')`)
+<blockquote>Mapped route params are accessible from the `param()` helper function (example: `param('id')`)</blockquote>
+
+<blockquote>The `Controller` class constant `DENY` will deny all static requests (or mapped requests with no action)</blockquote>
 

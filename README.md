@@ -226,6 +226,10 @@ class Controller
 ```
 In the mapped route example above the class method `action()` will be called for the request `/my/route.htm`.
 
+<blockquote>The `Controller` class can use two special methods:
+- `__before()` - called *before* the controller action method is called
+- `__after()` - called *after* the controller action method is called</blockquote>
+
 <blockquote>Mapped route params are accessible from the `param()` helper function (example: `param('id')`)</blockquote>
 
 <blockquote>The `Controller` class constant `DENY` will deny all static requests (or mapped requests with no action)</blockquote>

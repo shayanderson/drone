@@ -163,7 +163,6 @@ Likewise the request `/user/5/delete.htm` will be mapped to the controller file 
 
 > The `Controller` class constant `DENY` will deny all static requests (or mapped requests without an action)
 
----
 
 > Mapped route lookups happen *before* static route lookups
 

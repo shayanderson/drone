@@ -340,7 +340,7 @@ error(404, 'This page is not found'); // trigger 404 error handler
 ```
 Or, use custom error codes (cannot be `403`, `404` or `500` as these are used by Drone):
 ```php
-error(100, 'My custom error code'); // trigger 100 error handler
+error(100, 'My custom error'); // trigger 100 error handler
 ```
 
 > A custom error code will attempt to trigger a custom error handler, if the handler is not found the `500` error handler will be triggered
@@ -353,7 +353,6 @@ drone()->error(function($error) { pa('<div style="color:#f00;">' . $error,
 drone()->error(404, function() { drone()->run('error->_404'); });
 drone()->error(500, function() { drone()->run('error->_500'); });
 ```
-This example registers these error handlers. 
 
 The *default* error handler will be called when errors are triggered inside the application (like E_USER_ERROR, E_USER_WARNING, etc.). This happens because of the default Drone error handler, which can be changed using:
 ```php

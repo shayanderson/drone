@@ -34,6 +34,9 @@ By default Drone uses the following directory structure:
   - **mod** (controller files)
   - **tpl** (view template files)
     - **_global** (global view template files)
+- **skin** (front asset files)
+
+The directories for controllers (*_app/mod*), templates (*_app/tpl*) and global templates (*_app/tpl/_global*) can be changed using Drone settings.
 
 #### Class Autoloading
 Class autoloading is completed using the *autoload()* function in the *index.php* file, example:

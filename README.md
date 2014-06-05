@@ -246,6 +246,10 @@ To assign a custom view template file use a template name, for example:
 view()->display('my-dir/my-template');
 ```
 
+> Other useful view methods:
+> - **clearProperties()** - clears all view variables/properties
+> - **getProperties()** - get array of all view variables/properties
+
 #### View Templates
 Now the variables set in the view example above are accessed in the view template file like:
 ```html

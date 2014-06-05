@@ -27,6 +27,9 @@ Rapid Development Framework for PHP 5.5.0+
 - **[Views](https://github.com/shayanderson/drone#views)**
   - [View Templates](https://github.com/shayanderson/drone#view-templates)
 - **[Logging](https://github.com/shayanderson/drone#logging)**
+  - [Log Levels](https://github.com/shayanderson/drone#log-levels)
+  - [Log Configuration](https://github.com/shayanderson/drone#log-configuration)
+  - [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -281,7 +284,7 @@ Log a simple application message example:
 logger()->debug('My log message'); // log message with debug level
 ```
 
-#### Logging Levels
+#### Log Levels
 Drone uses the following logging methods for the logging levels: *debug*, *warn*, *error* and *fatal*:
 
 - `logger()->debug()` - debugging messages
@@ -291,7 +294,7 @@ Drone uses the following logging methods for the logging levels: *debug*, *warn*
 
 > The `logger()->trace` method is used by the framework for debugging purposes
 
-#### Logging Configuration
+#### Log Configuration
 Logging configuration is done in the `index.php` file.
 
 To set the global *logging level* use:

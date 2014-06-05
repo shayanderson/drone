@@ -1,5 +1,5 @@
 # Drone
-Rapid Development Framework for PHP 5.5.0+
+Rapid Development Framework for PHP 5.5.0+ by Shay Anderson
 
 #### Features
 - Class Autoloading

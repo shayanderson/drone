@@ -1,5 +1,5 @@
 # Drone
-Drone Framework for PHP 5.5.0+
+Rapid Development Framework for PHP 5.5.0+
 
 #### Features
 - Class Autoloading
@@ -20,6 +20,9 @@ Drone Framework for PHP 5.5.0+
   - [Settings](https://github.com/shayanderson/drone#settings)
   - [Run Application](https://github.com/shayanderson/drone#run-application)
 - **[Routes](https://github.com/shayanderson/drone#routes)**
+  - [Static Routes](https://github.com/shayanderson/drone#static-routes)
+  - [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)
+- **[Controllers](https://github.com/shayanderson/drone#controllers)**
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -123,7 +126,7 @@ There are two types of routes in Drone: *static* and *mapped*.
 
 The Drone routing workflow is:
 
-1. Check for mapped route
+1. Check match for mapped route
 2. Check for static route
 3. Trigger 404 handler
 
@@ -171,8 +174,27 @@ Likewise the request `/user/5/delete.htm` will be mapped to the controller file 
 
 <blockquote>Mapped route lookups happen *before* static route lookups</blockquote>
 
+## Controllers
+Controllers are files that may or may not contain a `Controller` class depending on if the requested route is mapped, and mapped with a action (see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)).
 
+An example of a simple controller file is the default `_app/mod/index.php` controller:
+```php
+// log example
+logger()->debug('Index controller start');
 
+// set params
+view()->drone_ver = \Drone\Core::VERSION;
+view()->drone_params = drone()->getAll();
+
+// display view (displays app/tpl/index.tpl when no template name)
+view()->display();
+
+// log example
+logger()->debug('Index controller end');
+```
+In the controller file serveral helper functions are called: `logger()` and `view`. These helper functions access Drone core components (in this case `drone()->log` and `drone()->view`). So instead of calling `drone()->log->debug('x')` a helper function can be used.
+
+> Controller files should never output anything (and outputs will be silenced when debug mode is off), instead output from view template files
 
 
 

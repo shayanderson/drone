@@ -12,8 +12,14 @@ Drone Framework for PHP 5.5.0+
 - Filesystem Handling
 
 #### Documentation Topics
- &nbsp; &nbsp; **[Quick Start](https://github.com/shayanderson/drone#quick-start):** [Directory Structure](https://github.com/shayanderson/drone#directory-structure), [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)<br />
- &nbsp; &nbsp; **[Routes](https://github.com/shayanderson/drone#routes):**
+- **[Quick Start](https://github.com/shayanderson/drone#quick-start)**
+  - [Directory Structure](https://github.com/shayanderson/drone#directory-structure)
+  - [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading)
+  - [Drone Function](https://github.com/shayanderson/drone#drone-function)
+  - [Helper Functions](https://github.com/shayanderson/drone#helper-functions)
+  - [Settings](https://github.com/shayanderson/drone#settings)
+  - [Run Application](https://github.com/shayanderson/drone#run-application)
+- **[Routes](https://github.com/shayanderson/drone#routes)**
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -22,12 +28,12 @@ All of the Drone bootstrapping is done in the *index.php* file.
 
 #### Directory Structure
 By default Drone uses the following directory structure:
-- _app (framework + application source files)
-  - com (common application files)
-  - lib (framework + application class files)
-  - mod (controller files)
-  - tpl (view template files)
-   - _global (global view template files)
+- **_app** (framework + application source files)
+  - **com** (common application files)
+  - **lib** (framework + application class files)
+  - **mod** (controller files)
+  - **tpl** (view template files)
+    - **_global** (global view template files)
 
 #### Class Autoloading
 Class autoloading is completed using the *autoload()* function in the *index.php* file, example:

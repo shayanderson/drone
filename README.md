@@ -124,9 +124,9 @@ There are two types of routes in Drone: *static* and *mapped*.
 #### Static Routes
 Static routes require no mapping and instead rely on static file paths. For example, the application request `/hello-world.htm` will search for the controller file `_app/mod/hello-world.php`.
 
-> **Note:** Static route lookups happen *after* mapped route lookups.
+> A missing static route file will trigger the 404 error handler
 
-If a static route file cannot be found the 404 error handler is called.
+> Static route lookups happen *after* mapped route lookups
 
 #### Mapped Routes
 Mapped routes require mapping in the `index.php` file, example:
@@ -138,14 +138,14 @@ drone()->route([
 ```
 In the example above Drone will map the request `/item-view.htm` to the controller file `_app/mod/item/view.php`. The next array element will map the request `/item-delete/14.htm` to the controller file `_app/mod/item/delete.php`, and Drone will map the route param `id` to value `14`.
 
-Here is an example that uses Drone's `Controller` object logic:
+Here is another example that uses Drone's `Controller` class logic:
 ```php
 drone()->route([
 	'/user/:id' => 'user->view',
 	'/user/:id/delete' => 'user->delete'
 ]);
 ```
-In this example the request `/user/5.htm` will be mapped to the controller file `_app/mod/user.php` with the route param `id` set to `5`. In this case the controller file `_app/mod/user.php` will need to contain the `Controller` class with the public method `view`, for example:
+In this example the request `/user/5.htm` will be mapped to the controller file `_app/mod/user.php` with the route param `id` set to `5`. In this case the controller file `_app/mod/user.php` will need to contain the `Controller` class with the public method `view` (the action), for example:
 ```php
 class Controller
 {
@@ -157,7 +157,14 @@ class Controller
 ```
 Likewise the request `/user/5/delete.htm` will be mapped to the controller file `_app/mod/user.php` with the route param `id` set to `5` and call the `Controller` public class method `delete`.
 
-> **Note:** Mapped route lookups happen *before* static route lookups
+> A missing `Controller` class will trigger the 500 error handler
+
+> A missing `Controller` class public method will trigger the 500 error handler
+
+> The `Controller` class constant `DENY` will deny all static requests (or mapped requests without an action)
+
+> Mapped route lookups happen *before* static route lookups
+
 
 
 

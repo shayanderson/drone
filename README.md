@@ -702,7 +702,7 @@ $bytes_upper = format(2000,
 $upper_words = \Drone\Core\Data::formatUpperWords('my value'); // 'My Value'
 ```
 
-Available formatters are:
+Available formats are:
 - FORMAT_BYTE
 - FORMAT_CURRENCY
 - FORMAT_DATE
@@ -712,7 +712,7 @@ Available formatters are:
 - FORMAT_UPPER
 - FORMAT_UPPER_WORDS
 
-Custom formatters can be used, for example:
+Custom formats can be used, for example:
 ```php
 // register custom format
 format('quotes', function($v) { return '"' . $v . '"'; }

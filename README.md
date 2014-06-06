@@ -1,5 +1,5 @@
 # Drone
-Rapid Development Framework for PHP 5.5.0+
+### Rapid Development Framework for PHP 5.5.0+
 
 #### Features
 - Class Autoloading
@@ -106,7 +106,7 @@ Drone helper functions available:
 - [`session()`](https://github.com/shayanderson/drone#session-handling) - `drone()->session` alias
 - [`set()`](https://github.com/shayanderson/drone#parameters) - set param value (`drone()->set()` alias)
 - [`template()`](https://github.com/shayanderson/drone#view-templates) - get template formatted name (`drone()->view->template()` alias)
-- [`template_global()`](https://github.com/shayanderson/drone#view-templates) - get gloabl template formatted name (`drone()->view->templateGlobal()` alias)
+- [`template_global()`](https://github.com/shayanderson/drone#view-templates) - get global template formatted name (`drone()->view->templateGlobal()` alias)
 - `validate()` - validate value (`drone()->data->validate()` alias)
 - [`view()`](https://github.com/shayanderson/drone#views) - `drone->view` alias
 
@@ -210,7 +210,7 @@ view()->display();
 // log example
 logger()->debug('Index controller end');
 ```
-In the controller file serveral helper functions are called: `logger()` and `view()`. These helper functions access Drone core components (in this case `drone()->log` and `drone()->view`). So instead of calling `drone()->log->debug('x')` a helper function can be used (see more [Helper Functions](https://github.com/shayanderson/drone#helper-functions)).
+In the controller file several helper functions are called: `logger()` and `view()`. These helper functions access Drone core components (in this case `drone()->log` and `drone()->view`). So instead of calling `drone()->log->debug('x')` a helper function can be used (see more [Helper Functions](https://github.com/shayanderson/drone#helper-functions)).
 
 View variables can be set using the `view()` helper function, which accesses the `\Drone\Core\View` object, for example:
 ```php
@@ -502,7 +502,7 @@ If the application needs to be stopped in a controller file it can be done manua
 ```php
 drone()->stop(); // the application will stop
 ```
-<blockquote>The `drone()->stop()` method does not need to be called unless a dead end is required (Drone will automatically call `drone()->stop()` after executing the request, triggering an error or redirecting)</blockquote>
+<blockquote>The `drone()->stop()` method does not need to be called unless a dead end is desired (Drone will automatically call `drone()->stop()` after executing the request, triggering an error or redirecting)</blockquote>
 
 <blockquote>*After* hooks are triggered during an application stop</blockquote>
 

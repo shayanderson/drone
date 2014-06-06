@@ -512,7 +512,7 @@ drone()->stop(); // the application will stop
 ```
 <blockquote>The `drone()->stop()` method does not need to be called unless a dead end is desired (Drone will automatically call `drone()->stop()` after executing the request, triggering an error or redirecting)</blockquote>
 
-<blockquote>*After* hooks are triggered during an application stop</blockquote>
+<blockquote><i>After</i> hooks are triggered during an application stop</blockquote>
 
 ## Request Variables
 Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:

@@ -703,7 +703,7 @@ Formatters can also be used together:
 $bytes_upper = format(2000, 
 	\Drone\Core\Data::FORMAT_BYTE | \Drone\Core\Data::FORMAT_UPPER); // '1.95 KB'
 ```
-Some formatters methods use arguments (or *params*), for example:
+Some formatter methods use arguments (or *params*), for example:
 ```php
 // format number to currency with custom currency format
 $currency = format(5, \Drone\Core\Data::FORMAT_CURRENCY, 

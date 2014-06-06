@@ -424,7 +424,7 @@ Param example:
 ```php
 set('user', new \User);
 ...
-if(get('user')->isActive)
+if(get('user')->isActive())
 {
 	// do something
 }

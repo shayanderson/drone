@@ -644,6 +644,7 @@ Data can be filtered/sanitized using the `filter()` helper function, for example
 // trim value
 $trimmed = filter(' my value ', \Drone\Core\Data::FILTER_TRIM); // 'my value'
 ```
+> If no filter is passed to the `filter()` helper function the value will be trimmed
 Filters can also be used together:
 ```php
 // trim value and strip non-word characters
@@ -665,6 +666,18 @@ Available filters are:
 - FILTER_URL_ENCODE - encode URL
 - FILTER_WORD - strip non-word characters (same as character class '\w')
 
+Custom filters can be used, for example:
+```php
+// register custom filter
+filter('strip_hypens', function($v) { return str_replace('-', '', $v); }
+...
+// use custom filter
+$no_hypens = filter('my-value', 'strip_hypens'); // 'myvalue'
+
+// or use custom filter with defined filter
+$no_hypens_trimmed = filter('my-value', 'strip_hypens', 
+	\Drone\Core\Data::FILTER_TRIM); // 'myvalue'
+```
 
 
 

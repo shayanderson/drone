@@ -39,6 +39,8 @@ Rapid Development Framework for PHP 5.5.0+
   - [Hooks](https://github.com/shayanderson/drone#hooks)
   - [Redirect](https://github.com/shayanderson/drone#redirect)
   - [Headers](https://github.com/shayanderson/drone#headers)
+  - [Timers](https://github.com/shayanderson/drone#timers)
+  - [Stopping the Application](https://github.com/shayanderson/drone#stopping-the-application)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
   - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
@@ -103,7 +105,6 @@ Drone helper functions available:
 - [`request()`](https://github.com/shayanderson/drone#request-variables) - `drone()->request` alias
 - [`session()`](https://github.com/shayanderson/drone#session-handling) - `drone()->session` alias
 - [`set()`](https://github.com/shayanderson/drone#parameters) - set param value (`drone()->set()` alias)
-- `stop()` - stop application (`drone()->stop()` alias)
 - [`template()`](https://github.com/shayanderson/drone#view-templates) - get template formatted name (`drone()->view->template()` alias)
 - [`template_global()`](https://github.com/shayanderson/drone#view-templates) - get gloabl template formatted name (`drone()->view->templateGlobal()` alias)
 - `validate()` - validate value (`drone()->data->validate()` alias)
@@ -481,6 +482,29 @@ HTTP headers can be sent in controller files using the `drone()->header()` heade
 drone()->header('Cache-Control', 'no-cache, must-revalidate');
 ```
 > For redirection to another location use the helper function [redirect()](https://github.com/shayanderson/drone#redirect) instead of the header function
+
+#### Timers
+The `drone()->timer()` method can be used for timers, for example in a controller file:
+```php
+$elapsed_time = drone()->timer(); // 0.00060
+// do some heavy lifting
+$elapsed_time = drone()->timer(); // 0.00071
+```
+Also custom timers can be used, for example:
+```php
+drone()->timer('my_job'); // start timer
+// do some heavy lifting
+$elapsed_time = drone()->timer('my_job'); // 0.00014
+```
+
+#### Stopping the Application
+If the application needs to be stopped in a controller file it can be done manually:
+```php
+drone()->stop(); // the application will stop
+```
+<blockquote>The `drone()->stop()` method does not need to be called unless a dead end is required (Drone will automatically call `drone()->stop()` after executing the request, triggering an error or redirecting)</blockquote>
+
+<blockquote>*After* hooks are triggered during an application stop</blockquote>
 
 ## Request Variables
 Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:

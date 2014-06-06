@@ -648,7 +648,7 @@ Filters can also be used together:
 ```php
 // trim value and strip non-word characters
 $trimmed_words = filter(' my value! ', 
-   \Drone\Core\Data::FILTER_TRIM | \Drone\Core\Data::FILTER_WORD); // 'my value'
+	\Drone\Core\Data::FILTER_TRIM | \Drone\Core\Data::FILTER_WORD); // 'my value'
 ```
 Available filters are:
 - FILTER_ALNUM - strip non-alphanumeric characters

@@ -452,10 +452,10 @@ drone()->event('cart.add', function(\Cart\Item $item) { return get('cart')->add(
 ```
 Now in any controller the event can be trigger:
 ```php
-if(drone()->trigger('cart.add')) // trigger event
+if(drone()->trigger('cart.add', $item)) // trigger event
 {
 	// alert user
-	flash('alert.cart.add', 'Item has been added to cart');
+	flash('alert.cart.add', 'Item ' . $item->sku . ' has been added to cart');
 }
 ```
 

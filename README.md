@@ -652,17 +652,16 @@ Filters can also be used together:
 $trimmed_words = filter(' my value! ', 
 	\Drone\Core\Data::FILTER_TRIM | \Drone\Core\Data::FILTER_WORD); // 'myvalue'
 ```
-<blockquote>Some filter methods use arguments (or *params*), for example:
+Some filter methods use arguments (or *params*), for example:
 ```php
 // strip non-word characters, but allow whitespaces
 $words = filter('my value!', \Drone\Core\Data::FILTER_WORD, 
 	[\Drone\Core\Data::PARAM_WHITESPACE => true]); // 'my value'
-```</blockquote>
-
-<blockquote>Filter methods can also be called statically:
+```
+>Filter methods can also be called statically:
 ```php
 $trimmed = \Drone\Core\Data::filterTrim(' my value '); // 'my value'
-```</blockquote>
+```
 
 Available filters are:
 - FILTER_ALNUM - strip non-alphanumeric characters

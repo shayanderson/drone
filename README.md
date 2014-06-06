@@ -44,6 +44,10 @@
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
   - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
+- **[Data Handling](https://github.com/shayanderson/drone#data-handling)**
+  - [Filter](https://github.com/shayanderson/drone#filter)
+  - [Format](https://github.com/shayanderson/drone#format)
+  - [Validate](https://github.com/shayanderson/drone#validate)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -92,9 +96,9 @@ Drone helper functions available:
 - [`clear()`](https://github.com/shayanderson/drone#parameters) - clear param key/value pair (`drone()->clear()` alias)
 - [`error()`](https://github.com/shayanderson/drone#error-handling) - trigger error (`drone()->error()` alias)
 - [`error_last()`](https://github.com/shayanderson/drone#error-handling) - get last error (`drone()->errorLast()` alias)
-- `filter()` - filter data (`drone()->data->filter()` alias)
+- [`filter()`](https://github.com/shayanderson/drone#filter) - filter data (`drone()->data->filter()` alias)
 - [`flash()`](https://github.com/shayanderson/drone#flash-messages) - set flash message (`drone()->flash` alias)
-- `format()` - format data (`drone()->data->format()` alias)
+- [`format()`](https://github.com/shayanderson/drone#format) - format data (`drone()->data->format()` alias)
 - [`get()`](https://github.com/shayanderson/drone#parameters) - get param value (`drone()->get()` alias)
 - [`has()`](https://github.com/shayanderson/drone#parameters) - check if param exists (`drone()->has()` alias)
 - `load_com()` - load common file
@@ -107,7 +111,7 @@ Drone helper functions available:
 - [`set()`](https://github.com/shayanderson/drone#parameters) - set param value (`drone()->set()` alias)
 - [`template()`](https://github.com/shayanderson/drone#view-templates) - get template formatted name (`drone()->view->template()` alias)
 - [`template_global()`](https://github.com/shayanderson/drone#view-templates) - get global template formatted name (`drone()->view->templateGlobal()` alias)
-- `validate()` - validate value (`drone()->data->validate()` alias)
+- [`validate()`](https://github.com/shayanderson/drone#validate) - validate value (`drone()->data->validate()` alias)
 - [`view()`](https://github.com/shayanderson/drone#views) - `drone->view` alias
 
 #### Settings
@@ -630,5 +634,41 @@ This will output the HTML:
 > - `flash()->clear()` - clear a flash message
 > - `flash()->flush()` - flush all flash messages
 > - `flash()->has()` - check if flash message exists
+
+## Data Handling
+Drone supports data handling: filtering, formatting and validation using the `\Drone\Core\Data` object.
+
+#### Filter
+Data can be filtered/sanitized using the `filter()` helper function, for example:
+```php
+// trim value
+$trimmed = filter(' my value ', \Drone\Core\Data::FILTER_TRIM); // 'my value'
+```
+Filters can also be used together:
+```php
+// trim value and strip non-word characters
+$trimmed_words = filter(' my value! ', \Drone\Core\Data::FILTER_TRIM | \Drone\Core\Data::FILTER_WORD); // 'my value'
+```
+Available filters are:
+- FILTER_ALNUM - strip non-alphanumeric characters
+- FILTER_ALPHA - strip non-alpha characters
+- FILTER_DATE - strip non-date characters
+- FILTER_DATE_TIME - strip non-date/time characters
+- FILTER_DECIMAL - strip non-decimal characters
+- FILTER_EMAIL - strip non-email characters
+- FILTER_HTML_ENCODE - encode HTML special characters
+- FILTER_NUMERIC - strip non-numeric characters
+- FILTER_SANITIZE - strip tags
+- FILTER_TIME - strip non-time characters
+- FILTER_TRIM - trim spaces
+- FILTER_URL_ENCODE - encode URL
+- FILTER_WORD - strip non-word characters (same as character class '\w')
+
+
+
+
+
+
+
 
 

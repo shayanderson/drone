@@ -648,11 +648,11 @@ $trimmed = filter(' my value ', \Drone\Core\Data::FILTER_TRIM); // 'my value'
 
 Filters can also be used together:
 ```php
-// trim value and strip non-word characters
+// trim value + strip non-word characters
 $trimmed_words = filter(' my value! ', 
 	\Drone\Core\Data::FILTER_TRIM | \Drone\Core\Data::FILTER_WORD); // 'my value'
 ```
-> Filter methods can also be used statically:
+> Filter methods can also be called statically:
 ```php
 $trimmed = \Drone\Core\Data::filterTrim(' my value '); // 'my value'
 ```
@@ -683,6 +683,46 @@ $no_hypens = filter('my-value', 'strip_hypens'); // 'myvalue'
 // or use custom filter with defined filter
 $no_hypens_trimmed = filter(' my-value ', 'strip_hypens', 
 	\Drone\Core\Data::FILTER_TRIM); // 'myvalue'
+```
+
+#### Format
+Data can be formatted using the `format()` helper function, for example:
+```php
+// format number to currency
+$currency = format(5, \Drone\Core\Data::FORMAT_CURRENCY); // '$5.00'
+```
+Formatters can also be used together:
+```php
+// format byte value + upper case
+$bytes_upper = format(2000, 
+	\Drone\Core\Data::FORMAT_BYTE | \Drone\Core\Data::FORMAT_UPPER); // '1.95 KB'
+```
+> Format methods can also be called statically:
+```php
+$upper_words = \Drone\Core\Data::formatUpperWords('my value'); // 'My Value'
+```
+
+Available formatters are:
+- FORMAT_BYTE
+- FORMAT_CURRENCY
+- FORMAT_DATE
+- FORMAT_DATE_TIME
+- FORMAT_LOWER
+- FORMAT_TIME
+- FORMAT_UPPER
+- FORMAT_UPPER_WORDS
+
+Custom formatters can be used, for example:
+```php
+// register custom format
+format('quotes', function($v) { return '"' . $v . '"'; }
+...
+// use custom format
+$quoted = format('my value', 'quotes'); // '"my value"'
+
+// or use custom format with defined format
+$quoted_upper = format('my value', 'quotes', 
+	\Drone\Core\Data::FORMAT_UPPER); // '"MY VALUE"'
 ```
 
 

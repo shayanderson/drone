@@ -448,7 +448,7 @@ if(param('id') === false)
 #### Events
 Events are global callables that can be accessed from the application. Register an event example in `index.php`:
 ```php
-drone()->event('cart.add', function(\Cart\Item $item) { return drone()->get('cart')->add($item); });
+drone()->event('cart.add', function(\Cart\Item $item) { return get('cart')->add($item); });
 ```
 Now in any controller the event can be trigger:
 ```php

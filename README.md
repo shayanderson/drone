@@ -492,7 +492,7 @@ $elapsed_time = drone()->timer(); // 0.00071
 ```
 Also custom timers can be used, for example:
 ```php
-drone()->timer('my_job'); // start timer
+drone()->timer('my_job'); // start timer at 0
 // do some heavy lifting
 $elapsed_time = drone()->timer('my_job'); // 0.00014
 ```

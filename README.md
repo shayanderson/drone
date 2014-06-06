@@ -443,7 +443,7 @@ if(drone()->trigger('cart.add')) // trigger event
 > Events support any number of function params, for example: `drone()->trigger(x, y, z)`
 
 #### Hooks
-Hooks can be used to initialize or finalize an application. The two types of hooks are *before* (triggered before the controller file is imported) and *after* (triggered before the application is stopped).
+Hooks can be used to initialize or finalize an application. The two types of hooks are *before* (triggered before the controller file is imported) and *after* (triggered after the controller file is imported and action called when action exists).
 
 *Before* and *after* hooks set in `index.php` example:
 ```php

@@ -392,12 +392,34 @@ Now if a `100` error is triggered the handler would call the controller action m
 There are Drone core (`\Drone\Core`) methods that are available for application use.
 
 #### Parameters
-Application parameters, or *params*, can be managed using the following methods:
+Application parameters, or *params*, can be useful for global variables and objects. Params can be managed using the following methods:
 - `drone()->clear()` - clear param
 - `drone()->get()` - get param value
 - `drone()->getAll()` - get all params as array
 - `drone()->has()` - check if param exists
 - `drone()->set()` - set param value
+Param example:
+```php
+drone()->set('user', new \User);
+...
+if(drone()->get('user')->isActive)
+{
+	// do something
+}
+```
+
+#### Route Parameters
+Route parameters, or *route params*, are used to extract route param values. For example, for the mapped route `'/route/:id' => 'route->action'` the param `id` will be available as a route param, controller example:
+```php
+$id = param('id'); // get route param 'id'
+```
+To verify a route param exists check the boolean value `false`:
+```php
+if(param('id') === false)
+{
+	// the param 'id' does not exist
+}
+```
 
 ## Request Variables
 Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:

@@ -367,7 +367,9 @@ Or, use custom error codes (cannot be `403`, `404` or `500` as these are used by
 error(100, 'My custom error'); // trigger 100 error handler
 ```
 
-> A custom error code will attempt to trigger a custom error handler, if the handler is not found the `500` error handler will be triggered
+<blockquote>A custom error code will attempt to trigger a custom error handler, if the handler is not found the `500` error handler will be triggered</blockquote>
+
+<blockquote>Errors are automatically sent to the `\Drone\Core\Logger` object</blockquote>
 
 #### Setting Error Handlers
 By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:

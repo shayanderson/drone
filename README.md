@@ -676,7 +676,7 @@ filter('strip_hypens', function($v) { return str_replace('-', '', $v); }
 $no_hypens = filter('my-value', 'strip_hypens'); // 'myvalue'
 
 // or use custom filter with defined filter
-$no_hypens_trimmed = filter('my-value', 'strip_hypens', 
+$no_hypens_trimmed = filter(' my-value ', 'strip_hypens', 
 	\Drone\Core\Data::FILTER_TRIM); // 'myvalue'
 ```
 

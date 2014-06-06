@@ -91,8 +91,8 @@ Drone helper functions available:
 - `filter()` - filter data (`drone()->data->filter()` alias)
 - `flash()` - set flash message (`drone()->flash` alias)
 - `format()` - format data (`drone()->data->format()` alias)
-- `get()` - get param value (`drone()->get()` alias)
-- `has()` - check if param exists (`drone()->has()` alias)
+- [`get()`](https://github.com/shayanderson/drone#parameters) - get param value (`drone()->get()` alias)
+- [`has()`](https://github.com/shayanderson/drone#parameters) - check if param exists (`drone()->has()` alias)
 - `load_com()` - load common file
 - `logger()` - `drone()->log` alias
 - `pa()` - string/array printer
@@ -100,7 +100,7 @@ Drone helper functions available:
 - `redirect()` - redirect to location (`drone()->redirect()` alias)
 - `request()` - `drone()->request` alias
 - `session()` - `drone()->session` alias
-- `set()` - set param value (`drone()->set()` alias)
+- [`set()`](https://github.com/shayanderson/drone#parameters) - set param value (`drone()->set()` alias)
 - `stop()` - stop application (`drone()->stop()` alias)
 - `template()` - get template formatted name (`drone()->view->template()` alias)
 - `template_global()` - get gloabl template formatted name (`drone()->view->templateGlobal()` alias)

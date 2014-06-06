@@ -652,6 +652,11 @@ Filters can also be used together:
 $trimmed_words = filter(' my value! ', 
 	\Drone\Core\Data::FILTER_TRIM | \Drone\Core\Data::FILTER_WORD); // 'my value'
 ```
+> Filter methods can also be used statically:
+```php
+$trimmed = \Drone\Core\Data::filterTrim(' my value '); // 'my value'
+```
+
 Available filters are:
 - FILTER_ALNUM - strip non-alphanumeric characters
 - FILTER_ALPHA - strip non-alpha characters
@@ -678,10 +683,6 @@ $no_hypens = filter('my-value', 'strip_hypens'); // 'myvalue'
 // or use custom filter with defined filter
 $no_hypens_trimmed = filter(' my-value ', 'strip_hypens', 
 	\Drone\Core\Data::FILTER_TRIM); // 'myvalue'
-```
-> Filter methods can also be used statically:
-```php
-$trimmed = \Drone\Core\Data::filterTrim(' my value '); // 'my value'
 ```
 
 

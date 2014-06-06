@@ -302,6 +302,7 @@ A category can also be used when logging a message, for example:
 logger()->debug('User login successful', 'account'); // log message with category 'account'
 ```
 > The default category used when no category is set is `app`
+
 Data (as an array) can also be passed to the log handler using the `data()` method:
 ```php
 logger()->data([1, 2, 3]);

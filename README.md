@@ -297,7 +297,7 @@ Log a simple application message example:
 ```php
 logger()->debug('My log message'); // log message with debug level
 ```
-Categories can also be used when logging a message, for example:
+A category can also be used when logging a message, for example:
 ```php
 logger()->debug('User login successful', 'account'); // log message with category 'account'
 ```

@@ -760,6 +760,15 @@ if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED | \Drone\Core\Data:
 	// warn
 }
 ```
+Some validator methods use arguments (or *params*), for example:
+```php
+// validate string length (minimum 4, maximum 50)
+if(!validate('my string', \Drone\Core\Data::VALIDATE_LENGTH, 
+	[\Drone\Core\Data::PARAM_MIN => 4, \Drone\Core\Data::PARAM_MAX => 50]))
+{
+	// warn
+}
+```
 > Validation methods can also be called statically:
 ```php
 if(!\Drone\Core\Data::validateEmail('bad-email@'))

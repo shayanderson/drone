@@ -86,26 +86,26 @@ $name = request()->post('name'); // get POST request value for 'name'
 ```
 Drone helper functions available:
 - [`clear()`](https://github.com/shayanderson/drone#parameters) - clear param key/value pair (`drone()->clear()` alias)
-- `error()` - trigger error (`drone()->error()` alias)
-- `error_last()` - get last error (`drone()->errorLast()` alias)
+- [`error()`](https://github.com/shayanderson/drone#error-handling) - trigger error (`drone()->error()` alias)
+- [`error_last()`](https://github.com/shayanderson/drone#error-handling) - get last error (`drone()->errorLast()` alias)
 - `filter()` - filter data (`drone()->data->filter()` alias)
-- `flash()` - set flash message (`drone()->flash` alias)
+- [`flash()`](https://github.com/shayanderson/drone#flash-messages) - set flash message (`drone()->flash` alias)
 - `format()` - format data (`drone()->data->format()` alias)
 - [`get()`](https://github.com/shayanderson/drone#parameters) - get param value (`drone()->get()` alias)
 - [`has()`](https://github.com/shayanderson/drone#parameters) - check if param exists (`drone()->has()` alias)
 - `load_com()` - load common file
-- `logger()` - `drone()->log` alias
+- [`logger()`](https://github.com/shayanderson/drone#logging) - `drone()->log` alias
 - `pa()` - string/array printer
-- `param()` - get route param (`drone()->param()` alias)
+- [`param()`](https://github.com/shayanderson/drone#parameters) - get route param (`drone()->param()` alias)
 - `redirect()` - redirect to location (`drone()->redirect()` alias)
-- `request()` - `drone()->request` alias
-- `session()` - `drone()->session` alias
+- [`request()`](https://github.com/shayanderson/drone#request-variables) - `drone()->request` alias
+- [`session()`](https://github.com/shayanderson/drone#session-handling) - `drone()->session` alias
 - [`set()`](https://github.com/shayanderson/drone#parameters) - set param value (`drone()->set()` alias)
 - `stop()` - stop application (`drone()->stop()` alias)
-- `template()` - get template formatted name (`drone()->view->template()` alias)
-- `template_global()` - get gloabl template formatted name (`drone()->view->templateGlobal()` alias)
+- [`template()`](https://github.com/shayanderson/drone#view-templates) - get template formatted name (`drone()->view->template()` alias)
+- [`template_global()`](https://github.com/shayanderson/drone#view-templates) - get gloabl template formatted name (`drone()->view->templateGlobal()` alias)
 - `validate()` - validate value (`drone()->data->validate()` alias)
-- `view()` - `drone->view` alias
+- [`view()`](https://github.com/shayanderson/drone#views) - `drone->view` alias
 
 #### Settings
 Drone can run without changing the default settings, however, the default settings should be changed in the `index.php` file when Drone is used in a production environment:

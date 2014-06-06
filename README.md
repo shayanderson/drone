@@ -1,5 +1,5 @@
 # Drone
-Rapid Development Framework for PHP 5.5.0+ by Shay Anderson
+Rapid Development Framework for PHP 5.5.0+
 
 #### Features
 - Class Autoloading
@@ -32,6 +32,8 @@ Rapid Development Framework for PHP 5.5.0+ by Shay Anderson
   - [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**
   - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
+- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
+  - [Parameters](https://github.com/shayanderson/drone#parameters)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
   - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
@@ -202,7 +204,7 @@ view()->display();
 // log example
 logger()->debug('Index controller end');
 ```
-In the controller file serveral helper functions are called: `logger()` and `view()`. These helper functions access Drone core components (in this case `drone()->log` and `drone()->view`). So instead of calling `drone()->log->debug('x')` a helper function can be used (see more [Helper Functions](https://github.com/shayanderson/drone#helper-functions).
+In the controller file serveral helper functions are called: `logger()` and `view()`. These helper functions access Drone core components (in this case `drone()->log` and `drone()->view`). So instead of calling `drone()->log->debug('x')` a helper function can be used (see more [Helper Functions](https://github.com/shayanderson/drone#helper-functions)).
 
 View variables can be set using the `view()` helper function, which accesses the `\Drone\Core\View` object, for example:
 ```php
@@ -312,7 +314,7 @@ Drone uses the following logging methods for the logging levels: *debug*, *warn*
 #### Log Configuration
 Logging configuration is done in the `index.php` file.
 
-To set the global *logging level* use:
+To set the global *log level* use:
 ```php
 drone()->log->setLogLevel(\Drone\Core\Logger::LEVEL_DEBUG);
 ```
@@ -385,6 +387,17 @@ drone()->error(100, function() { drone()->run('error->_100'); }
 Now if a `100` error is triggered the handler would call the controller action method `_100()` in the `_app/mod/error.php` controller file.
 
 > The `error_last()` helper function can be used to get the last error message.
+
+## Core Methods
+There are Drone core (`\Drone\Core`) methods that are available for application use.
+
+#### Parameters
+Application parameters, or *params*, can be managed using the following methods:
+- `drone()->clear()` - clear param
+- `drone()->get()` - get param value
+- `drone()->getAll()` - get all params as array
+- `drone()->has()` - check if param exists
+- `drone()->set()` - set param value
 
 ## Request Variables
 Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:
@@ -510,7 +523,5 @@ This will output the HTML:
 > - `flash()->clear()` - clear a flash message
 > - `flash()->flush()` - flush all flash messages
 > - `flash()->has()` - check if flash message exists
-
-
 
 

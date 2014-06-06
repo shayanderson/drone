@@ -725,6 +725,67 @@ $quoted_upper = format('my value', 'quotes',
 	\Drone\Core\Data::FORMAT_UPPER); // '"MY VALUE"'
 ```
 
+#### Validate
+Data validation can be done using the `validate()` helper function, for example:
+```php
+// validate email value
+if(!validate('bad-email@', \Drone\Core\Data::VALIDATE_EMAIL))
+{
+	// warn user
+}
+```
+> If no validator is passed to the `validate()` helper function the VALIDATE_REQUIRED validator will be used, for example
+```php
+if(!validate('')) // not valid
+if(validate('my value')) // valid
+```
+
+Validators can also be used together:
+```php
+// validate required + alpha characters
+if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED | \Drone\Core\Data::VALIDATE_ALPHA))
+{
+	// warn
+}
+```
+> Validation methods can also be called statically:
+```php
+if(!\Drone\Core\Data::validateEmail('bad-email@'))
+```
+
+Available validators are:
+- VALIDATE_ALNUM - value is alphanumeric characters
+- VALIDATE_ALPHA - value is alpha characters
+- VALIDATE_BETWEEN - value between min and max values
+- VALIDATE_CONTAINS - value contains value
+- VALIDATE_CONTAINS_NOT - value does not contain value
+- VALIDATE_DECIMAL - value is decimal
+- VALIDATE_EMAIL - value is email
+- VALIDATE_IPV4 - value is IPv4 address
+- VALIDATE_IPV6 - value is IPv6 address
+- VALIDATE_LENGTH - value is min length, or under max length, or between min and max lengths
+- VALIDATE_MATCH - value is match to value
+- VALIDATE_NUMERIC - value is numeric
+- VALIDATE_REGEX - value is Perl-compatible regex pattern
+- VALIDATE_REQUIRED - value exists (length > 0)
+- VALIDATE_URL - value is URL
+- VALIDATE_WORD - value is word (same as character class '\w')
+
+Custom validators can be used, for example:
+```php
+// register custom validator
+validate('upper', function($v) { return preg_match('/^[A-Z]*$/', $v); }
+...
+// use custom validator
+if(!validate('my value', 'upper'))
+{
+	// warn
+}
+
+// or use custom validator with defined validator
+if(!validate('my value', 'upper', \Drone\Core\Data::VALIDATE_REQUIRED))
+```
+
 
 
 

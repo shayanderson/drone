@@ -35,8 +35,8 @@ Rapid Development Framework for PHP 5.5.0+
 - **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
   - [Parameters](https://github.com/shayanderson/drone#parameters)
   - [Route Parameters](https://github.com/shayanderson/drone#route-parameters)
-  - [Hooks](https://github.com/shayanderson/drone#hooks)
   - [Events](https://github.com/shayanderson/drone#events)
+  - [Hooks](https://github.com/shayanderson/drone#hooks)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
   - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
@@ -443,9 +443,9 @@ if(drone()->trigger('cart.add')) // trigger event
 > Events support any number of function params, for example: `drone()->trigger(x, y, z)`
 
 #### Hooks
-Hooks can be used to initialize or finalize an application. The two types of hooks are *before* (triggered before the controller file is imported) and *after* (triggered after the controller file is imported and action called when action exists).
+Hooks can be used to initialize or finalize an application. The two types of hooks are: *before* (triggered before the controller file is imported) and *after* (triggered after the controller file is imported and action called when action exists).
 
-*Before* and *after* hooks set in `index.php` example:
+Example of *before* and *after* hooks set in `index.php`:
 ```php
 // call function to init application logic
 drone()->hook(\Drone\Core::HOOK_BEFORE, function() { initAppLogic(); });

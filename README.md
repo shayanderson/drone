@@ -679,7 +679,7 @@ $no_hypens = filter('my-value', 'strip_hypens'); // 'myvalue'
 $no_hypens_trimmed = filter(' my-value ', 'strip_hypens', 
 	\Drone\Core\Data::FILTER_TRIM); // 'myvalue'
 ```
-Filter methods can also be used statically:
+> Filter methods can also be used statically:
 ```php
 $trimmed = \Drone\Core\Data::filterTrim(' my value '); // 'my value'
 ```

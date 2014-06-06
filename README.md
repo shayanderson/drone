@@ -34,6 +34,7 @@ Rapid Development Framework for PHP 5.5.0+
   - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
 - **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
   - [Parameters](https://github.com/shayanderson/drone#parameters)
+  - [Route Parameters](https://github.com/shayanderson/drone#route-parameters)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
   - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
@@ -407,6 +408,8 @@ if(drone()->get('user')->isActive)
 	// do something
 }
 ```
+
+> Drone uses some params for internal use, these param keys all share the prefix `__DRONE__.`, for example a Drone param is `__DRONE__.error.backtrace`
 
 #### Route Parameters
 Route parameters, or *route params*, are used to extract route param values. For example, for the mapped route `'/route/:id' => 'route->action'` the param `id` will be available as a route param, controller example:

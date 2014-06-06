@@ -48,6 +48,10 @@
   - [Filter](https://github.com/shayanderson/drone#filter)
   - [Format](https://github.com/shayanderson/drone#format)
   - [Validate](https://github.com/shayanderson/drone#validate)
+- **[Filesystem](https://github.com/shayanderson/drone#filesystem)**
+  - [Directory](https://github.com/shayanderson/drone#directory)
+  - [File](https://github.com/shayanderson/drone#file)
+- **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory.
@@ -807,9 +811,49 @@ if(!validate('my value', 'upper'))
 if(!validate('my value', 'upper', \Drone\Core\Data::VALIDATE_REQUIRED))
 ```
 
+## Filesystem
+Drone offers filesystem support for directories and files.
 
+#### Directory
+The `\Drone\Filesystem\Directory` class can be used for directory handling, for example:
+```php
+$dir = new \Drone\Filesystem\Directory('_app/my_dir');
 
+if($dir->exists()) // do something
+```
+Directory class methods:
+- `copy()`
+- `create()`
+- `exists()`
+- `getCount()` - count of directory items
+- `getPath()`
+- `move()`
+- `read()` - read directory items into array
+- `remove()`
+- `writable()`
 
+#### File
+The `\Drone\Filesystem\File` class can be used for file handling, for example:
+```php
+$file = new \Drone\Filesystem\File('_app/my_file.txt');
 
+if($file->exists()) // do something
+```
+File class methods:
+- `chmod()`
+- `copy()`
+- `create()`
+- `exists()`
+- `getModifiedTime()`
+- `getPath()`
+- `getSize()` - in bytes
+- `move()`
+- `read()` - read file contents to string
+- `remove()`
+- `writable()`
+- `write()` - write data to file
 
+## Database Handling
+Drone uses the [PDOm](https://github.com/shayanderson/pdom) PDO wrapper with MySQL support for database handling.
 
+The PDOm bootstrap file is located by default at: `_app/com/pdom.bootstrap.php`

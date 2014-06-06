@@ -37,6 +37,8 @@ Rapid Development Framework for PHP 5.5.0+
   - [Route Parameters](https://github.com/shayanderson/drone#route-parameters)
   - [Events](https://github.com/shayanderson/drone#events)
   - [Hooks](https://github.com/shayanderson/drone#hooks)
+  - [Redirect](https://github.com/shayanderson/drone#redirect)
+  - [Headers](https://github.com/shayanderson/drone#headers)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
   - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
@@ -97,7 +99,7 @@ Drone helper functions available:
 - [`logger()`](https://github.com/shayanderson/drone#logging) - `drone()->log` alias
 - `pa()` - string/array printer
 - [`param()`](https://github.com/shayanderson/drone#parameters) - get route param (`drone()->param()` alias)
-- `redirect()` - redirect to location (`drone()->redirect()` alias)
+- [`redirect()`](https://github.com/shayanderson/drone#redirect) - redirect to location (`drone()->redirect()` alias)
 - [`request()`](https://github.com/shayanderson/drone#request-variables) - `drone()->request` alias
 - [`session()`](https://github.com/shayanderson/drone#session-handling) - `drone()->session` alias
 - [`set()`](https://github.com/shayanderson/drone#parameters) - set param value (`drone()->set()` alias)
@@ -463,12 +465,22 @@ drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log-
 
 > For controller level hooks (special methods `__before()` and `__after`) see [Controller Class](https://github.com/shayanderson/drone#controller-class)
 
+#### Redirect
+Redirection to another location can be done in controller files use the `redirect()` (`\Drone\Core->redirect()` alias) function, for example:
+```php
+redirect('/new/route.htm'); // redirect
+```
+If the redirection is a permanent (301) redirect use:
+```php
+redirect('/forever/route.htm', 301); // redirect with 301
+```
+
 #### Headers
 HTTP headers can be sent in controller files using the `drone()->header()` header method, for example:
 ```php
 drone()->header('Cache-Control', 'no-cache, must-revalidate');
 ```
-> For redirection to another location use the helper function [redirect()](https://github.com/shayanderson/drone#helper-functions) instead of the header function
+> For redirection to another location use the helper function [redirect()](https://github.com/shayanderson/drone#redirect) instead of the header function
 
 ## Request Variables
 Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:

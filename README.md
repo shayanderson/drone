@@ -35,6 +35,8 @@ Rapid Development Framework for PHP 5.5.0+
 - **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
   - [Parameters](https://github.com/shayanderson/drone#parameters)
   - [Route Parameters](https://github.com/shayanderson/drone#route-parameters)
+  - [Hooks](https://github.com/shayanderson/drone#hooks)
+  - [Events](https://github.com/shayanderson/drone#events)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
   - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
@@ -423,6 +425,35 @@ if(param('id') === false)
 	// the param 'id' does not exist
 }
 ```
+
+#### Events
+Events are global callables that can be accessed from the application. Example event in `index.php`:
+```php
+drone()->event('cart.add', function(\Cart\Item $item) { return drone()->get('cart')->add($item); });
+```
+Now in any controller the event can be trigger:
+```php
+if(drone()->trigger('cart.add')) // trigger event
+{
+	// alert user
+	flash('alert.cart.add', 'Item has been added to cart');
+}
+```
+
+> Events support any number of function params, for example: `drone()->trigger(x, y, z)`
+
+#### Hooks
+Hooks can be used to initialize or finalize an application. The two types of hooks are *before* (triggered before the controller file is imported) and *after* (triggered before the application is stopped).
+
+*Before* and *after* hooks set in `index.php` example:
+```php
+// call function to init application logic
+drone()->hook(\Drone\Core::HOOK_BEFORE, function() { initAppLogic(); });
+// print Drone log
+drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log->get()); });
+```
+
+> For controller level hooks (special methods `__before()` and `__after`) see [Controller Class](https://github.com/shayanderson/drone#controller-class)
 
 ## Request Variables
 Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:

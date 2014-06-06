@@ -422,7 +422,7 @@ Application parameters, or *params*, can be useful for global variables and obje
 - `set()` - set param value (drone()->set() alias)
 Param example:
 ```php
-set('user', new \User);
+set('user', new \User($user_id));
 ...
 if(get('user')->isActive())
 {

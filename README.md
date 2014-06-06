@@ -85,7 +85,7 @@ Drone helper functions can be used to access Drone components easily, example of
 $name = request()->post('name'); // get POST request value for 'name'
 ```
 Drone helper functions available:
-- `clear()` - clear param key/value pair (`drone()->clear()` alias)
+- `[clear()](https://github.com/shayanderson/drone#parameters)` - clear param key/value pair (`drone()->clear()` alias)
 - `error()` - trigger error (`drone()->error()` alias)
 - `error_last()` - get last error (`drone()->errorLast()` alias)
 - `filter()` - filter data (`drone()->data->filter()` alias)

@@ -403,17 +403,17 @@ Now if a `100` error is triggered the handler would call the controller action m
 There are Drone core (`\Drone\Core`) methods that are available for application use.
 
 #### Parameters
-Application parameters, or *params*, can be useful for global variables and objects. Params can be managed using the following methods:
-- `drone()->clear()` - clear param
-- `drone()->get()` - get param value
+Application parameters, or *params*, can be useful for global variables and objects. Params can be managed using the following helper functions or methods:
+- `clear()` - clear param (drone()->clear() alias)
+- `get()` - get param value (drone()->get() alias)
 - `drone()->getAll()` - get all params as array
-- `drone()->has()` - check if param exists
-- `drone()->set()` - set param value
+- `has()` - check if param exists (drone()->has() alias)
+- `set()` - set param value (drone()->set() alias)
 Param example:
 ```php
-drone()->set('user', new \User);
+set('user', new \User);
 ...
-if(drone()->get('user')->isActive)
+if(get('user')->isActive)
 {
 	// do something
 }
@@ -462,6 +462,13 @@ drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log-
 ```
 
 > For controller level hooks (special methods `__before()` and `__after`) see [Controller Class](https://github.com/shayanderson/drone#controller-class)
+
+#### Headers
+HTTP headers can be sent in controller files using the `drone()->header()` header method, for example:
+```php
+drone()->header('Cache-Control', 'no-cache, must-revalidate');
+```
+> For redirection to another location use the helper function [redirect()](https://github.com/shayanderson/drone#helper-functions) instead of the header function
 
 ## Request Variables
 Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:

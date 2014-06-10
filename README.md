@@ -481,7 +481,7 @@ redirect('/new/route.htm'); // redirect
 ```
 If the redirection is a permanent (301) redirect use:
 ```php
-redirect('/forever/route.htm', 301); // redirect with 301
+redirect('/forever/route.htm', true); // redirect with 301
 ```
 
 #### Headers

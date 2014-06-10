@@ -377,7 +377,7 @@ if($something_bad)
 ```
 Errors can also be triggered using error codes, for example a *404 Not Found*:
 ```php
-error(404, 'This page is not found'); // trigger 404 error handler
+error(404); // trigger 404 error handler
 ```
 Or, use custom error codes (cannot be `403`, `404` or `500` as these are used by Drone):
 ```php

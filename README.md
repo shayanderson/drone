@@ -582,7 +582,7 @@ if(session()->has('my_key'))
 
 > The session handler will automatically start a session (if not already started) when the `session()` helper function is used in the application
 
-Using array values in session are simple:
+Using array values in sessions are simple:
 ```php
 session()->add('user', 'id', $user_id);
 ...

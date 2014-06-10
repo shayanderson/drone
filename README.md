@@ -354,10 +354,10 @@ Setting a custom log handler is simple, for example:
 drone()->log->setLogHandler(function($message, $level, $category, $data) {
 	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category, 
 		'data' => serialize($data)]);
-	return false;
+	return true;
 });
 ```
-In the above example a custom log handler has been set and allows the log messages to be saved in the database table *drone_log*.
+In the above example a custom log handler has been set and allows the log messages to be saved in the database table *drone_log* (using the [`pdom()`](https://github.com/shayanderson/drone#database-handling) database function).
 
 If a custom log handler is set and returns boolean value `false` Drone will continue on with the default logging logic (caching log messages and writing to a log file if configured), however, if `true` is returned by the log handler Drone will stop the default logging processes.
 

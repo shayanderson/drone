@@ -249,9 +249,9 @@ In the mapped route example above the class method `action()` will be called for
 > - `__before()` - called *before* the controller action method is called
 > - `__after()` - called *after* the controller action method is called
 
-<blockquote>Mapped route params are accessible from the `param()` helper function (example: `param('id')`)</blockquote>
+<blockquote>Mapped route params are accessible from the <code>param()</code> helper function (example: <code>param('id')</code>)</blockquote>
 
-<blockquote>The `Controller` class constant `DENY` will deny all static requests (or mapped requests with no action)</blockquote>
+<blockquote>The <code>Controller</code> class constant <code>DENY</code> will deny all static requests (or mapped requests with no action)</blockquote>
 
 ## Views
 The Drone `\Drone\Core\View` object handles all view logic like view variables and template path formatting.
@@ -384,9 +384,9 @@ Or, use custom error codes (cannot be `403`, `404` or `500` as these are used by
 error(100, 'My custom error'); // trigger 100 error handler
 ```
 
-<blockquote>A custom error code will attempt to trigger a custom error handler, if the handler is not found the `500` error handler will be triggered</blockquote>
+<blockquote>A custom error code will attempt to trigger a custom error handler, if the handler is not found the <code>500</code> error handler will be triggered</blockquote>
 
-<blockquote>Errors are automatically sent to the `\Drone\Core\Logger` object to be logged</blockquote>
+<blockquote>Errors are automatically sent to the <code>\Drone\Core\Logger</code> object to be logged</blockquote>
 
 #### Setting Error Handlers
 By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
@@ -510,7 +510,7 @@ If the application needs to be stopped in a controller file it can be done manua
 ```php
 drone()->stop(); // the application will stop
 ```
-<blockquote>The `drone()->stop()` method does not need to be called unless a dead end is desired (Drone will automatically call `drone()->stop()` after executing the request, triggering an error or redirecting)</blockquote>
+<blockquote>The <code>drone()->stop()</code> method does not need to be called unless a dead end is desired (Drone will automatically call <code>drone()->stop()</code> after executing the request, triggering an error or redirecting)</blockquote>
 
 <blockquote><i>After</i> hooks are triggered during an application stop</blockquote>
 

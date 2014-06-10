@@ -489,7 +489,7 @@ HTTP headers can be sent in controller files using the `drone()->header()` heade
 ```php
 drone()->header('Cache-Control', 'no-cache, must-revalidate');
 ```
-> For redirection to another location use the helper function [redirect()](https://github.com/shayanderson/drone#redirect) instead of the header function
+> For redirection to another location use the helper function [redirect()](https://github.com/shayanderson/drone#redirect) instead of the header method
 
 #### Timers
 The `drone()->timer()` method can be used for timers, for example in a controller file:

@@ -612,7 +612,7 @@ Next, in the view template file call the flash message:
 ```html+php
 <?=flash('error.email')?>
 ```
-The flash message will only appear once, and be destroyed after. This is very helpful for displaying one-time client messages and errors.
+The flash message will only appear once, and be destroyed immediately after. This is very helpful for displaying one-time client messages and errors.
 
 > When the `flash()` helper function is called a session with be started automatically if required
 

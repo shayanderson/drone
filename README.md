@@ -194,9 +194,9 @@ class Controller
 ```
 Likewise the request `/user/5/delete.htm` will be mapped to the controller file `_app/mod/user.php` with the route param `id` set to `5` and call the `Controller` public class method `delete`.
 
-<blockquote>A missing `Controller` class will trigger the 500 error handler</blockquote>
+<blockquote>A missing <code>Controller</code> class will trigger the 500 error handler</blockquote>
 
-<blockquote>A missing `Controller` action (class public method) will trigger the 500 error handler</blockquote>
+<blockquote>A missing <code>Controller</code> action (class public method) will trigger the 500 error handler</blockquote>
 
 <blockquote>Mapped route lookups happen *before* static route lookups</blockquote>
 

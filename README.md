@@ -437,7 +437,7 @@ Route parameters, or *route params*, are used to extract route param values. For
 ```php
 $id = param('id'); // get route param 'id'
 ```
-To verify a route param exists check the boolean value `false`:
+To verify a route param exists check for the boolean value `false`:
 ```php
 if(param('id') === false)
 {

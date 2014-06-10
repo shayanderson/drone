@@ -510,9 +510,9 @@ If the application needs to be stopped in a controller file it can be done manua
 ```php
 drone()->stop(); // the application will stop
 ```
-<blockquote>The <code>drone()->stop()</code> method does not need to be called unless a dead end is desired (Drone will automatically call <code>drone()->stop()</code> after executing the request, triggering an error or redirecting)</blockquote>
+<blockquote>The <code>drone()->stop()</code> method does not need to be called unless a forced stop is desired (Drone will automatically call <code>drone()->stop()</code> after executing the request, triggering an error or redirecting)</blockquote>
 
-<blockquote><i>After</i> hooks are triggered during an application stop</blockquote>
+<blockquote><i>After</i> hooks are triggered during a forced application stop, but the <code>Controller</code> method <code>__after()</code> will not be called</blockquote>
 
 ## Request Variables
 Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:

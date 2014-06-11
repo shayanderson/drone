@@ -717,6 +717,13 @@ Data can be formatted using the `format()` helper function, for example:
 // format number to currency
 $currency = format(5, \Drone\Core\Data::FORMAT_CURRENCY); // '$5.00'
 ```
+
+> Array values can also be used, for example:
+```php
+$currencies = format([5, 10.5], \Drone\Core\Data::FORMAT_CURRENCY);
+// $currencies is now: ['$5.00', '$10.50']
+```
+
 Formatters can also be used together:
 ```php
 // format byte value + upper case

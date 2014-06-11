@@ -779,7 +779,7 @@ if(validate('')) // not valid
 if(validate('my value')) // valid
 ```
 
-> Array values can also be used, for example:
+Array values can also be used, for example:
 ```php
 $valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'], 
 	\Drone\Core\Data::VALIDATE_EMAIL);

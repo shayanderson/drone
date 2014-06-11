@@ -1,0 +1,22 @@
+######################################################################################
+# Drone Framework HTACCESS
+# @package Drone
+# @author 2014 Shay Anderson
+######################################################################################
+
+RewriteEngine On
+
+# set custom 404 to point to framework
+ErrorDocument 404 /404
+
+# force www. (optional)
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^(.*)$ http://www\.%{HTTP_HOST}/$1 [R=301,L]
+
+# protect the './_app' dir with 404 response
+RewriteRule ^_app\/(.*)$ - [R=404,L]
+
+# route files/directories that do not exist to Drone
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L,QSA]

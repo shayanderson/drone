@@ -529,7 +529,7 @@ Methods used to get request variables:
 - `request()->request()` - `$_REQUEST` alias
 - `request()->server()` - `$_SERVER` alias
 
-> Get methods can also fetch multiple variables using array, example:
+> *Get* methods can also fetch multiple variables using an array, example:
 ```php
 $vars = request()->get(['var1', 'var2', 'var3']); // ['var1' => x, 'var2' => y, 'var3' => z]
 ```
@@ -540,6 +540,11 @@ Methods used to check if request variables exist:
 - `request()->hasGet()`
 - `request()->hasPost()`
 - `request()->hasRequest()`
+
+> *Has* methods can be used to check if multiple variables exists using an array, example:
+```php
+if(request()->hasPost(['var1', 'var2', 'var3'])) // true or false
+```
 
 Methods used to remove request variables:
 - `request()->removeCookie()`

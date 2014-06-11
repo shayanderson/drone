@@ -528,6 +528,7 @@ Methods used to get request variables:
 - `request()->post()` - `$_POST` alias
 - `request()->request()` - `$_REQUEST` alias
 - `request()->server()` - `$_SERVER` alias
+
 > Get methods can also fetch multiple variables using array, example:
 ```php
 $vars = request()->get(['var1', 'var2', 'var3']); // ['var1' => x, 'var2' => y, 'var3' => z]

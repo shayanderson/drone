@@ -662,7 +662,8 @@ $trimmed = filter(' my value ', \Drone\Core\Data::FILTER_TRIM); // 'my value'
 
 > Array values can also be used, for example:
 ```php
-$trimmed = filter([' value 1 ', ' value 2 '], \Drone\Core\Data::FILTER_TRIM); // ['value 1', 'value 2']
+$trimmed = filter([' value 1 ', ' value 2 '], \Drone\Core\Data::FILTER_TRIM);
+// $trimmed is now: ['value 1', 'value 2']
 ```
 
 Filters can also be used together:

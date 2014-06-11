@@ -658,7 +658,7 @@ Data can be filtered/sanitized using the `filter()` helper function, for example
 // trim value
 $trimmed = filter(' my value ', \Drone\Core\Data::FILTER_TRIM); // 'my value'
 ```
-<codeblock>If no filter is passed to the <code>filter()</code> helper function the value will be trimmed</codeblock>
+<blockquote>If no filter is passed to the <code>filter()</code> helper function the value will be trimmed</blockquote>
 
 > Array values can also be used, for example:
 ```php

@@ -773,15 +773,17 @@ if(!validate('bad-email@', \Drone\Core\Data::VALIDATE_EMAIL))
 	// warn user
 }
 ```
-<blockquote>If no validator is passed to the `validate()` helper function the VALIDATE_REQUIRED validator will be used, for example:
+> If no validator is passed to the `validate()` helper function the VALIDATE_REQUIRED validator will be used, for example:
 ```php
 if(validate('')) // not valid
 if(validate('my value')) // valid
-```</blockquote>
+```
+
 
 > Array values can also be used, for example:
 ```php
-$valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'], \Drone\Core\Data::VALIDATE_EMAIL);
+$valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'], 
+	\Drone\Core\Data::VALIDATE_EMAIL);
 // $valid is now: [1 => false, 2 => true]
 ```
 

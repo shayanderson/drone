@@ -718,7 +718,7 @@ Data can be formatted using the `format()` helper function, for example:
 $currency = format(5, \Drone\Core\Data::FORMAT_CURRENCY); // '$5.00'
 ```
 
-> Array values can also be used, for example:
+Array values can also be used, for example:
 ```php
 $currencies = format([5, 10.5], \Drone\Core\Data::FORMAT_CURRENCY);
 // $currencies is now: ['$5.00', '$10.50']

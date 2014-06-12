@@ -113,13 +113,6 @@ class Core
 	private $__params = [];
 
 	/**
-	 * Route params
-	 *
-	 * @var array
-	 */
-	private $__params_route = [];
-
-	/**
 	 * Mapped routes
 	 *
 	 * @var array (\Drone\Core\Route)
@@ -585,42 +578,6 @@ class Core
 	}
 
 	/**
-	 * Route param getter
-	 *
-	 * @param string $key
-	 * @param mixed $array_key (string when getting array key value)
-	 * @return mixed (false on param does not exist)
-	 */
-	public function param($key, $array_key = null)
-	{
-		if(is_null($key)) // get all
-		{
-			return $this->__params_route;
-		}
-
-		if(is_null($array_key))
-		{
-			if(isset($this->__params_route[$key]) || array_key_exists($key, $this->__params_route))
-			{
-				return $this->__params_route[$key];
-			}
-		}
-		else // array key
-		{
-			if(isset($this->__params_route[$key]) && is_array($this->__params_route[$key]))
-			{
-				if(isset($this->__params_route[$key][$array_key])
-					|| array_key_exists($array_key, $this->__params_route[$key]))
-				{
-					return $this->__params_route[$key][$array_key];
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * Force redirect to URL
 	 *
 	 * @param string $location
@@ -784,8 +741,8 @@ class Core
 						{
 							$this->set(self::KEY_ROUTE_ACTION, $r->getAction());
 						}
-
-						$this->__params_route = &$r->getParams(); // set route params
+						
+						$this->view->setRouteParams($r->getParams()); // set route params
 
 						$this->log->trace('Route (mapped) detected: \''
 							. $this->get(self::KEY_ROUTE_CONTROLLER) . '\'', Logger::CATEGORY_DRONE);

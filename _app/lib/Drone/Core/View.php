@@ -20,6 +20,13 @@ use Drone\Core\Logger;
 class View
 {
 	/**
+	 * Route params
+	 *
+	 * @var array
+	 */
+	private $__route_params = [];
+
+	/**
 	 * Template path
 	 *
 	 * @var string
@@ -123,6 +130,42 @@ class View
 	}
 
 	/**
+	 * Route param getter
+	 *
+	 * @param string $key
+	 * @param mixed $array_key (string when getting array key value)
+	 * @return mixed (false on param does not exist)
+	 */
+	public function param($key, $array_key = null)
+	{
+		if(is_null($key)) // get all
+		{
+			return $this->__route_params;
+		}
+
+		if(is_null($array_key))
+		{
+			if(isset($this->__route_params[$key]) || array_key_exists($key, $this->__route_params))
+			{
+				return $this->__route_params[$key];
+			}
+		}
+		else // array key
+		{
+			if(isset($this->__route_params[$key]) && is_array($this->__route_params[$key]))
+			{
+				if(isset($this->__route_params[$key][$array_key])
+					|| array_key_exists($array_key, $this->__route_params[$key]))
+				{
+					return $this->__route_params[$key][$array_key];
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Reset template
 	 *
 	 * @return void
@@ -141,6 +184,20 @@ class View
 	public function setDefaultTemplate($template)
 	{
 		$this->__template_default = $template;
+	}
+
+	/**
+	 * Route params setter (called from \Drone\Core)
+	 *
+	 * @param array $params
+	 * @return void
+	 */
+	public function setRouteParams(array &$params)
+	{
+		if(count($this->__route_params) < 1) // only init once
+		{
+			$this->__route_params = &$params;
+		}
 	}
 
 	/**

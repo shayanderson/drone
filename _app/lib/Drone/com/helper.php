@@ -163,7 +163,7 @@ function pa($v = null)
 }
 
 /**
- * Route param getter (\Drone\Core->param() alias)
+ * Route param getter (\Drone\Core->view->param() alias)
  *
  * @param string $key
  * @param mixed $array_key (string when getting array key value)
@@ -171,7 +171,7 @@ function pa($v = null)
  */
 function param($key, $array_key = null)
 {
-	return drone()->param($key, $array_key);
+	return drone()->view->param($key, $array_key);
 }
 
 /**

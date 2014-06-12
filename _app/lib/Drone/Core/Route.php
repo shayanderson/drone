@@ -161,7 +161,27 @@ class Route
 
 			$route = array_slice($route, 0, $route_key_wildcard); // rm wildcard
 			$params_wildcard = array_slice($request, $route_key_wildcard); // set wildcard params
+			if(substr($request_path, -1) === '/') // last param is empty
+			{
+				array_pop($params_wildcard);
+			}
 			$request = array_slice($request, 0, $route_key_wildcard); // rm wildcard param values
+
+			if(count($params_wildcard) < 1)
+			{
+				// route with wildcard params must end in '/' when using no params (dup content protection)
+				// ex: '/route/', not allowed: '/route.htm'
+				if(substr($request_path, -1) !== '/')
+				{
+					return false;
+				}
+			}
+			// route with wildcard params using the params must not end in '/' (dup content protection)
+			// ex: '/route/p1/p2.htm', not allowed: '/route/p1/p2/'
+			else if(substr($request_path, -1) === '/')
+			{
+				return false;
+			}
 		}
 
 		if(count($route) !== count($request)) // not equal parts (+ not wildcard params)

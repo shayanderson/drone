@@ -194,6 +194,15 @@ class Controller
 ```
 Likewise the request `/user/5/delete.htm` will be mapped to the controller file `_app/mod/user.php` with the route param `id` set to `5` and call the `Controller` public class method `delete`.
 
+Custom controller class names can be used, for example:
+```php
+drone()->route([
+	'/user/:id' => 'user->\UserController->view',
+	'/user/:id/delete' => 'user->\UserController->delete'
+]);
+```
+Now the request `/user/5.htm` will be mapped to the controller file `_app/mod/user.php` and will need to contain the `UserController` class.
+
 <blockquote>A missing <code>Controller</code> class will trigger the 500 error handler</blockquote>
 
 <blockquote>A missing <code>Controller</code> action (class public method) will trigger the 500 error handler</blockquote>

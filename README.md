@@ -223,9 +223,8 @@ Now the params are accessed using the `data` key:
 ```php
 $params = param('data'); // ['a', 'b', 'c']
 ```
-> **Duplicate Content Protection**
-
-> A request mapped to a route with wildcard params *must* end in '/' when not using wildcard params in the request, for example route `/route.htm` would result in a 404 error, but `/route/` will work.
+> **Duplicate Content Protection** <br />
+A request mapped to a route with wildcard params *must* end in '/' when not using wildcard params in the request, for example route `/route.htm` would result in a 404 error, but `/route/` will work.
 
 > Likewise, a request mapped to a route with wildcard route params must *not* end in '/' when using wildcard params, for example route `/route/x/y/z/` would result in a 404 error, but `/route/x/y/z.htm` will work.
 

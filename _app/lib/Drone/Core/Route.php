@@ -22,6 +22,11 @@ class Route
 	const ACTION_SEPARATOR = '->';
 
 	/**
+	 * Route parameter wildcard character
+	 */
+	const PARAM_WILDCARD_CHARACTER = '*';
+
+	/**
 	 * Route action
 	 *
 	 * @var string
@@ -68,6 +73,26 @@ class Route
 		{
 			$this->__controller = $controller;
 		}
+	}
+
+	/**
+	 * Search array values for substring
+	 *
+	 * @param array $arr
+	 * @param string $substr
+	 * @return int (the array key, or false on no substring)
+	 */
+	public static function __arraySearchSubstring(array $arr, $substr)
+	{
+		foreach($arr as $k => $v)
+		{
+			if(strpos($v, $substr) !== false)
+			{
+				return $k;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -121,12 +146,35 @@ class Route
 		$route = explode('/', $this->__path);
 		$request = explode('/', $request_path);
 
-		if(count($route) !== count($request)) // not equal parts
+		// test wildcard params + wildcard route key
+		$route_key_wildcard = strpos($this->__path, self::PARAM_WILDCARD_CHARACTER) !== false
+			? self::__arraySearchSubstring($route, self::PARAM_WILDCARD_CHARACTER) : false;
+
+		if($route_key_wildcard !== false) // wildcard params
+		{
+			// get wildcard param key, ex: '/:parts*' => 'parts'
+			$key_wildcard = str_replace([':', self::PARAM_WILDCARD_CHARACTER], '', $route[$route_key_wildcard]);
+			if(strlen($key_wildcard) < 1) // set default wildcard param key
+			{
+				$key_wildcard = 'params';
+			}
+
+			$route = array_slice($route, 0, $route_key_wildcard); // rm wildcard
+			$params_wildcard = array_slice($request, $route_key_wildcard); // set wildcard params
+			$request = array_slice($request, 0, $route_key_wildcard); // rm wildcard param values
+		}
+
+		if(count($route) !== count($request)) // not equal parts (+ not wildcard params)
 		{
 			return false;
 		}
 
 		$params = []; // tmp params
+
+		if(isset($params_wildcard))
+		{
+			$params[$key_wildcard] = $params_wildcard;
+		}
 
 		foreach($request as $k => $v)
 		{

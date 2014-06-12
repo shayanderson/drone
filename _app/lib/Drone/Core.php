@@ -856,14 +856,15 @@ class Core
 								Logger::CATEGORY_DRONE);
 							$this->stop();
 						}
-						$this->error(self::ERROR_500, 'Class \'Controller\' not found when calling route action');
+						$this->error(self::ERROR_500, 'Class \'' . $controller_class
+							. '\' not found when calling route action');
 						return;
 					}
 
 					if(!method_exists($controller_class, $this->get(self::KEY_ROUTE_ACTION)))
 					{
-						$this->error(self::ERROR_500, 'Method \'Controller::' . $this->get(self::KEY_ROUTE_ACTION)
-							. '\' not found when calling route action');
+						$this->error(self::ERROR_500, 'Method \'' . $controller_class . '::'
+							. $this->get(self::KEY_ROUTE_ACTION) . '\' not found when calling route action');
 						return;
 					}
 

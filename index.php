@@ -74,7 +74,6 @@ drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log-
 // Mapped routes
 //////////////////////////////////////////////////////////////////////////
 // example: drone()->route(['/user/:id' => 'user->view']);
-drone()->route(['/test/' => 'index->action']);
 
 
 //////////////////////////////////////////////////////////////////////////

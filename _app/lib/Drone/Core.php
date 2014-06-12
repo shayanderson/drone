@@ -55,6 +55,7 @@ class Core
 		KEY_PATH_TEMPLATE = '__DRONE__.path.template', // template load path
 		KEY_PATH_TEMPLATE_GLOBAL = '__DRONE__.path.template_global', // global template load path
 		KEY_ROUTE_ACTION = '__DRONE__.route.action', // route action
+		KEY_ROUTE_CLASS = '__DRONE__.route.class', // route controller class
 		KEY_ROUTE_CONTROLLER = '__DRONE__.route.controller', // route controller
 		KEY_ROUTE_TEMPLATE = '__DRONE__.route.template'; // route template
 
@@ -246,6 +247,25 @@ class Core
 			unset($this->__params[$key]);
 			$this->log->trace('Cleared param: \'' . $key . '\'', Logger::CATEGORY_DRONE);
 		}
+	}
+
+	/**
+	 * Deny direct static access to controller (or mapped requests with no action)
+	 *
+	 * @staticvar boolean $deny
+	 * @param mixed $deny_direct_access
+	 * @return boolean
+	 */
+	public function deny($deny_direct_access = true)
+	{
+		static $deny = false;
+
+		if(is_bool($deny_direct_access))
+		{
+			$deny = $deny_direct_access;
+		}
+
+		return $deny;
 	}
 
 	/**
@@ -676,6 +696,7 @@ class Core
 			$route = new Route(null, $route);
 			$this->set([
 				self::KEY_ROUTE_CONTROLLER => $route->getController(),
+				self::KEY_ROUTE_CLASS => $route->getClass(),
 				self::KEY_ROUTE_TEMPLATE => $route->getController()
 			]);
 
@@ -734,6 +755,7 @@ class Core
 					{
 						$this->set([
 							self::KEY_ROUTE_CONTROLLER => $r->getController(),
+							self::KEY_ROUTE_CLASS => $r->getClass(),
 							self::KEY_ROUTE_TEMPLATE => $r->getController()
 						]);
 
@@ -741,7 +763,7 @@ class Core
 						{
 							$this->set(self::KEY_ROUTE_ACTION, $r->getAction());
 						}
-						
+
 						$this->view->setRouteParams($r->getParams()); // set route params
 
 						$this->log->trace('Route (mapped) detected: \''
@@ -818,19 +840,27 @@ class Core
 
 				$this->__headersSend(); // send headers
 
+				$controller_class = $this->get(self::KEY_ROUTE_CLASS);
+
 				// call controller action
 				if($this->has(self::KEY_ROUTE_ACTION))
 				{
-					$this->log->trace('Calling action: \'' . $this->get(self::KEY_ROUTE_ACTION) . '\'',
-						Logger::CATEGORY_DRONE);
+					$this->log->trace('Calling action: \'' . $this->get(self::KEY_ROUTE_ACTION)
+						. '\' on controller class \'' . $controller_class . '\'', Logger::CATEGORY_DRONE);
 
-					if(!class_exists('\Controller', false))
+					if(!class_exists($controller_class, false))
 					{
+						if(count($routes) > 1) // multiple routes with failed controllers, stop memory overload
+						{
+							$this->log->fatal('Multiple route controllers not found loop detected',
+								Logger::CATEGORY_DRONE);
+							$this->stop();
+						}
 						$this->error(self::ERROR_500, 'Class \'Controller\' not found when calling route action');
 						return;
 					}
 
-					if(!method_exists('\Controller', $this->get(self::KEY_ROUTE_ACTION)))
+					if(!method_exists($controller_class, $this->get(self::KEY_ROUTE_ACTION)))
 					{
 						$this->error(self::ERROR_500, 'Method \'Controller::' . $this->get(self::KEY_ROUTE_ACTION)
 							. '\' not found when calling route action');
@@ -838,7 +868,7 @@ class Core
 					}
 
 					// set controller instance
-					$controller = new \Controller;
+					$controller = new $controller_class;
 
 					if(method_exists($controller, '__before'))
 					{
@@ -854,11 +884,13 @@ class Core
 					}
 				}
 				// check for deny direct access to controller without action
-				else if(class_exists('\Controller', false) && defined('\Controller::DENY'))
+				else if($this->deny(null))
 				{
 					$this->error(self::ERROR_404, 'Deny no action');
 					return;
 				}
+
+				unset($controller_class); // cleanup
 
 				if(!$this->get(self::KEY_DEBUG)) // only flush if not debugging
 				{

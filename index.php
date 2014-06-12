@@ -59,8 +59,8 @@ drone()->log->setLogLevel(\Drone\Core\Logger::LEVEL_TRACE);
 //////////////////////////////////////////////////////////////////////////
 drone()->error(function($error) { pa('<div style="color:#f00;">' . $error,
 	debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), '</div>'); });
-drone()->error(404, function() { drone()->run('error->_404'); });
-drone()->error(500, function() { drone()->run('error->_500'); });
+drone()->error(404, function() { drone()->run('error->\ErrorController->_404'); });
+drone()->error(500, function() { drone()->run('error->\ErrorController->_500'); });
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -74,6 +74,7 @@ drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log-
 // Mapped routes
 //////////////////////////////////////////////////////////////////////////
 // example: drone()->route(['/user/:id' => 'user->view']);
+drone()->route(['/test/' => 'index->action']);
 
 
 //////////////////////////////////////////////////////////////////////////

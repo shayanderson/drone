@@ -34,6 +34,13 @@ class Route
 	private $__action;
 
 	/**
+	 * Route controller class name
+	 *
+	 * @var string
+	 */
+	private $__class = '\Controller';
+
+	/**
 	 * Route controller
 	 *
 	 * @var string
@@ -67,7 +74,16 @@ class Route
 		// parse action, ex: 'controller->action'
 		if(($pos = strpos($controller, self::ACTION_SEPARATOR)) !== false)
 		{
-			list($this->__controller, $this->__action) = explode(self::ACTION_SEPARATOR, $controller);
+			$parts = explode(self::ACTION_SEPARATOR, $controller);
+
+			if(count($parts) === 3) // class name
+			{
+				list($this->__controller, $this->__class, $this->__action) = $parts;
+			}
+			else
+			{
+				list($this->__controller, $this->__action) = $parts;
+			}
 		}
 		else
 		{
@@ -103,6 +119,16 @@ class Route
 	public function getAction()
 	{
 		return $this->__action;
+	}
+
+	/**
+	 * Route controller class name getter
+	 *
+	 * @return string
+	 */
+	public function getClass()
+	{
+		return $this->__class;
 	}
 
 	/**

@@ -223,7 +223,9 @@ Now the params are accessed using the `data` key:
 ```php
 $params = param('data'); // ['a', 'b', 'c']
 ```
-> A request mapped to a route with wildcard route params must end in '/' when not using wildcard params in the request, for example route `/route.htm` would result in a 404 error, but `/route/` will work (this is to protect against duplicate content for both requests)
+> A request mapped to a route with wildcard params *must* end in '/' when not using wildcard params in the request, for example route `/route.htm` would result in a 404 error, but `/route/` will work (this is to protect against duplicate content for both requests).
+
+> Likewise, a request mapped to a route with wildcard route params must *not* end in '/' when using wildcard params, for example route `/route/x/y/z/` would result in a 404 error, but `/route/x/y/z.htm` will work (this is to protect against duplicate content for both requests).
 
 ## Controllers
 Controllers are files that may or may not contain a `Controller` class depending on if the requested route is mapped, and mapped with an action (see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)).

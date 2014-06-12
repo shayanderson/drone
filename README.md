@@ -219,7 +219,7 @@ drone()->route([
 	'/user/:data*' => 'user->view',
 ]);
 ```
-Now the params are accessed using the `parts` key:
+Now the params are accessed using the `data` key:
 ```php
 $params = param('data'); // ['a', 'b', 'c']
 ```

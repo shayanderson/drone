@@ -6,9 +6,6 @@
 
 RewriteEngine On
 
-# set custom 404 to point to framework
-ErrorDocument 404 /404
-
 # force www. (optional)
 # RewriteCond %{HTTP_HOST} !^www\.
 # RewriteRule ^(.*)$ http://www\.%{HTTP_HOST}/$1 [R=301,L]

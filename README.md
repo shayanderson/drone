@@ -420,8 +420,8 @@ error(100, 'My custom error'); // trigger 100 error handler
 By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
 ```php
 drone()->error(function($error) { echo '<div style="color:#f00;">' . $error . '</div>'; });
-drone()->error(404, function() { drone()->run('error->_404'); });
-drone()->error(500, function() { drone()->run('error->_500'); });
+drone()->error(404, function() { drone()->run('error->\ErrorController->_404'); });
+drone()->error(500, function() { drone()->run('error->\ErrorController->_500'); });
 ```
 
 The *default* error handler will be called when errors are triggered inside the application (like E_USER_ERROR, E_USER_WARNING, etc.). This happens because of the default Drone error handler.
@@ -432,7 +432,7 @@ The *default* error handler will be called when errors are triggered inside the 
 
 Custom error handlers can also be set, for example:
 ```php
-drone()->error(100, function() { drone()->run('error->_100'); }
+drone()->error(100, function() { drone()->run('error->\ErrorController->_100'); }
 ```
 Now if a `100` error is triggered the handler would call the controller action method `_100()` in the `_app/mod/error.php` controller file.
 

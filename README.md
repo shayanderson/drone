@@ -444,6 +444,10 @@ if(param('id') === false)
 	// the param 'id' does not exist
 }
 ```
+> The `param()` helpf function supports array key for route params that have array values (like *wildcard* route params), for example:
+```php
+$id = param('parts', 2);
+```
 
 #### Events
 Events are global callables that can be accessed from the application. Register an event example in `index.php`:

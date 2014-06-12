@@ -108,7 +108,7 @@ Drone helper functions available:
 - `load_com()` - load common file
 - [`logger()`](https://github.com/shayanderson/drone#logging) - `drone()->log` alias
 - `pa()` - string/array printer
-- [`param()`](https://github.com/shayanderson/drone#parameters) - get route param (`drone()->param()` alias)
+- [`param()`](https://github.com/shayanderson/drone#route-parameters) - get route param (`drone()->param()` alias)
 - [`redirect()`](https://github.com/shayanderson/drone#redirect) - redirect to location (`drone()->redirect()` alias)
 - [`request()`](https://github.com/shayanderson/drone#request-variables) - `drone()->request` alias
 - [`session()`](https://github.com/shayanderson/drone#session-handling) - `drone()->session` alias

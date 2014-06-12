@@ -200,6 +200,28 @@ Likewise the request `/user/5/delete.htm` will be mapped to the controller file 
 
 <blockquote>Mapped route lookups happen *before* static route lookups</blockquote>
 
+##### Wildcard Route Parameters
+*Wildcard* route params can be used, for example:
+```php
+drone()->route([
+	'/user/*' => 'user->view',
+]);
+```
+Now the request `/user/a/b/c.htm` will be mapped to the controller file with action and all params will become route param `params`, for example:
+```php
+$params = param('params'); // ['a', 'b', 'c']
+```
+Or a param name can be used for wildcard route params, for example:
+```php
+drone()->route([
+	'/user/:data*' => 'user->view',
+]);
+```
+Now the params are accessed using the `parts` key:
+```php
+$params = param('data'); // ['a', 'b', 'c']
+```
+
 ## Controllers
 Controllers are files that may or may not contain a `Controller` class depending on if the requested route is mapped, and mapped with an action (see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)).
 

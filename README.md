@@ -201,7 +201,7 @@ drone()->route([
 	'/user/:id/delete' => 'user->\UserController->delete'
 ]);
 ```
-Now the request `/user/5.htm` will be mapped to the controller file `_app/mod/user.php` and will need to contain the `UserController` class.
+Now the request `/user/5.htm` will be mapped to the controller file `_app/mod/user.php` and will need to contain the `UserController` class with public method `view`.
 
 <blockquote>A missing <code>Controller</code> class will trigger the 500 error handler</blockquote>
 

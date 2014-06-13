@@ -207,7 +207,7 @@ Now the request `/user/5.htm` will be mapped to the controller file `_app/mod/us
 
 <blockquote>A missing <code>Controller</code> action (class public method) will trigger the 500 error handler</blockquote>
 
-<blockquote>Mapped route lookups happen *before* static route lookups</blockquote>
+<blockquote>Mapped route lookups happen <i>before</i> static route lookups</blockquote>
 
 ##### Wildcard Route Parameters
 *Wildcard* route params can be used, for example:

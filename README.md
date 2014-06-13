@@ -117,6 +117,7 @@ Drone helper functions available:
 - [`template_global()`](https://github.com/shayanderson/drone#view-templates) - get global template formatted name (`drone()->view->templateGlobal()` alias)
 - [`validate()`](https://github.com/shayanderson/drone#validate) - validate value (`drone()->data->validate()` alias)
 - [`view()`](https://github.com/shayanderson/drone#views) - `drone->view` alias
+> By default Drone helper functions are included in the application, if function name collisions occur with other source code do not include the helper functions file `_app/lib/Drone/com/helper.php`.
 
 #### Settings
 Drone can run without changing the default settings, however, the default settings should be changed in the `index.php` file when Drone is used in a production environment:

@@ -219,7 +219,7 @@ class Route
 
 		if(isset($params_wildcard))
 		{
-			$params[$key_wildcard] = $params_wildcard;
+			$params[$key_wildcard] = array_map('urldecode', $params_wildcard);
 		}
 
 		foreach($request as $k => $v)
@@ -231,7 +231,7 @@ class Route
 					return false; // not param
 				}
 
-				$params[substr($route[$k], 1)] = $v;
+				$params[substr($route[$k], 1)] = urldecode($v);
 			}
 		}
 

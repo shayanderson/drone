@@ -290,7 +290,7 @@ In the mapped route example above the class method `action()` will be called for
 
 <blockquote>Mapped route params are accessible from the <code>param()</code> helper function (example: <code>param('id')</code>)</blockquote>
 
-> It is recommended that Controller classes extend the `\Drone\Controller` class, this is because the `\Drone\Controller` will automatically deny static requests to the controller file (or mapped requests with no action).
+> It is recommended that `Controller` classes extend the `\Drone\Controller` class, this is because the `\Drone\Controller` will automatically deny static requests to the controller file (or mapped requests with no action).
 
 ## Views
 The Drone `\Drone\Core\View` object handles all view logic like view variables and template path formatting.

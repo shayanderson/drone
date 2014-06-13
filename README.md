@@ -163,7 +163,7 @@ Static routes require no mapping and instead rely on static file paths. For exam
 
 <blockquote>A missing static route file will trigger the 404 error handler</blockquote>
 
-<blockquote>Static route lookups happen *after* mapped route lookups</blockquote>
+<blockquote>Static route lookups happen <i>after</i> mapped route lookups</blockquote>
 
 #### Mapped Routes
 Mapped routes require mapping in the `index.php` file, example:

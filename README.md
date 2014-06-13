@@ -54,7 +54,7 @@
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
 
 ## Quick Start
-To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example file.
+To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.
 
 All of the Drone bootstrapping is done in the `index.php` file.
 

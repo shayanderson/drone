@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
- * @version 1.0.b - Jun 13, 2014
+ * @version 
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -712,6 +712,7 @@ class Core
 		{
 			$is_index = false;
 			$request = $_SERVER['REQUEST_URI'];
+			$this->log->trace('Process request: \'' . $request . '\'', Logger::CATEGORY_DRONE);
 			if(($pos = strpos($request, '?')) !== false) // rm query string
 			{
 				$request = substr($request, 0, $pos);

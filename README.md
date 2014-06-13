@@ -814,7 +814,7 @@ if(!validate('bad-email@', \Drone\Core\Data::VALIDATE_EMAIL))
 	// warn user
 }
 ```
-> If no validator is passed to the `validate()` helper function the VALIDATE_REQUIRED validator will be used, for example:
+> If no validator is passed to the `validate()` helper function the `VALIDATE_REQUIRED` validator will be used, for example:
 ```php
 if(validate('')) // not valid
 if(validate('my value')) // valid

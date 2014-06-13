@@ -725,19 +725,19 @@ $trimmed = \Drone\Core\Data::filterTrim(' my value '); // 'my value'
 ```
 
 Available filters are:
-- FILTER_ALNUM - strip non-alphanumeric characters
-- FILTER_ALPHA - strip non-alpha characters
-- FILTER_DATE - strip non-date characters
-- FILTER_DATE_TIME - strip non-date/time characters
-- FILTER_DECIMAL - strip non-decimal characters
-- FILTER_EMAIL - strip non-email characters
-- FILTER_HTML_ENCODE - encode HTML special characters
-- FILTER_NUMERIC - strip non-numeric characters
-- FILTER_SANITIZE - strip tags
-- FILTER_TIME - strip non-time characters
-- FILTER_TRIM - trim spaces
-- FILTER_URL_ENCODE - encode URL
-- FILTER_WORD - strip non-word characters (same as character class '\w')
+- `FILTER_ALNUM` - strip non-alphanumeric characters
+- `FILTER_ALPHA` - strip non-alpha characters
+- `FILTER_DATE` - strip non-date characters
+- `FILTER_DATE_TIME` - strip non-date/time characters
+- `FILTER_DECIMAL` - strip non-decimal characters
+- `FILTER_EMAIL` - strip non-email characters
+- `FILTER_HTML_ENCODE` - encode HTML special characters
+- `FILTER_NUMERIC` - strip non-numeric characters
+- `FILTER_SANITIZE` - strip tags
+- `FILTER_TIME` - strip non-time characters
+- `FILTER_TRIM` - trim spaces
+- `FILTER_URL_ENCODE` - encode URL
+- `FILTER_WORD` - strip non-word characters (same as character class '\w')
 
 Custom filters can be used, for example:
 ```php
@@ -783,14 +783,14 @@ $upper_words = \Drone\Core\Data::formatUpperWords('my value'); // 'My Value'
 ```
 
 Available formats are:
-- FORMAT_BYTE
-- FORMAT_CURRENCY
-- FORMAT_DATE
-- FORMAT_DATE_TIME
-- FORMAT_LOWER
-- FORMAT_TIME
-- FORMAT_UPPER
-- FORMAT_UPPER_WORDS
+- `FORMAT_BYTE`
+- `FORMAT_CURRENCY`
+- `FORMAT_DATE`
+- `FORMAT_DATE_TIME`
+- `FORMAT_LOWER`
+- `FORMAT_TIME`
+- `FORMAT_UPPER`
+- `FORMAT_UPPER_WORDS`
 
 Custom formats can be used, for example:
 ```php
@@ -850,22 +850,22 @@ if(!\Drone\Core\Data::validateEmail('bad-email@'))
 ```
 
 Available validators are:
-- VALIDATE_ALNUM - value is alphanumeric characters
-- VALIDATE_ALPHA - value is alpha characters
-- VALIDATE_BETWEEN - value between min and max values
-- VALIDATE_CONTAINS - value contains value
-- VALIDATE_CONTAINS_NOT - value does not contain value
-- VALIDATE_DECIMAL - value is decimal
-- VALIDATE_EMAIL - value is email
-- VALIDATE_IPV4 - value is IPv4 address
-- VALIDATE_IPV6 - value is IPv6 address
-- VALIDATE_LENGTH - value is min length, or under max length, or between min and max lengths
-- VALIDATE_MATCH - value is match to value
-- VALIDATE_NUMERIC - value is numeric
-- VALIDATE_REGEX - value is Perl-compatible regex pattern
-- VALIDATE_REQUIRED - value exists (length > 0)
-- VALIDATE_URL - value is URL
-- VALIDATE_WORD - value is word (same as character class '\w')
+- `VALIDATE_ALNUM` - value is alphanumeric characters
+- `VALIDATE_ALPHA` - value is alpha characters
+- `VALIDATE_BETWEEN` - value between min and max values
+- `VALIDATE_CONTAINS` - value contains value
+- `VALIDATE_CONTAINS_NOT` - value does not contain value
+- `VALIDATE_DECIMAL` - value is decimal
+- `VALIDATE_EMAIL` - value is email
+- `VALIDATE_IPV4` - value is IPv4 address
+- `VALIDATE_IPV6` - value is IPv6 address
+- `VALIDATE_LENGTH` - value is min length, or under max length, or between min and max lengths
+- `VALIDATE_MATCH` - value is match to value
+- `VALIDATE_NUMERIC` - value is numeric
+- `VALIDATE_REGEX` - value is Perl-compatible regex pattern
+- `VALIDATE_REQUIRED` - value exists (length > 0)
+- `VALIDATE_URL` - value is URL
+- `VALIDATE_WORD` - value is word (same as character class '\w')
 
 Custom validators can be used, for example:
 ```php

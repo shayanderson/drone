@@ -234,6 +234,20 @@ Now the params are accessed using the `data` key:
 ```php
 $params = param('data'); // ['a', 'b', 'c']
 ```
+Wildcard route params labels can also be set, for example
+```php
+drone()->route([
+	'/product/:data*(:category/:subcat/:id)' => 'product->view',
+	// can also use no param name, example: '/product/*(:category/...'
+]);
+```
+Now the params can be accessed using the param labels, for example the request `/product/category1/category2/4.htm` would be used like:
+```php
+$category = param('data', 'category'); // 'category1'
+$subcategory = param('data', 'subcat'); // 'category2'
+$id = param('data', 'id'); // '4'
+```
+
 > *Duplicate Content Protection* <br />
 A request mapped to a route with wildcard params *must* end in '/' when not using wildcard params in the request, for example route `/route.htm` would result in a 404 error, but `/route/` will work.
 

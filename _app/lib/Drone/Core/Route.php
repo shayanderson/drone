@@ -178,6 +178,16 @@ class Route
 
 		if($route_key_wildcard !== false) // wildcard params
 		{
+			$params_wildcard_labels = [];
+
+			// test wildcard param labels, ex: '/route/*(:param1/:param2)'
+			if(($p1 = strpos($this->__path, '(')) !== false && strpos($this->__path, ')') !== false)
+			{
+				$params_wildcard_labels = explode('/', substr(str_replace(':', '', rtrim($this->__path, ')')), $p1));
+				$this->__path = substr($this->__path, 0, $p1); // rm labels from path
+				$route = explode('/', $this->__path); // reset route
+			}
+
 			// get wildcard param key, ex: '/:parts*' => 'parts'
 			$key_wildcard = str_replace([':', self::PARAM_WILDCARD_CHARACTER], '', $route[$route_key_wildcard]);
 			if(strlen($key_wildcard) < 1) // set default wildcard param key
@@ -187,6 +197,7 @@ class Route
 
 			$route = array_slice($route, 0, $route_key_wildcard); // rm wildcard
 			$params_wildcard = array_slice($request, $route_key_wildcard); // set wildcard params
+
 			if(substr($request_path, -1) === '/') // last param is empty
 			{
 				array_pop($params_wildcard);
@@ -217,9 +228,17 @@ class Route
 
 		$params = []; // tmp params
 
-		if(isset($params_wildcard))
+		if(isset($params_wildcard)) // add wildcard params
 		{
 			$params[$key_wildcard] = array_map('urldecode', $params_wildcard);
+
+			foreach($params_wildcard_labels as $k => $v) // add wildcard labels (keys) and values
+			{
+				if(isset($params[$key_wildcard][$k]))
+				{
+					$params[$key_wildcard][$v] = $params[$key_wildcard][$k];
+				}
+			}
 		}
 
 		foreach($request as $k => $v)

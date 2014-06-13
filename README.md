@@ -186,7 +186,7 @@ drone()->route([
 ```
 In this example the request `/user/5.htm` will be mapped to the controller file `_app/mod/user.php` with the route param `id` set to `5`. In this case the controller file `_app/mod/user.php` will need to contain the `Controller` class with the public method `view` (the action), for example:
 ```php
-class Controller
+class Controller extends \Drone\Controller
 {
 	public function view()
 	{
@@ -272,7 +272,7 @@ When a route is mapped with an action (for example: `'/my/route' => 'controller-
 
 Here is an example of a simple `Controller` class in a controller file:
 ```php
-class Controller
+class Controller extends \Drone\Controller
 {
 	public function action()
 	{
@@ -291,6 +291,8 @@ In the mapped route example above the class method `action()` will be called for
 <blockquote>Mapped route params are accessible from the <code>param()</code> helper function (example: <code>param('id')</code>)</blockquote>
 
 <blockquote>The method <code>drone()->deny()</code> used in a controller file will deny all static requests (or mapped requests with no action), for example, this can be used in an error controller file where direct access is undesired</blockquote>
+
+> It is recommended that Controller classes extend the `\Drone\Controller` class, this is because the `\Drone\Controller` will automatically deny static requests to the controller file (or mapped requests with no action).
 
 ## Views
 The Drone `\Drone\Core\View` object handles all view logic like view variables and template path formatting.

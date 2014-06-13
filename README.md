@@ -263,7 +263,7 @@ View variables can be set using the `view()` helper function, which accesses the
 ```php
 view()->my_var = 'my value';
 ```
-Now the variable `my_var` is accessible from the view template file.
+Now the variable `$my_var` is accessible from the view template file.
 
 > Controller files should never output anything (and outputs will be flushed when debug mode is off), instead output from view template files
 

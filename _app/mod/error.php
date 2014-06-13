@@ -8,15 +8,12 @@
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 
-// deny direct static access
-drone()->deny();
-
 /**
  * Error controller class
  *
  * @author Shay Anderson 05.14 <http://www.shayanderson.com/contact>
  */
-class ErrorController
+class ErrorController extends \Drone\Controller
 {
 	/**
 	 * Finalize action

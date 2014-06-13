@@ -234,7 +234,7 @@ Now the params are accessed using the `data` key:
 ```php
 $params = param('data'); // ['a', 'b', 'c']
 ```
-Wildcard route params labels can also be set, for example
+Wildcard route param labels can also be used, for example
 ```php
 drone()->route([
 	'/product/:data*(:category/:subcat/:id)' => 'product->view',

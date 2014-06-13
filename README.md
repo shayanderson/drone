@@ -268,7 +268,7 @@ Now the variable `$my_var` is accessible from the view template file.
 > Controller files should never output anything (and outputs will be flushed when debug mode is off), instead output from view template files
 
 #### Controller Class
-When a route is mapped with an action (for example: `'/my/route' => 'controller->action'`) the controller file *must* contain a `Controller` class, otherwise a 500 error will be triggered.
+When a route is mapped with an action (for example: `'/my/route' => 'route->action'`) the controller file *must* contain a `Controller` class (or a custom controller class if used, see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)), otherwise a 500 error will be triggered.
 
 Here is an example of a simple `Controller` class in a controller file:
 ```php

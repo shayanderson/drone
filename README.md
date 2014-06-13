@@ -243,9 +243,9 @@ drone()->route([
 ```
 Now the params can be accessed using the param labels, for example the request `/product/category1/category2/4.htm` would be used like:
 ```php
-$category = param('data', 'category'); // 'category1'
-$subcategory = param('data', 'subcat'); // 'category2'
-$id = param('data', 'id'); // '4'
+$category = param('data', 'category'); // 'category1', alias: param('data', 0)
+$subcategory = param('data', 'subcat'); // 'category2', alias: param('data', 1)
+$id = param('data', 'id'); // '4', alias: param('data', 2)
 ```
 
 > *Duplicate Content Protection* <br />

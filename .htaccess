@@ -6,12 +6,18 @@
 
 RewriteEngine On
 
+# set custom 404 to display application 404
+ErrorDocument 404 /404
+
 # force www. (optional)
 # RewriteCond %{HTTP_HOST} !^www\.
 # RewriteRule ^(.*)$ http://www\.%{HTTP_HOST}/$1 [R=301,L]
 
-# protect the './_app' dir with 404 response
+# deny access to './_app' dir
 RewriteRule ^_app\/(.*)$ - [R=404,L]
+
+# deny access to SVN dirs
+RewriteRule ^.*?\.svn\/(.*)$ - [R=404,L]
 
 # route files/directories that do not exist to Drone
 RewriteCond %{REQUEST_FILENAME} !-f

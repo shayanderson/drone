@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
- * @version 1.0.b - Jun 12, 2014
+ * @version 1.0.b - Jun 13, 2014
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -925,7 +925,6 @@ class Core
 				else // error occurred
 				{
 					ob_end_clean(); // clean buffer
-					$this->__bufferClean();
 
 					$this->error(self::ERROR_500); // call 500 error handler
 				}

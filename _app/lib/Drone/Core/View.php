@@ -132,21 +132,22 @@ class View
 	/**
 	 * Route param getter
 	 *
-	 * @param mixed $key (string for getter, null for get all, array for get multiple)
-	 * @return mixed (false on param does not exist)
+	 * @param mixed $key (string for getter, null for get all)
+	 * @param mixed $_ (optional, for getting multiple)
+	 * @return mixed (false on param does not exist, array on multiple get)
 	 */
-	public function param($key)
+	public function param($key, $_ = null)
 	{
 		if(is_null($key)) // get all
 		{
 			return $this->__route_params;
 		}
 
-		if(is_array($key))
+		if(!is_null($_))
 		{
 			$out = [];
 
-			foreach($key as $v)
+			foreach(func_get_args() as $v)
 			{
 				$out[$v] = $this->param($v);
 			}

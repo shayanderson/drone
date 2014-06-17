@@ -74,12 +74,18 @@ class Route
 	 * Init
 	 *
 	 * @param string $path
-	 * @param string $controller
+	 * @param mixed $controller (string or array for controller with callable)
 	 * @param mixed $callable
 	 */
-	public function __construct($path, $controller, $callable)
+	public function __construct($path, $controller, $callable = null)
 	{
 		$this->__path = $path;
+
+		if(is_array($controller))
+		{
+			$callable = $controller[1];
+			$controller = $controller[0];
+		}
 
 		// parse action, ex: 'controller->action'
 		if(($pos = strpos($controller, self::ACTION_SEPARATOR)) !== false)

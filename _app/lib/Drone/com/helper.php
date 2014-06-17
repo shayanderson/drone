@@ -171,6 +171,11 @@ function pa($v = null)
  */
 function param($key, $_ = null)
 {
+	if($_ !== null)
+	{
+		return drone()->view->param(func_get_args());
+	}
+
 	return drone()->view->param($key);
 }
 

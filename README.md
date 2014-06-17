@@ -504,7 +504,7 @@ if(param('id') === false)
 ```
 Multiple params can also be fetched, for example:
 ```php
-$params = param('id', 'name'); // ['x', 'y']
+$params = param('id', 'name'); // ['id' => 'x', 'name' => 'y']
 ```
 All params can be fetched using:
 ```php

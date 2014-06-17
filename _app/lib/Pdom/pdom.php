@@ -8,7 +8,7 @@
  *	- Database table names cannot include character '/'
  * 
  * @package PDOm
- * @version 1.2.b - May 06, 2014
+ * @version 1.3.b
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/pdom>
@@ -30,6 +30,7 @@ use Pdom\Pdo;
  *		add			(also insert, insert new record)
  *		call		(call stored procedure or function)
  *		columns		(show table columns)
+ *		commit		(commit transaction)
  *		count		(count table records)
  *		del			(also delete, delete record(s))
  *		error		(check if error has occurred)
@@ -42,7 +43,9 @@ use Pdom\Pdo;
  *		optimize	(optimize table)
  *		query		(execute manual query)
  *		repair		(repair table)
+ *		rollback	(rollback transaction)
  *		tables		(show database tables)
+ *		transaction	(start transaction)
  *		truncate	(truncate table)
  */
 function pdom($cmd, $_ = null)
@@ -120,7 +123,7 @@ function pdom($cmd, $_ = null)
 				$cmd = substr($cmd, 0, strpos($cmd, '.')); // rm ID
 
 				$sql = ' WHERE ' . Pdo::connection($id)->key($cmd) . ' = '
-					. Pdo::connection($id)->quote($m[1]);
+					. Pdo::connection($id)->__getPdoObject()->quote($m[1]);
 			}
 
 			if(isset($args[0]) && is_scalar($args[0])) // SQL statement(s)
@@ -276,6 +279,10 @@ function pdom($cmd, $_ = null)
 					return $c;
 					break;
 
+				case 'commit': // commit transaction
+					return Pdo::connection($id)->__getPdoObject()->commit();
+					break;
+
 				case 'count': // count records
 					$r = Pdo::connection($id)->query('SELECT COUNT(1) AS count FROM ' . $table
 						. ( isset($args[0]) ? ' ' . $args[0] : '' ),
@@ -317,7 +324,7 @@ function pdom($cmd, $_ = null)
 					break;
 
 				case 'id': // get last insert ID
-					return Pdo::connection($id)->insertId();
+					return Pdo::connection($id)->__getPdoObject()->lastInsertId();
 					break;
 
 				case 'key': // set/get table primary key column name
@@ -422,6 +429,10 @@ function pdom($cmd, $_ = null)
 					return Pdo::connection($id)->query('REPAIR TABLE ' . $table);
 					break;
 
+				case 'rollback': // rollback transaction
+					return Pdo::connection($id)->__getPdoObject()->rollBack();
+					break;
+
 				case 'tables': // show tables
 					$t = [];
 					$r = Pdo::connection($id)->query('SHOW TABLES');
@@ -434,6 +445,10 @@ function pdom($cmd, $_ = null)
 						}
 					}
 					return $t;
+					break;
+
+				case 'transaction': // begin transaction
+					return Pdo::connection($id)->__getPdoObject()->beginTransaction();
 					break;
 
 				case 'truncate':

@@ -8,7 +8,7 @@
  *	- Database table names cannot include character '/'
  * 
  * @package PDOm
- * @version 1.2.b - May 06, 2014
+ * @version 1.3.b
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/pdom>
@@ -159,7 +159,7 @@ class Pdo
 	 * @param array $host_data
 	 * @return \PDO (or null on host data setter)
 	 */
-	private function &__getPdoObject($id = null, array $host_data = [])
+	public function &__getPdoObject($id = null, array $host_data = [])
 	{
 		static $host = [];
 
@@ -180,9 +180,9 @@ class Pdo
 					$host[$this->__id]['password']);
 				$this->__pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 			}
-			catch(PDOException $e)
+			catch(\PDOException $ex)
 			{
-				$this->__error($e->getMessage());
+				$this->__error($ex->getMessage());
 			}
 		}
 
@@ -288,16 +288,6 @@ class Pdo
 
 			throw new \Exception('Connection "' . $connection . '" does not exist');
 		}
-	}
-
-	/**
-	 * Last insert ID getter
-	 *
-	 * @return int
-	 */
-	public function insertId()
-	{
-		return $this->__getPdoObject()->lastInsertId();
 	}
 
 	/**
@@ -408,22 +398,11 @@ class Pdo
 				$this->__error($sh->errorInfo());
 			}
 		}
-		catch(\PDOException $e)
+		catch(\PDOException $ex)
 		{
-			$this->__error($e->getMessage());
+			$this->__error($ex->getMessage());
 		}
 
 		return false;
-	}
-
-	/**
-	 * Quote/escape string for safe usage
-	 *
-	 * @param string $string
-	 * @return string
-	 */
-	public function quote($string)
-	{
-		return $this->__getPdoObject()->query($string);
 	}
 }

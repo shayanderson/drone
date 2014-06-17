@@ -8,7 +8,7 @@
  *	- Database table names cannot include character '/'
  * 
  * @package PDOm
- * @version 1.2.b - May 06, 2014
+ * @version 1.3.b
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/pdom>

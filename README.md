@@ -215,7 +215,7 @@ drone()->route([
 // drone()->route('/account/:id', 'user->\AccountController->view', 
 //		function() { drone()->trigger('acl.auth'); });
 ```
-This example uses a route callable that will be called *after* the *before* hook and called *before* the controller file is loaded.
+This example uses a route callable that will be called *after* the *before* hook and called *before* the controller file is loaded. Route callables can be helpful when multiple routes use common events or logic, for example ACL authorization.
 
 <blockquote>A missing <code>Controller</code> class will trigger the 500 error handler</blockquote>
 

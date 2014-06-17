@@ -486,10 +486,6 @@ if(param('id') === false)
 	// the param 'id' does not exist
 }
 ```
-> The `param()` helper function supports an array key for route params that have array values (like [*wildcard*](https://github.com/shayanderson/drone#wildcard-route-parameters) route params), for example:
-```php
-$id = param('parts', 2);
-```
 
 #### Events
 Events are global callables that can be accessed from the application. Register an event example in `index.php`:

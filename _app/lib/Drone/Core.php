@@ -618,9 +618,10 @@ class Core
 	 *
 	 * @param string $path (or array for multiple load, ex: '/my/route/:param')
 	 * @param string $controller (ex: 'my/route', or with action: 'my/route->action')
+	 * @param mixed $callable (optional callable, triggered before controller load)
 	 * @return void
 	 */
-	public function route($path, $controller = null)
+	public function route($path, $controller = null, $callable = null)
 	{
 		if(is_array($path))
 		{
@@ -631,7 +632,7 @@ class Core
 			return;
 		}
 
-		$this->__routes[] = new Route($path, $controller);
+		$this->__routes[] = new Route($path, $controller, $callable);
 		$this->log->trace('Route registered: \'' . $path . '\'', Logger::CATEGORY_DRONE);
 	}
 
@@ -765,6 +766,11 @@ class Core
 							$this->set(self::KEY_ROUTE_ACTION, $r->getAction());
 						}
 
+						if($r->isCallable())
+						{
+							$route_callable = $r->getCallable();
+						}
+
 						$this->view->setRouteParams($r->getParams()); // set route params
 
 						$this->log->trace('Route (mapped) detected: \'' . $r->getPath() . '\'',
@@ -832,6 +838,12 @@ class Core
 						$hook();
 					}
 					unset($hook);
+				}
+
+				if(isset($route_callable)) // trigger route callable
+				{
+					$this->log->trace('Calling route callable', Logger::CATEGORY_DRONE);
+					$route_callable();
 				}
 
 				$this->log->trace('Loading controller: \'' . $this->get(self::KEY_ROUTE_CONTROLLER) . '\'',

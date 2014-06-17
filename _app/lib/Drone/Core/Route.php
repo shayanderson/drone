@@ -36,6 +36,13 @@ class Route
 	private $__action;
 
 	/**
+	 * Route callable (called before controller load)
+	 *
+	 * @var mixed
+	 */
+	private $__callable;
+
+	/**
 	 * Route controller class name
 	 *
 	 * @var string
@@ -68,8 +75,9 @@ class Route
 	 *
 	 * @param string $path
 	 * @param string $controller
+	 * @param mixed $callable
 	 */
-	public function __construct($path, $controller)
+	public function __construct($path, $controller, $callable)
 	{
 		$this->__path = $path;
 
@@ -91,6 +99,8 @@ class Route
 		{
 			$this->__controller = $controller;
 		}
+
+		$this->__callable = $callable;
 	}
 
 	/**
@@ -121,6 +131,16 @@ class Route
 	public function getAction()
 	{
 		return $this->__action;
+	}
+
+	/**
+	 * Route callable getter
+	 *
+	 * @return callable (or null on no callable)
+	 */
+	public function getCallable()
+	{
+		return $this->__callable;
 	}
 
 	/**
@@ -171,6 +191,16 @@ class Route
 	public function isAction()
 	{
 		return strlen($this->__action) > 0;
+	}
+
+	/**
+	 * Route has callable flag getter
+	 *
+	 * @return boolean
+	 */
+	public function isCallable()
+	{
+		return is_callable($this->__callable);
 	}
 
 	/**

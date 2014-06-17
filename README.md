@@ -211,6 +211,22 @@ Now the request `/user/5.htm` will be mapped to the controller file `_app/mod/us
 
 <blockquote>Mapped route lookups happen <i>before</i> static route lookups</blockquote>
 
+##### Optional Route Parameters
+*Optional* route params can be used, for example:
+```php
+drone()->route([
+	'/product/:category_id/:id?' => 'product->view',
+]);
+```
+Now the request `/product/14.htm` will route to the controller file with the param `category_id` with value `14`. Likewise, the request `/product/14/5.htm` will route to the controller file with the params `category_id` with value `14`, and the `id` param with value `5`, for example:
+```php
+$cat_id = param('category_id');
+if(param('id') !== false) // test if exists
+{
+	$id = param('id');
+}
+```
+
 ##### Wildcard Route Parameters
 *Wildcard* route params can be used, for example:
 ```php
@@ -238,9 +254,9 @@ $id = param('id'); // '4', alias: param(2)
 ```
 
 > *Duplicate Content Protection* <br />
-A request mapped to a route with wildcard params *must* end in '/' when not using wildcard params in the request, for example route `/route.htm` would result in a 404 error, but `/route/` will work.
+A request mapped to a route with *optional* or *wildcard* params *must* end in '/' when not using params in the request, for example route `/route.htm` would result in a 404 error, but `/route/` will work.
 
-> Likewise, a request mapped to a route with wildcard route params must *not* end in '/' when using wildcard params, for example route `/route/x/y/z/` would result in a 404 error, but `/route/x/y/z.htm` will work.
+> Likewise, a request mapped to a route with *optional* or *wildcard* route params must *not* end in '/' when using params, for example route `/route/x/y/z/` would result in a 404 error, but `/route/x/y/z.htm` will work.
 
 ## Controllers
 Controllers are files that may or may not contain a `Controller` class depending on if the requested route is mapped, and mapped with an action (see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)).

@@ -236,7 +236,7 @@ drone()->route([
 ```
 Now the request `/user/a/b/c.htm` will be mapped to the controller file with action and all params will become available, for example:
 ```php
-$params = [param(0), param(1), param(2)]; // ['a', 'b', 'c']
+$params = param(0, 1, 2); // ['a', 'b', 'c']
 // or set a single value
 $param = param(1); // 'b'
 ```

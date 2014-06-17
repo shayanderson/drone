@@ -208,7 +208,8 @@ Now the request `/user/5.htm` will be mapped to the controller file `_app/mod/us
 > Mapped routes can also use callables, for example:
 ```php
 drone()->route([
-	'/account/:id' => ['user->\AccountController->view', function() { drone()->trigger('acl.auth'); }],
+	'/account/:id' => ['user->\AccountController->view', 
+		function() { drone()->trigger('acl.auth'); }],
 ]);
 // or can be used like:
 // drone()->route('/account/:id', 'user->\AccountController->view', 

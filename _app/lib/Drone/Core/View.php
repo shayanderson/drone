@@ -132,7 +132,7 @@ class View
 	/**
 	 * Route param getter
 	 *
-	 * @param string $key
+	 * @param mixed $key (string for getter, null for get all, array for get multiple)
 	 * @return mixed (false on param does not exist)
 	 */
 	public function param($key)
@@ -140,6 +140,18 @@ class View
 		if(is_null($key)) // get all
 		{
 			return $this->__route_params;
+		}
+
+		if(is_array($key))
+		{
+			$out = [];
+
+			foreach($key as $v)
+			{
+				$out[$v] = $this->param($v);
+			}
+
+			return $out;
 		}
 
 		if(isset($this->__route_params[$key]) || array_key_exists($key, $this->__route_params))

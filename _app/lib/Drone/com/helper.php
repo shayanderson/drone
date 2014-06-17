@@ -165,7 +165,7 @@ function pa($v = null)
 /**
  * Route param getter (\Drone\Core->view->param() alias)
  *
- * @param string $key
+ * @param mixed $key (string for getter, null for get all, array for get multiple)
  * @return mixed (false on param does not exist)
  */
 function param($key)

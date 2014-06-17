@@ -218,34 +218,23 @@ drone()->route([
 	'/user/*' => 'user->view',
 ]);
 ```
-Now the request `/user/a/b/c.htm` will be mapped to the controller file with action and all params will become route param `params`, for example:
+Now the request `/user/a/b/c.htm` will be mapped to the controller file with action and all params will become available, for example:
 ```php
-$params = param('params'); // ['a', 'b', 'c']
-// or get a single value from 'params' array
-$param = param('params', 1); // 'b'
-```
-Or a param name can be used for wildcard route params, for example:
-```php
-drone()->route([
-	'/user/:data*' => 'user->view',
-]);
-```
-Now the params are accessed using the `data` key:
-```php
-$params = param('data'); // ['a', 'b', 'c']
+$params = [param(0), param(1), param(2)]; // ['a', 'b', 'c']
+// or set a single value
+$param = param(1); // 'b'
 ```
 Wildcard route param labels can also be used, for example
 ```php
 drone()->route([
-	'/product/:data*(:category/:subcat/:id)' => 'product->view',
-	// can also use no param name, example: '/product/*(:category/...'
+	'/product/*(:category/:subcat/:id)' => 'product->view',
 ]);
 ```
 Now the params can be accessed using the param labels, for example the request `/product/category1/category2/4.htm` would be used like:
 ```php
-$category = param('data', 'category'); // 'category1', alias: param('data', 0)
-$subcategory = param('data', 'subcat'); // 'category2', alias: param('data', 1)
-$id = param('data', 'id'); // '4', alias: param('data', 2)
+$category = param('category'); // 'category1', alias: param(0)
+$subcategory = param('subcat'); // 'category2', alias: param(1)
+$id = param('id'); // '4', alias: param(2)
 ```
 
 > *Duplicate Content Protection* <br />

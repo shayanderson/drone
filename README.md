@@ -486,6 +486,7 @@ if(param('id') === false)
 	// the param 'id' does not exist
 }
 ```
+> [Optional](https://github.com/shayanderson/drone#optional-route-parameters) and [Wildcard](https://github.com/shayanderson/drone#wildcard-route-parameters) route params are also available
 
 #### Events
 Events are global callables that can be accessed from the application. Register an event example in `index.php`:

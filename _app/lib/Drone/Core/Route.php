@@ -213,7 +213,7 @@ class Route
 				unset($labels); // cleanup
 			}
 		}
-		// test for optional params, ex: ex: '/route/:param1/:param2?)'
+		// test for optional params, ex: '/route/:param1/:param2?)'
 		else if(strpos($this->__path, self::PARAM_OPTIONAL_CHARACTER) !== false)
 		{
 			$is_protect = true;

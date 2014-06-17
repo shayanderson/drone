@@ -154,6 +154,16 @@ class Route
 	}
 
 	/**
+	 * Route path getter
+	 *
+	 * @return string
+	 */
+	public function getPath()
+	{
+		return $this->__path;
+	}
+
+	/**
 	 * Route has action flag getter
 	 *
 	 * @return boolean

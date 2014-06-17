@@ -767,8 +767,8 @@ class Core
 
 						$this->view->setRouteParams($r->getParams()); // set route params
 
-						$this->log->trace('Route (mapped) detected: \''
-							. $this->get(self::KEY_ROUTE_CONTROLLER) . '\'', Logger::CATEGORY_DRONE);
+						$this->log->trace('Route (mapped) detected: \'' . $r->getPath() . '\'',
+							Logger::CATEGORY_DRONE);
 						break;
 					}
 				}

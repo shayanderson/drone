@@ -506,6 +506,12 @@ Multiple params can also be fetched, for example:
 ```php
 $params = param('id', 'name'); // ['x', 'y']
 ```
+All params can be fetched using:
+```php
+$params = param(null); ['id' => 'x', 'name' => 'y', ...]
+// or count all params:
+if(count(params(null)) > 2) // more than 2 params
+```
 > [*Optional*](https://github.com/shayanderson/drone#optional-route-parameters) and [*wildcard*](https://github.com/shayanderson/drone#wildcard-route-parameters) route params are also available
 
 #### Events

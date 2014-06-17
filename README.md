@@ -502,6 +502,10 @@ if(param('id') === false)
 	// the param 'id' does not exist
 }
 ```
+Multiple params can also be fetched, for example:
+```php
+$params = param('id', 'name'); // ['x', 'y']
+```
 > [*Optional*](https://github.com/shayanderson/drone#optional-route-parameters) and [*wildcard*](https://github.com/shayanderson/drone#wildcard-route-parameters) route params are also available
 
 #### Events

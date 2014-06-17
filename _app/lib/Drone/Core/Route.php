@@ -22,9 +22,11 @@ class Route
 	const ACTION_SEPARATOR = '->';
 
 	/**
-	 * Route parameter wildcard character
+	 * Route parameter special characters
 	 */
-	const PARAM_WILDCARD_CHARACTER = '*';
+	const
+		PARAM_OPTIONAL_CHARACTER = '?',
+		PARAM_WILDCARD_CHARACTER = '*';
 
 	/**
 	 * Route action
@@ -171,40 +173,98 @@ class Route
 	{
 		$route = explode('/', $this->__path);
 		$request = explode('/', $request_path);
+		$is_protect = false; // dup content protection flag
 
-		// test wildcard params + wildcard route key
-		$route_key_wildcard = strpos($this->__path, self::PARAM_WILDCARD_CHARACTER) !== false
-			? self::__arraySearchSubstring($route, self::PARAM_WILDCARD_CHARACTER) : false;
-
-		if($route_key_wildcard !== false) // wildcard params
+		if(substr($request_path, -1) === '/') // rm last empty element if request like '/route/'
 		{
-			$params_wildcard_labels = [];
+			array_pop($request);
+		}
 
-			// test wildcard param labels, ex: '/route/*(:param1/:param2)'
-			if(($p1 = strpos($this->__path, '(')) !== false && strpos($this->__path, ')') !== false)
+		// test for wildcard params, ex: '/route/*'
+		if(($pos = strpos($this->__path, self::PARAM_WILDCARD_CHARACTER)) !== false)
+		{
+			$is_protect = true;
+
+			// set wildcard location (array key)
+			$key = self::__arraySearchSubstring($route, self::PARAM_WILDCARD_CHARACTER);
+
+			if($key > 0)
 			{
-				$params_wildcard_labels = explode('/', substr(str_replace(':', '', rtrim($this->__path, ')')), $p1));
-				$this->__path = substr($this->__path, 0, $p1); // rm labels from path
-				$route = explode('/', $this->__path); // reset route
+				$params = $labels = [];
+
+				// test for wildcard param labels, ex: '/route/*(:param1/:param2)'
+				if(substr($this->__path, $pos + 1, 1) === '(' && substr($this->__path, -1) === ')')
+				{
+					$labels = explode('/', substr(rtrim($this->__path, ')'), $pos + 2));
+				}
+
+				foreach(array_slice($request, $key) as $k => $v)
+				{
+					$params[$k] = $v;
+
+					if(isset($labels[$k]))
+					{
+						$params[str_replace(':', '', $labels[$k])] = $v;
+					}
+				}
+
+				$route = array_slice($route, 0, $key); // rm wildcard params from route
+				$request = array_slice($request, 0, $key); // rm wildcard param values from request
+				unset($labels); // cleanup
+			}
+		}
+		// test for optional params, ex: ex: '/route/:param1/:param2?)'
+		else if(strpos($this->__path, self::PARAM_OPTIONAL_CHARACTER) !== false)
+		{
+			$is_protect = true;
+
+			if(count($route) !== count($request)) // rm optional params from route to match request
+			{
+				foreach($route as $k => $v)
+				{
+					if(!isset($request[$k]) && strpos($v, self::PARAM_OPTIONAL_CHARACTER) !== false)
+					{
+						unset($route[$k]);
+					}
+				}
 			}
 
-			// get wildcard param key, ex: '/:parts*' => 'parts'
-			$key_wildcard = str_replace([':', self::PARAM_WILDCARD_CHARACTER], '', $route[$route_key_wildcard]);
-			if(strlen($key_wildcard) < 1) // set default wildcard param key
+			// rm optional character
+			$route = array_map(function($v) { return str_replace(self::PARAM_OPTIONAL_CHARACTER, '', $v); },
+				$route);
+		}
+
+		if(count($route) !== count($request)) // not equal parts (+ not wildcard params)
+		{
+			return false;
+		}
+
+		if(!isset($params))
+		{
+			$params = []; // route params
+		}
+		else
+		{
+			$params = array_map(function($v) { return urldecode($v); }, $params); // filter
+		}
+
+		foreach($request as $k => $v)
+		{
+			if($v !== $route[$k]) // part does not match
 			{
-				$key_wildcard = 'params';
+				if($route[$k][0] !== ':') // param check
+				{
+					return false; // not param
+				}
+
+				$params[substr($route[$k], 1)] = urldecode($v);
 			}
+		}
 
-			$route = array_slice($route, 0, $route_key_wildcard); // rm wildcard
-			$params_wildcard = array_slice($request, $route_key_wildcard); // set wildcard params
-
-			if(substr($request_path, -1) === '/') // last param is empty
-			{
-				array_pop($params_wildcard);
-			}
-			$request = array_slice($request, 0, $route_key_wildcard); // rm wildcard param values
-
-			if(count($params_wildcard) < 1)
+		// dup content protection
+		if($is_protect)
+		{
+			if(count($params) < 1)
 			{
 				// route with wildcard params must end in '/' when using no params (dup content protection)
 				// ex: '/route/', not allowed: '/route.htm'
@@ -221,40 +281,7 @@ class Route
 			}
 		}
 
-		if(count($route) !== count($request)) // not equal parts (+ not wildcard params)
-		{
-			return false;
-		}
-
-		$params = []; // tmp params
-
-		if(isset($params_wildcard)) // add wildcard params
-		{
-			$params[$key_wildcard] = array_map('urldecode', $params_wildcard);
-
-			foreach($params_wildcard_labels as $k => $v) // add wildcard labels (keys) and values
-			{
-				if(isset($params[$key_wildcard][$k]))
-				{
-					$params[$key_wildcard][$v] = $params[$key_wildcard][$k];
-				}
-			}
-		}
-
-		foreach($request as $k => $v)
-		{
-			if($v !== $route[$k]) // part does not match
-			{
-				if($route[$k][0] !== ':') // param check
-				{
-					return false; // not param
-				}
-
-				$params[substr($route[$k], 1)] = urldecode($v);
-			}
-		}
-
-		// set perm params
+		// set route params
 		$this->__params = &$params;
 
 		return true; // all parts match

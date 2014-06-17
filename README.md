@@ -508,7 +508,7 @@ $params = param('id', 'name'); // ['x', 'y']
 ```
 All params can be fetched using:
 ```php
-$params = param(null); ['id' => 'x', 'name' => 'y', ...]
+$params = param(null); // ['id' => 'x', 'name' => 'y', ...]
 // or count all params:
 if(count(params(null)) > 2) // more than 2 params
 ```

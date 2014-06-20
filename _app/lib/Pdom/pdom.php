@@ -8,7 +8,7 @@
  *	- Database table names cannot include characters '.', '/', ':' or ' ' (whitespace)
  * 
  * @package PDOm
- * @version 1.4.b
+ * @version 1.0.4.b
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/pdom>
@@ -39,14 +39,11 @@ use Pdom\Pdo;
  *		key			(get/set table primary key column name, default 'id')
  *		log			(get debug log, debugging must be turned on)
  *		mod			(also update, update record(s))
- *		optimize	(optimize table)
  *		query		(execute manual query)
- *		repair		(repair table)
  *		replace		(replace record)
  *		rollback	(rollback transaction)
  *		tables		(show database tables)
  *		transaction	(start transaction)
- *		truncate	(truncate table)
  */
 function pdom($cmd, $_ = null)
 {
@@ -399,10 +396,6 @@ function pdom($cmd, $_ = null)
 					}
 					break;
 
-				case 'optimize': // optimize table
-					return Pdo::connection($id)->query('OPTIMIZE TABLE ' . $table);
-					break;
-
 				case 'pagination': // pagination params getter/setter
 					if(isset($args[0]) && is_array($args[0])) // setter
 					{
@@ -424,10 +417,6 @@ function pdom($cmd, $_ = null)
 
 				case 'query': // manual query
 					return Pdo::connection($id)->query(trim($sql), isset($args[0]) ? $args[0] : null);
-					break;
-
-				case 'repair': // repair table
-					return Pdo::connection($id)->query('REPAIR TABLE ' . $table);
 					break;
 
 				case 'replace':
@@ -493,10 +482,6 @@ function pdom($cmd, $_ = null)
 
 				case 'transaction': // begin transaction
 					return Pdo::connection($id)->__getPdoObject()->beginTransaction();
-					break;
-
-				case 'truncate':
-					return Pdo::connection($id)->query('TRUNCATE ' . $table);
 					break;
 
 				default: // unknown command

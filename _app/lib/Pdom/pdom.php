@@ -5,10 +5,10 @@
  * Requirements:
  *	- PHP 5.4+
  *	- PHP PDO database extension <http://www.php.net/manual/en/book.pdo.php>
- *	- Database table names cannot include character '/'
+ *	- Database table names cannot include characters '.', '/', ':' or ' ' (whitespace)
  * 
  * @package PDOm
- * @version 1.3.b
+ * @version 1.4.b
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/pdom>
@@ -37,12 +37,12 @@ use Pdom\Pdo;
  *		error_last	(get last error, when error has occurred)
  *		id			(get last insert ID)
  *		key			(get/set table primary key column name, default 'id')
- *		keys		(get/set multiple primary key column names)
  *		log			(get debug log, debugging must be turned on)
  *		mod			(also update, update record(s))
  *		optimize	(optimize table)
  *		query		(execute manual query)
  *		repair		(repair table)
+ *		replace		(replace record)
  *		rollback	(rollback transaction)
  *		tables		(show database tables)
  *		transaction	(start transaction)
@@ -50,43 +50,25 @@ use Pdom\Pdo;
  */
 function pdom($cmd, $_ = null)
 {
-	if(is_array($cmd)) // connection/config
-	{
-		return Pdo::connection($cmd); // register connection, return connection ID
-	}
-	else if(is_null($cmd)) // debugger, connection/config getter
-	{
-		$debug = [];
-
-		foreach(Pdo::connection(null) as $k)
-		{
-			$debug[$k] = [
-				'conf' => Pdo::connection($k)->conf(null),
-				'keys' => Pdo::connection($k)->key(null),
-				'log' => Pdo::connection($k)->log()
-			];
-		}
-
-		return $debug;
-	}
-	else // parse command
+	if(is_string($cmd)) // parse command
 	{
 		$args = func_get_args();
 		array_shift($args); // rm table
 
 		$id = 1; // default ID
-		$params = [];
 		static $pagination = ['rpp' => 10, 'page' => 1];
-		$option = null;
+		$params = [];
+		$option = $sql = '';
 		$is_return_qs = $is_pagination = false;
 
-		if(preg_match('/^\[(\d+)\].*/', $cmd, $m)) // match '[id]table', connection ID?
+		if($cmd[0] === '[' && preg_match('/^\[(\d+)\]/', $cmd, $m)) // match '[id]table', connection ID
 		{
 			$id = $m[1];
 			$cmd = preg_replace('/^\[(\d+)\]/', '', $cmd);
 		}
 
-		if(preg_match_all('/\/([a-zA-Z_]+)/', $cmd, $m)) // match '...xyz/option'
+		if(strpos($cmd, '/') !== false && preg_match_all('/\/([a-zA-Z_]+)/',  // match '...xyz/option'
+				( ($pos = strpos($cmd, ' ')) !== false ? substr($cmd, 0, $pos) : $cmd ), $m))
 		{
 			foreach($m[1] as $opt)
 			{
@@ -104,39 +86,57 @@ function pdom($cmd, $_ = null)
 					$option .= ' ' . $opt;
 				}
 			}
-			$cmd = preg_replace('/\/[a-zA-Z_]+/', '', $cmd);
+
+			// rm option(s)
+			if($pos === false)
+			{
+				$cmd = preg_replace('/\/[a-zA-Z_]+/', '', $cmd);
+			}
+			else
+			{
+				$cmd = preg_replace('/\/[a-zA-Z_]+/', '', substr($cmd, 0, $pos)) . substr($cmd, $pos);
+			}
 		}
 
-		if(strpos($cmd, ':') === false) // SELECT command
+		if(strpos($cmd, ':') === false || !preg_match('/^[\w]*\:/', $cmd)) // SELECT command
 		{
-			preg_match('/^[\w]+\(([\w\,\s]+)\)/', $cmd, $m); // match 'table(f1, f2)', SELECT columns
 			$columns = '*';
-			if(isset($m[1]))
+			if(strpos($cmd, '(') !== false)
 			{
-				$columns = trim($m[1]);
-				$cmd = preg_replace('/\(([\w\,\s]+)\)/', '', $cmd); // match '(f1, f2)', rm columns
+				preg_match('/^[\w]+\(([\w\,\s]+)\)/', $cmd, $m); // match 'table(f1, f2)', SELECT columns
+				if(isset($m[1]))
+				{
+					$columns = trim($m[1]);
+					$cmd = preg_replace('/\(([\w\,\s]+)\)/', '', $cmd); // match '(f1, f2)', rm columns
+				}
 			}
-			$sql = '';
 
-			if(preg_match('/^[\w]+\.([\w]+)$/', $cmd, $m)) // match 'table.[id]'
+			if(($pos = strpos($cmd, ' ')) !== false) // set SQL, ex: 'users LIMIT 2' => 'LIMIT 2'
+			{
+				$sql = substr($cmd, $pos);
+				$cmd = substr($cmd, 0, $pos); // rm SQL from cmd
+			}
+
+			$stmt = '';
+			if(strpos($cmd, '.') !== false && preg_match('/^[\w]+\.([\w]+)$/', $cmd, $m)) // match 'table.[id]'
 			{
 				$cmd = substr($cmd, 0, strpos($cmd, '.')); // rm ID
 
-				$sql = ' WHERE ' . Pdo::connection($id)->key($cmd) . ' = '
+				$stmt = ' WHERE ' . Pdo::connection($id)->key($cmd) . ' = '
 					. Pdo::connection($id)->__getPdoObject()->quote($m[1]);
+
+				if(strcasecmp(substr($sql, 0, 6), ' WHERE') === 0) // convert 'WHERE x' to 'AND x'
+				{
+					$sql = ' AND ' . substr($sql, 6);
+				}
 			}
 
-			if(isset($args[0]) && is_scalar($args[0])) // SQL statement(s)
+			if(isset($args[0]) && is_array($args[0])) // SQL statement param(s)
 			{
-				$sql .= ' ' . $args[0];
+				$params = $args[0];
 			}
 
-			if(isset($args[1]) && is_array($args[1])) // SQL statement param(s)
-			{
-				$params = array_merge($params, $args[1]);
-			}
-
-			$q = 'SELECT' . $option . ' ' . $columns . ' FROM ' . $cmd . $sql;
+			$q = 'SELECT' . $option . ' ' . $columns . ' FROM ' . $cmd . $stmt . $sql;
 
 			if($is_pagination)
 			{
@@ -187,6 +187,12 @@ function pdom($cmd, $_ = null)
 		}
 		else // parse command
 		{
+			if(($pos = strpos($cmd, ' ')) !== false) // set SQL, ex: 'users LIMIT 2' => 'LIMIT 2'
+			{
+				$sql = substr($cmd, $pos);
+				$cmd = substr($cmd, 0, $pos); // rm SQL from cmd
+			}
+
 			$table = substr($cmd, 0, strpos($cmd, ':'));
 			$cmd = trim(substr($cmd, strpos($cmd, ':') + 1, strlen($cmd)));
 
@@ -239,7 +245,7 @@ function pdom($cmd, $_ = null)
 				case 'call': // call SP/SF
 					$params_str = '';
 
-					for($i = 1; $i <= count($args) - 1; $i++)
+					for($i = 0; $i <= count($args) - 1; $i++)
 					{
 						$sep = empty($params_str) ? '' : ', ';
 						if(!is_array($args[$i])) // param
@@ -247,13 +253,13 @@ function pdom($cmd, $_ = null)
 							$params_str .= $sep . '?';
 							$params[] = $args[$i];
 						}
-						else if(isset($args[$i]) && strlen($args[$i]) > 0) // plain SQL
+						else if(isset($args[$i][0]) && strlen($args[$i][0]) > 0) // plain SQL
 						{
-							$params_str .= $sep . implode('', $args[$i]);
+							$params_str .= $sep . $args[$i][0];
 						}
 					}
 
-					$q = 'CALL ' . ( isset($args[0]) ? $args[0] : '' ) . '(' . $params_str . ')';
+					$q = 'CALL' . $sql . '(' . $params_str . ')';
 
 					if($is_return_qs)
 					{
@@ -284,9 +290,8 @@ function pdom($cmd, $_ = null)
 					break;
 
 				case 'count': // count records
-					$r = Pdo::connection($id)->query('SELECT COUNT(1) AS count FROM ' . $table
-						. ( isset($args[0]) ? ' ' . $args[0] : '' ),
-						isset($args[1]) ? $args[1] : null);
+					$r = Pdo::connection($id)->query('SELECT COUNT(1) AS count FROM ' . $table . $sql,
+						isset($args[0]) ? $args[0] : null);
 
 					if(isset($r[0]))
 					{
@@ -302,8 +307,7 @@ function pdom($cmd, $_ = null)
 
 				case 'del': // delete
 				case 'delete':
-					$q = 'DELETE' . $option . ' FROM ' . $table
-						. ( isset($args[0]) ? ' ' . $args[0] : '' );
+					$q = 'DELETE' . $option . ' FROM ' . $table . $sql;
 
 					if($is_return_qs)
 					{
@@ -311,7 +315,7 @@ function pdom($cmd, $_ = null)
 					}
 					else
 					{
-						return Pdo::connection($id)->query($q, isset($args[1]) ? $args[1] : null);
+						return Pdo::connection($id)->query($q, isset($args[0]) ? $args[0] : null);
 					}
 					break;
 
@@ -328,24 +332,23 @@ function pdom($cmd, $_ = null)
 					break;
 
 				case 'key': // set/get table primary key column name
-					if(isset($args[0])) // setter
-					{
-						return Pdo::connection($id)->key($table, $args[0]);
-					}
-
-					return Pdo::connection($id)->key($table);
-					break;
-
-				case 'keys': // set/get multiple primary key column names
-					if(isset($args[0]) && is_array($args[0])) // setter
+					if(isset($args[0]) && is_array($args[0])) // array setter
 					{
 						foreach($args[0] as $k => $v)
 						{
 							Pdo::connection($id)->key($k, $v);
 						}
+
+						return Pdo::connection($id)->key(null);
 					}
 
-					return Pdo::connection($id)->key(null);
+					$sql = trim($sql);
+					if(strlen($sql) > 0) // setter
+					{
+						return Pdo::connection($id)->key($table, $sql);
+					}
+
+					return Pdo::connection($id)->key($table);
 					break;
 
 				case 'log': // log getter
@@ -379,13 +382,12 @@ function pdom($cmd, $_ = null)
 							. ' setting columns and values (use array or object)');
 					}
 
-					if(isset($args[2]) && is_array($args[2])) // statement params
+					if(isset($args[1]) && is_array($args[1])) // statement params
 					{
-						$params = array_merge($params, $args[2]);
+						$params = array_merge($params, $args[1]);
 					}
 
-					$q = 'UPDATE' . $option . ' ' . $table . ' SET ' . implode(', ', $values)
-						. ( isset($args[1]) ? ' ' . $args[1] : '' );
+					$q = 'UPDATE' . $option . ' ' . $table . ' SET ' . implode(', ', $values) . $sql;
 
 					if($is_return_qs)
 					{
@@ -421,12 +423,54 @@ function pdom($cmd, $_ = null)
 					break;
 
 				case 'query': // manual query
-					return Pdo::connection($id)->query(isset($args[0]) ? $args[0] : '',
-						isset($args[1]) ? $args[1] : null);
+					return Pdo::connection($id)->query(trim($sql), isset($args[0]) ? $args[0] : null);
 					break;
 
 				case 'repair': // repair table
 					return Pdo::connection($id)->query('REPAIR TABLE ' . $table);
+					break;
+
+				case 'replace':
+					if(is_object($args[0])) // object
+					{
+						$obj_arr = [];
+						foreach(get_object_vars($args[0]) as $k => $v)
+						{
+							$obj_arr[$k] = $v;
+						}
+
+						$args[0] = &$obj_arr;
+					}
+
+					$values = [];
+					foreach($args[0] as $k => $v)
+					{
+						if(is_array($v)) // plain SQL
+						{
+							if(isset($v[0]) && strlen($v[0]) > 0)
+							{
+								$values[] = $v[0];
+							}
+						}
+						else // named param
+						{
+							$params[$k] = $v;
+							$values[] = ':' . $k;
+						}
+					}
+
+					$q = 'REPLACE' . $option . ' INTO ' . $table . '('
+						. implode(', ', array_keys($args[0])) . ') VALUES('
+						. implode(', ', $values) . ')';
+
+					if($is_return_qs)
+					{
+						return $q;
+					}
+					else
+					{
+						return Pdo::connection($id)->query($q, $params);
+					}
 					break;
 
 				case 'rollback': // rollback transaction
@@ -460,5 +504,24 @@ function pdom($cmd, $_ = null)
 					break;
 			}
 		}
+	}
+	else if(is_array($cmd)) // connection/config
+	{
+		return Pdo::connection($cmd); // register connection, return connection ID
+	}
+	else if(is_null($cmd)) // debugger, connection/config getter
+	{
+		$debug = [];
+
+		foreach(Pdo::connection(null) as $k)
+		{
+			$debug[$k] = [
+				'conf' => Pdo::connection($k)->conf(null),
+				'keys' => Pdo::connection($k)->key(null),
+				'log' => Pdo::connection($k)->log()
+			];
+		}
+
+		return $debug;
 	}
 }

@@ -8,7 +8,7 @@
  *	- Database table names cannot include characters '.', '/', ':' or ' ' (whitespace)
  * 
  * @package PDOm
- * @version 1.0.4.b
+ * @version 0.0.4
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/pdom>
@@ -195,8 +195,9 @@ function pdom($cmd, $_ = null)
 
 			switch($cmd)
 			{
-				case 'add': // insert
+				case 'add': // insert|replace
 				case 'insert':
+				case 'replace':
 					if(is_object($args[0])) // object add
 					{
 						$obj_arr = [];
@@ -225,7 +226,7 @@ function pdom($cmd, $_ = null)
 						}
 					}
 
-					$q = 'INSERT' . $option . ' INTO ' . $table . '('
+					$q = ( $cmd == 'replace' ? 'REPLACE' : 'INSERT' ) . $option . ' INTO ' . $table . '('
 						. implode(', ', array_keys($args[0])) . ') VALUES('
 						. implode(', ', $values) . ')';
 
@@ -417,49 +418,6 @@ function pdom($cmd, $_ = null)
 
 				case 'query': // manual query
 					return Pdo::connection($id)->query(trim($sql), isset($args[0]) ? $args[0] : null);
-					break;
-
-				case 'replace':
-					if(is_object($args[0])) // object
-					{
-						$obj_arr = [];
-						foreach(get_object_vars($args[0]) as $k => $v)
-						{
-							$obj_arr[$k] = $v;
-						}
-
-						$args[0] = &$obj_arr;
-					}
-
-					$values = [];
-					foreach($args[0] as $k => $v)
-					{
-						if(is_array($v)) // plain SQL
-						{
-							if(isset($v[0]) && strlen($v[0]) > 0)
-							{
-								$values[] = $v[0];
-							}
-						}
-						else // named param
-						{
-							$params[$k] = $v;
-							$values[] = ':' . $k;
-						}
-					}
-
-					$q = 'REPLACE' . $option . ' INTO ' . $table . '('
-						. implode(', ', array_keys($args[0])) . ') VALUES('
-						. implode(', ', $values) . ')';
-
-					if($is_return_qs)
-					{
-						return $q;
-					}
-					else
-					{
-						return Pdo::connection($id)->query($q, $params);
-					}
 					break;
 
 				case 'rollback': // rollback transaction

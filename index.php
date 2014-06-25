@@ -26,9 +26,6 @@ autoload([
 // include helper functions
 require_once './_app/lib/Drone/com/helper.php';
 
-// include PDOm (MySQL database) support (optional)
-require_once './_app/com/pdom.bootstrap.php';
-
 
 //////////////////////////////////////////////////////////////////////////
 // Logging

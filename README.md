@@ -8,7 +8,6 @@
 - Logging / Debugging
 - Data Handling (filtering, formatting and validation)
 - Session Handling
-- Database Handling
 - Filesystem Handling
 
 #### Documentation Topics
@@ -105,7 +104,7 @@ Drone helper functions available:
 - [`format()`](https://github.com/shayanderson/drone#format) - format data (`drone()->data->format()` alias)
 - [`get()`](https://github.com/shayanderson/drone#parameters) - get param value (`drone()->get()` alias)
 - [`has()`](https://github.com/shayanderson/drone#parameters) - check if param exists (`drone()->has()` alias)
-- `load_com()` - load common file
+- `load_com()` - load common file from `_app/com` directory
 - [`logger()`](https://github.com/shayanderson/drone#logging) - `drone()->log` alias
 - `pa()` - string/array printer
 - [`param()`](https://github.com/shayanderson/drone#route-parameters) - get route param (similar to `view()->param()`)
@@ -953,6 +952,10 @@ File class methods:
 - `write()` - write data to file
 
 ## Database Handling
-Drone uses the [PDOm](https://github.com/shayanderson/pdom) PDO wrapper with MySQL support for database handling.
+Drone uses the [PDOm](https://github.com/shayanderson/pdom) PDO wrapper with MySQL support for database handling. PDOm is an optional library and must be installed.
 
-The PDOm bootstrap file is located by default at: `_app/com/pdom.bootstrap.php`
+Git clone: `git clone https://github.com/shayanderson/drone.git`
+Subversion checkout URL: `https://github.com/shayanderson/pdom`
+Download [ZIP file](https://github.com/shayanderson/pdom/archive/master.zip)
+
+To install PDOm put the bootstrap file in `_app/com/pdom.bootstrap.php` and put the `lib/Pdom` directory in the `_app/lib` directory.

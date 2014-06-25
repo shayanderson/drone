@@ -960,4 +960,4 @@ Get PDOm options:
 - Subversion checkout URL: `https://github.com/shayanderson/pdom`
 - Download [ZIP file](https://github.com/shayanderson/pdom/archive/master.zip)
 
-To install PDOm put the bootstrap file in `_app/com/pdom.bootstrap.php` and put the `lib/Pdom` directory in the `_app/lib` directory.
+To install PDOm put the bootstrap file in `_app/com/pdom.bootstrap.php`, put the `lib/Pdom` directory in the `_app/lib` directory, and include the `_app/com/pdom.bootstrap.php` in the `index.php` file.

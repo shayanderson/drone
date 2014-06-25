@@ -954,8 +954,10 @@ File class methods:
 ## Database Handling
 Drone uses the [PDOm](https://github.com/shayanderson/pdom) PDO wrapper with MySQL support for database handling. PDOm is an optional library and must be installed.
 
-Git clone: `git clone https://github.com/shayanderson/drone.git` <br />
-Subversion checkout URL: `https://github.com/shayanderson/pdom` <br />
-Download [ZIP file](https://github.com/shayanderson/pdom/archive/master.zip)
+Get PDOm options:
+
+- Git clone: `git clone https://github.com/shayanderson/drone.git`
+- Subversion checkout URL: `https://github.com/shayanderson/pdom`
+- Download [ZIP file](https://github.com/shayanderson/pdom/archive/master.zip)
 
 To install PDOm put the bootstrap file in `_app/com/pdom.bootstrap.php` and put the `lib/Pdom` directory in the `_app/lib` directory.

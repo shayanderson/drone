@@ -338,7 +338,7 @@ class Table
 			}
 
 			$i = $cells = 0;
-			foreach(isset($data) ? $data : $this->__data as $row)
+			foreach(isset($data) ? $data : $this->__data as $k => $row)
 			{
 				$i++;
 
@@ -349,8 +349,19 @@ class Table
 					$i = 0;
 				}
 
+				if($this->__index_row === 1 && $this->__headings === true) // auto headings
+				{
+					$headings = true;
+					$this->__headings = [];
+				}
+
 				if(!is_array($row)) // single row
 				{
+					if(isset($headings) && $this->__index_row === 1)
+					{
+						$this->__headings[] = $k; // auto heading
+					}
+
 					$this->__cell($html['body'], $row);
 				}
 				else // array row
@@ -363,17 +374,11 @@ class Table
 						}
 					}
 
-					if($this->__index_row === 1 && $this->__headings === true) // auto headings
-					{
-						$headings = true;
-						$this->__headings = [];
-					}
-
 					foreach($row as $k => $v)
 					{
 						if(isset($headings))
 						{
-							$this->__headings[] = $k;
+							$this->__headings[] = $k; // auto heading
 						}
 
 						$this->__cell($html['body'], $v);

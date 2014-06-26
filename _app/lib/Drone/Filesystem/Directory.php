@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
- * @version 1.0.1.b
+ * @version 0.1.2
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */

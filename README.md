@@ -8,7 +8,7 @@
 - **[Views](https://github.com/shayanderson/drone#views)**: [View Templates](https://github.com/shayanderson/drone#view-templates)
 - **[Logging](https://github.com/shayanderson/drone#logging)**: [Log Levels](https://github.com/shayanderson/drone#log-levels), [Log Configuration](https://github.com/shayanderson/drone#log-configuration), [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**: [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
-- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**: [Parameters](https://github.com/shayanderson/drone#parameters), [Route Parameters](https://github.com/shayanderson/drone#route-parameters), [Events](https://github.com/shayanderson/drone#events), [Hooks](https://github.com/shayanderson/drone#hooks), [Redirect](https://github.com/shayanderson/drone#redirect), [Headers](https://github.com/shayanderson/drone#headers), [Timers](https://github.com/shayanderson/drone#timers), [Stopping the Application](https://github.com/shayanderson/drone#stopping-the-application)
+- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**: [Parameters](https://github.com/shayanderson/drone#parameters), [Route Parameters](https://github.com/shayanderson/drone#route-parameters), [Events](https://github.com/shayanderson/drone#events), [Hooks](https://github.com/shayanderson/drone#hooks), [Redirect](https://github.com/shayanderson/drone#redirect), [Headers](https://github.com/shayanderson/drone#headers), [Timers](https://github.com/shayanderson/drone#timers), [Application Stop](https://github.com/shayanderson/drone#application-stop)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**: [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
 - **[Data Handling](https://github.com/shayanderson/drone#data-handling)**: [Filter](https://github.com/shayanderson/drone#filter), [Format](https://github.com/shayanderson/drone#format), [Validate](https://github.com/shayanderson/drone#validate)
@@ -537,7 +537,7 @@ drone()->timer('my_job'); // start timer at 0
 $elapsed_time = drone()->timer('my_job'); // 0.00014
 ```
 
-#### Stopping the Application
+#### Stop Application
 If the application needs to be stopped in a controller file it can be done manually:
 ```php
 drone()->stop(); // the application will stop

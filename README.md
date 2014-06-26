@@ -1,10 +1,19 @@
 # Drone
 ### Rapid Development Framework for PHP 5.5.0+
 
+#### Features
+- Class Autoloading
+- Routing (mapped and static)
+- Error Handling
+- Logging / Debugging
+- Data Handling (filtering, formatting and validation)
+- Session Handling
+- Filesystem Handling
+
 #### Documentation Topics
-| ------------------------------------- | ------------------------------------- |
-| - **[Quick Start](https://github.com/shayanderson/drone#quick-start)** | - **[Core Methods](https://github.com/shayanderson/drone#core-methods)** |
-| - [Directory Structure](https://github.com/shayanderson/drone#directory-structure) | - [Parameters](https://github.com/shayanderson/drone#parameters) |
+<table><tr><td>
+- **[Quick Start](https://github.com/shayanderson/drone#quick-start)**
+  - [Directory Structure](https://github.com/shayanderson/drone#directory-structure)
   - [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading)
   - [Drone Function](https://github.com/shayanderson/drone#drone-function)
   - [Helper Functions](https://github.com/shayanderson/drone#helper-functions)
@@ -23,9 +32,9 @@
   - [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**
   - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
-  
-
-
+</td><td>
+- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
+  - [Parameters](https://github.com/shayanderson/drone#parameters)
   - [Route Parameters](https://github.com/shayanderson/drone#route-parameters)
   - [Events](https://github.com/shayanderson/drone#events)
   - [Hooks](https://github.com/shayanderson/drone#hooks)
@@ -44,11 +53,7 @@
   - [Directory](https://github.com/shayanderson/drone#directory)
   - [File](https://github.com/shayanderson/drone#file)
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
-
-test | test
------ | -----
-1 | 2
-3 | 4
+</td></tr></table>
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.

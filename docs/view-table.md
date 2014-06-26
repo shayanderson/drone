@@ -49,6 +49,7 @@ Which outputs the table:
 Headings can be used:
 ```php
 view()->table = new \Drone\View\Table([1,2,3,4,5,6,7,8,9]);
+view()->table->columns = 3;
 view()->table->headings(); // use auto headings
 ```
 Which outputs the table:
@@ -62,6 +63,7 @@ Which outputs the table:
 When *auto* headings are used the array keys for the first row are used for the heading titles, for example:
 ```php
 view()->table = new \Drone\View\Table(['one' => 1, 'two' => 2, 'three' => 3,4,5,6,7,8,9]);
+view()->table->columns = 3;
 view()->table->headings(); // use auto headings
 ```
 Would output the table:
@@ -75,6 +77,7 @@ Would output the table:
 Manual heading titles can be used instead of auto titles:
 ```php
 view()->table = new \Drone\View\Table([1,2,3,4,5,6,7,8,9]);
+view()->table->columns = 3;
 view()->table->headings(['col1', 'col2', 'col3']); // use manual headings
 ```
 Outputs the table:

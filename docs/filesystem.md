@@ -1,7 +1,7 @@
 ## \Drone\Filesystem
 Drone offers filesystem support for directories and files.
 
-#### \Drone\Filesystem\Directory
+### \Drone\Filesystem\Directory
 The `\Drone\Filesystem\Directory` class can be used for directory handling, for example:
 ```php
 $dir = new \Drone\Filesystem\Directory('_app/my_dir');
@@ -19,7 +19,7 @@ Directory class methods:
 - `remove()`
 - `writable()`
 
-#### \Drone\Filesystem\File
+### \Drone\Filesystem\File
 The `\Drone\Filesystem\File` class can be used for file handling, for example:
 ```php
 $file = new \Drone\Filesystem\File('_app/my_file.txt');

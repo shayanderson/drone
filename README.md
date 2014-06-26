@@ -2,8 +2,9 @@
 ### Rapid Development Framework for PHP 5.5.0+
 
 #### Documentation Topics
-- **[Quick Start](https://github.com/shayanderson/drone#quick-start)**	|	- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
-  - [Directory Structure](https://github.com/shayanderson/drone#directory-structure)	|	  - [Parameters](https://github.com/shayanderson/drone#parameters)
+| ------------------------------------- | ------------------------------------- |
+| - **[Quick Start](https://github.com/shayanderson/drone#quick-start)** | - **[Core Methods](https://github.com/shayanderson/drone#core-methods)** |
+| - [Directory Structure](https://github.com/shayanderson/drone#directory-structure) | - [Parameters](https://github.com/shayanderson/drone#parameters) |
   - [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading)
   - [Drone Function](https://github.com/shayanderson/drone#drone-function)
   - [Helper Functions](https://github.com/shayanderson/drone#helper-functions)

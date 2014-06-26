@@ -45,6 +45,11 @@
   - [File](https://github.com/shayanderson/drone#file)
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
 
+test | test
+----- | -----
+1 | 2
+3 | 4
+
 ## Quick Start
 To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.
 

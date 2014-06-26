@@ -1,18 +1,7 @@
 # Drone
 ### Rapid Development Framework for PHP 5.5.0+
 
-#### Features
-- Class Autoloading
-- Routing (mapped and static)
-- Error Handling
-- Logging / Debugging
-- Data Handling (filtering, formatting and validation)
-- Session Handling
-- Filesystem Handling
-
 #### Documentation Topics
-<table><tr><td>
-
 - **[Quick Start](https://github.com/shayanderson/drone#quick-start)**
   - [Directory Structure](https://github.com/shayanderson/drone#directory-structure)
   - [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading)
@@ -33,9 +22,6 @@
   - [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**
   - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
-  
-</td><td>
-
 - **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
   - [Parameters](https://github.com/shayanderson/drone#parameters)
   - [Route Parameters](https://github.com/shayanderson/drone#route-parameters)
@@ -56,8 +42,6 @@
   - [Directory](https://github.com/shayanderson/drone#directory)
   - [File](https://github.com/shayanderson/drone#file)
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
-
-</td></tr></table>
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.

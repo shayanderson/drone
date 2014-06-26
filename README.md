@@ -2,13 +2,7 @@
 ### Rapid Development Framework for PHP 5.5.0+
 
 #### Documentation Topics
-- **[Quick Start](https://github.com/shayanderson/drone#quick-start)**
-  - [Directory Structure](https://github.com/shayanderson/drone#directory-structure)
-  - [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading)
-  - [Drone Function](https://github.com/shayanderson/drone#drone-function)
-  - [Helper Functions](https://github.com/shayanderson/drone#helper-functions)
-  - [Settings](https://github.com/shayanderson/drone#settings)
-  - [Run Application](https://github.com/shayanderson/drone#run-application)
+- **[Quick Start](https://github.com/shayanderson/drone#quick-start)** ([Directory Structure](https://github.com/shayanderson/drone#directory-structure), [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application))
 - **[Routes](https://github.com/shayanderson/drone#routes)**
   - [Static Routes](https://github.com/shayanderson/drone#static-routes)
   - [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)

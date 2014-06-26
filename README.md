@@ -2,35 +2,17 @@
 ### Rapid Development Framework for PHP 5.5.0+
 
 #### Documentation Topics
-- **[Quick Start](https://github.com/shayanderson/drone#quick-start):** [Directory Structure](https://github.com/shayanderson/drone#directory-structure), [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)
+- **[Quick Start](https://github.com/shayanderson/drone#quick-start)**: [Directory Structure](https://github.com/shayanderson/drone#directory-structure), [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)
 - **[Routes](https://github.com/shayanderson/drone#routes)**: [Static Routes](https://github.com/shayanderson/drone#static-routes), [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)
 - **[Controllers](https://github.com/shayanderson/drone#controllers)**: [Controller Class](https://github.com/shayanderson/drone#controller-class)
 - **[Views](https://github.com/shayanderson/drone#views)**: [View Templates](https://github.com/shayanderson/drone#view-templates)
-- **[Logging](https://github.com/shayanderson/drone#logging)**
-  - [Log Levels](https://github.com/shayanderson/drone#log-levels)
-  - [Log Configuration](https://github.com/shayanderson/drone#log-configuration)
-  - [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
-- **[Error Handling](https://github.com/shayanderson/drone#error-handling)**
-  - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
-- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
-  - [Parameters](https://github.com/shayanderson/drone#parameters)
-  - [Route Parameters](https://github.com/shayanderson/drone#route-parameters)
-  - [Events](https://github.com/shayanderson/drone#events)
-  - [Hooks](https://github.com/shayanderson/drone#hooks)
-  - [Redirect](https://github.com/shayanderson/drone#redirect)
-  - [Headers](https://github.com/shayanderson/drone#headers)
-  - [Timers](https://github.com/shayanderson/drone#timers)
-  - [Stopping the Application](https://github.com/shayanderson/drone#stopping-the-application)
+- **[Logging](https://github.com/shayanderson/drone#logging)**: [Log Levels](https://github.com/shayanderson/drone#log-levels), [Log Configuration](https://github.com/shayanderson/drone#log-configuration), [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
+- **[Error Handling](https://github.com/shayanderson/drone#error-handling)**: [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
+- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**: [Parameters](https://github.com/shayanderson/drone#parameters), [Route Parameters](https://github.com/shayanderson/drone#route-parameters), [Events](https://github.com/shayanderson/drone#events), [Hooks](https://github.com/shayanderson/drone#hooks), [Redirect](https://github.com/shayanderson/drone#redirect), [Headers](https://github.com/shayanderson/drone#headers), [Timers](https://github.com/shayanderson/drone#timers), [Stopping the Application](https://github.com/shayanderson/drone#stopping-the-application)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
-- **[Session Handling](https://github.com/shayanderson/drone#session-handling)**
-  - [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
-- **[Data Handling](https://github.com/shayanderson/drone#data-handling)**
-  - [Filter](https://github.com/shayanderson/drone#filter)
-  - [Format](https://github.com/shayanderson/drone#format)
-  - [Validate](https://github.com/shayanderson/drone#validate)
-- **[Filesystem](https://github.com/shayanderson/drone#filesystem)**
-  - [Directory](https://github.com/shayanderson/drone#directory)
-  - [File](https://github.com/shayanderson/drone#file)
+- **[Session Handling](https://github.com/shayanderson/drone#session-handling)**: [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
+- **[Data Handling](https://github.com/shayanderson/drone#data-handling)**: [Filter](https://github.com/shayanderson/drone#filter), [Format](https://github.com/shayanderson/drone#format), [Validate](https://github.com/shayanderson/drone#validate)
+- **[Filesystem](https://github.com/shayanderson/drone#filesystem)**: [Directory](https://github.com/shayanderson/drone#directory), [File](https://github.com/shayanderson/drone#file)
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
 
 ## Quick Start

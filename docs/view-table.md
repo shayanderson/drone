@@ -32,12 +32,7 @@ view()->table = new \Drone\View\Table([1,2,3,4,5,6,7,8,9]);
 view()->table->columns = 3; // set number of table columns to 3
 ```
 Which outputs the table:
-
-|  |  |  |
-| --- | --- | --- |
-| 1 | 2 | 3 |
-| 4 | 5 | 6 |
-| 7 | 8 | 9 |
+<table><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr><tr><td>7</td><td>8</td><td>9</td></tr></table>
 
 The data can be displayed vertically using:
 ```php
@@ -46,8 +41,4 @@ view()->table->columns = 3;
 view()->table->columns_vertical = true; // force vertical table data
 ```
 Which outputs the table:
-
-| --- | --- | --- |
-| 1 | 4 | 7 |
-| 2 | 5 | 8 |
-| 3 | 6 | 9 |
+<table><tr><td>1</td><td>4</td><td>7</td></tr><tr><td>2</td><td>5</td><td>8</td></tr><tr><td>3</td><td>6</td><td>9</td></tr></table>

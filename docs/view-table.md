@@ -67,7 +67,7 @@ view()->table->headings(); // use auto headings
 Would output the table:
 
 | one | two | three |
-| -- | -- | -- |
+| --- | --- | --- |
 | 1 | 2 | 3 |
 | 4 | 5 | 6 |
 | 7 | 8 | 9 |
@@ -80,7 +80,7 @@ view()->table->headings(['col1', 'col2', 'col3']); // use manual headings
 Outputs the table:
 
 | col1 | col2 | col3 |
-| -- | -- | -- |
+| --- | --- | --- |
 | 1 | 2 | 3 |
 | 4 | 5 | 6 |
 | 7 | 8 | 9 |

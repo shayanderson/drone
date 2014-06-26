@@ -33,7 +33,6 @@ view()->table->columns = 3; // set number of table columns to 3
 ```
 Which outputs the table:
 
-| --- | --- | --- |
 | 1 | 2 | 3 |
 | 4 | 5 | 6 |
 | 7 | 8 | 9 |
@@ -46,7 +45,6 @@ view()->table->columns_vertical = true; // force vertical table data
 ```
 Which outputs the table:
 
-| --- | --- | --- |
 | 1 | 4 | 7 |
 | 2 | 5 | 8 |
 | 3 | 6 | 9 |

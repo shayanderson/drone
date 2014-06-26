@@ -12,6 +12,7 @@
 
 #### Documentation Topics
 <table><tr><td>
+
 - **[Quick Start](https://github.com/shayanderson/drone#quick-start)**
   - [Directory Structure](https://github.com/shayanderson/drone#directory-structure)
   - [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading)
@@ -32,7 +33,9 @@
   - [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**
   - [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
+  
 </td><td>
+
 - **[Core Methods](https://github.com/shayanderson/drone#core-methods)**
   - [Parameters](https://github.com/shayanderson/drone#parameters)
   - [Route Parameters](https://github.com/shayanderson/drone#route-parameters)
@@ -53,6 +56,7 @@
   - [Directory](https://github.com/shayanderson/drone#directory)
   - [File](https://github.com/shayanderson/drone#file)
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
+
 </td></tr></table>
 
 ## Quick Start

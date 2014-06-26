@@ -12,8 +12,9 @@
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**: [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
 - **[Data Handling](https://github.com/shayanderson/drone#data-handling)**: [Filter](https://github.com/shayanderson/drone#filter), [Format](https://github.com/shayanderson/drone#format), [Validate](https://github.com/shayanderson/drone#validate)
-- **[Filesystem](https://github.com/shayanderson/drone#filesystem)**: [Directory](https://github.com/shayanderson/drone#directory), [File](https://github.com/shayanderson/drone#file)
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
+- Helper Classes
+  - **[Filesystem](https://github.com/shayanderson/drone#filesystem)**: [Directory](https://github.com/shayanderson/drone#directory), [File](https://github.com/shayanderson/drone#file)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.

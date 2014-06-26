@@ -54,7 +54,7 @@ view()->table->headings(); // use auto headings
 Which outputs the table:
 
 | 0 | 1 | 2 |
-| -- | -- | -- |
+| --- | --- | --- |
 | 1 | 2 | 3 |
 | 4 | 5 | 6 |
 | 7 | 8 | 9 |

@@ -99,6 +99,40 @@ Will output the HTML:
 ```
 > A decorator can use the pattern like `{$string}<br />`, or simply `{$}<br />`, or if no `{$...}<br />` pattern is found the decorator is added to the end of the string like `[string]<br />`.
 
+### Form Validator Methods
+Form field validation methods can be used to validate form data, for example:
+```php
+view()->form
+	// add text field
+	->text('username')
+		->validateRequired('Username is required')
+		->validateLength(4, 30, 'Username must be between 4-30 characters');
+```
+Will apply the required and length validation rules.
+
+Custom validation rules can also be used, for example:
+```php
+view()->form
+	// add text field
+	->text('username')
+		->validate(function($v) { return $v !== 'some value'; }, 'Username field value does not equal \'some value\'');
+```
+This custom validation rule will flag the field value invalid if the value does not equal `some value`.
+
+Forced errors can be used, for example:
+```php
+view()->form
+	->text('username');
+	
+// do some logic to check valid login
+if(!$valid_login)
+{
+	view()->form->field('username')->forceError('Invalid username and/or password');
+}
+```
+Now if the login is invalid the error will be displayed to the user in the view template file.
+> The method `field()` is used to make form object to refocus on a specific field
+
 ### Form Field Errors
 Form field validation errors (and *forced* errors) can be displayed using two methods:
 
@@ -127,7 +161,7 @@ The `getErrors` method will display all field errors, for example in the view te
 <label>Username:</label>
 <?php echo $form->get('username'); // display username field ?><br />
 ```
-Now if the form is submitted with no value for field `username` the HTML displayed will be `Username is required<br />Username must be between 4-30 characters`. 
+Now if the form is submitted with no value for field `username` the HTML displayed will be `Username is required<br />Username must be between 4-30 characters<br />`. 
 > The `<br />` string used as the second param is the decorator.
 
 

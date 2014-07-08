@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
- * @version 0.1.2
+ * @version 0.1.3
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -158,7 +158,7 @@ function pa($v = null)
 		foreach(func_get_args() as $arg) pa($arg);
 		return;
 	}
-	echo is_scalar($v) ? $v . ( PHP_SAPI === 'cli' ? PHP_EOL : '<br />' )
+	echo is_scalar($v) || $v === null ? $v . ( PHP_SAPI === 'cli' ? PHP_EOL : '<br />' )
 		: ( PHP_SAPI === 'cli' ? print_r($v, true) : '<pre>' . print_r($v, true) . '</pre>' );
 }
 

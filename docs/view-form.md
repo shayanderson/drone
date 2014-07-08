@@ -59,14 +59,8 @@ The `\Drone\View\Form` class uses the following methods for adding fields:
 
 ### Form Field Attributes
 Form field attributes are added in the view template file, for example:
-```php
-view()->form
-	// add text field
-	->text('username', ['class' => 'textclass', 'maxlength' => 30])
-```
-Now in the view template:
 ```html+php
-<?=$form->get('username')?>
+<?=$form->get('username', ['class' => 'textclass', 'maxlength' => 30])?>
 ```
 Will output the HTML:
 ```html

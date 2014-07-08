@@ -45,9 +45,9 @@ Then in the view template display form:
 	<input type="submit" value="Login" />
 </form>
 ```
-> When setting the form object the `form_id` param is optional - it is used to detect when an exact form is submitted. When using the `form_id` make sure to include the `<?=$form->getFormIdField()?>` (or `<?=$form?>`) code to ensure the form ID will be used.
+> When setting the form object the `form_id` param is optional - it is used to detect when an exact form is submitted. When using the `form_id` make sure to include the `<?=$form->getFormIdField()?>` (or `<?=$form?>`) code in the view template to ensure the form ID will be used.
 
-<blockquote>The form object will auto sanitize form data - to disable auto sanitizing set the object using a `false` flag as the third param: <code>view()->form = new \Drone\View\Form($_POST, 'login_form', false);</code></blockquote>
+<blockquote>The form object will auto sanitize form data - to disable auto sanitizing set the object using a <code>false</code> flag as the third param: <code>view()->form = new \Drone\View\Form($_POST, 'login_form', false);</code></blockquote>
 
 ### Form Fields
 The `\Drone\View\Form` class uses the following methods for adding fields:

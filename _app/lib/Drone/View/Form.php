@@ -510,7 +510,22 @@ class Form
 		}
 		else if($fields === null) // get all
 		{
-			return $this->__data;
+			if(!$return_object)
+			{
+				return $this->__data;
+			}
+
+			$out = $this->__data;
+
+			foreach($out as &$v)
+			{
+				if(is_array($v))
+				{
+					$v = (object)$v;
+				}
+			}
+
+			return (object)$out;
 		}
 		else if(isset($this->__data[$fields])) // get single value
 		{

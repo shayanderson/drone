@@ -131,7 +131,7 @@ if(!$valid_login)
 }
 ```
 Now if the login is invalid the error will be displayed to the user in the view template file.
-> The method `field()` is used to make form object to refocus on a specific field
+> The method `field()` is used to make the form object refocus on a specific field
 
 ### Form Field Errors
 Form field validation errors (and *forced* errors) can be displayed using two methods:
@@ -164,6 +164,39 @@ The `getErrors` method will display all field errors, for example in the view te
 Now if the form is submitted with no value for field `username` the HTML displayed will be `Username is required<br />Username must be between 4-30 characters<br />`. 
 > The `<br />` string used as the second param is the decorator.
 
+All form field errors can be fetched using `null` in place of the field name:
+```html+php
+<?php echo $form->getErrors(null, '<br />'); // display all form field errors ?>
+```
 
+### Accessing Form Data
+Form field data is accessed using the `getData()` method:
+```php
+view()->form
+	->text('username')
+	->text('first_name')
+	->password('pwd');
 
-
+if(view()->form->isSubmitted())
+{
+	$username = view()->form->getData('username');
+	$fname = view()->form->getData('first_name');
+	$password = view()->form->getData('password');
+}
+```
+Or the data can be returned as an object:
+```php
+	$data = view()->form->getData(); // stdClass Object(['username' => x, 'first_name' => y, 'pwd' => z])
+```
+Or the data can be returned as array:
+```php
+	$data = view()->form->getData(null, false); // ['username' => x, 'first_name' => y, 'pwd' => z]
+```
+Or the data can be returned for specific fields:
+```php
+	$data = view()->form->getData(['username', 'pwd']); // stdClass Object(['username' => x, 'pwd' => y])
+```
+Or the data for fields can be mapped to different keys:
+```php
+	$data = view()->form->getData(['username' => 'uid', 'pwd' => 'u_pwd']); // stdClass Object(['uid' => x, 'u_pwd' => y])
+```

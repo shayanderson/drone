@@ -97,6 +97,7 @@ Will output the HTML:
 ```html
 <div class="field"><input type="text" name="username"></div>
 ```
+> A decorator can use the pattern like `{$string}<br />`, or simply `{$}<br />`, or if no `{$...}<br />` pattern is found the decorator is added to the end of the string like `[string]<br />`.
 
 ### Form Field Errors
 Form field validation errors (and *forced* errors) can be displayed using two methods:
@@ -118,7 +119,7 @@ Then in the view template file:
 <label>Username:</label>
 <?php echo $form->get('username'); // display username field ?><br />
 ```
-Now if the form is submitted with no value for field 'username' the error displayed will be `Username is required`.
+Now if the form is submitted with no value for field `username` the error displayed will be `Username is required`.
 
 The `getErrors` method will display all field errors, for example in the view template file:
 ```html+php
@@ -126,7 +127,8 @@ The `getErrors` method will display all field errors, for example in the view te
 <label>Username:</label>
 <?php echo $form->get('username'); // display username field ?><br />
 ```
-Now if the form is submitted with no value for field 'username' the HTML displayed will be `Username is required<br />Username must be between 4-30 characters`. The `<br />` string used as the second param is the decorator. A decorator can use the pattern like `{$error}<br />`, or simply `{$}<br />`, or if no `{$...}` pattern is found the decorator is added to the end of the string like the `<br />` decorator.
+Now if the form is submitted with no value for field `username` the HTML displayed will be `Username is required<br />Username must be between 4-30 characters`. 
+> The `<br />` string used as the second param is the decorator.
 
 
 

@@ -23,6 +23,7 @@ class Form
 	 */
 	const
 		FIELD_CHECKBOX = 'checkbox',
+		FIELD_EMAIL = 'email',
 		FIELD_HIDDEN = 'hidden',
 		FIELD_PASSWORD = 'password',
 		FIELD_RADIO = 'radio',
@@ -74,7 +75,7 @@ class Form
 		$decorator_checkbox_radio, // checkbox + radio fields
 		$decorator_error,
 		$decorator_errors,
-		$decorator_field, // password + text fields
+		$decorator_field, // email, password, text fields
 		$decorator_fields, // all fields
 		$decorator_options, // all checkbox/radio options
 		$decorator_select,
@@ -312,6 +313,19 @@ class Form
 	}
 
 	/**
+	 * Add email field (HTML5) to form
+	 *
+	 * @param string $id
+	 * @param mixed $default_value (string when setting, or null)
+	 * @return \Drone\View\Form
+	 */
+	public function &email($id, $default_value = null)
+	{
+		$this->__addField(self::FIELD_EMAIL, $id, $default_value);
+		return $this;
+	}
+
+	/**
 	 * Manually set field as active
 	 *
 	 * @param string $id
@@ -412,6 +426,7 @@ class Form
 					$html = self::__decorate($html, self::$decorator_checkbox_radio ?: self::$decorator_fields);
 					break;
 
+				case self::FIELD_EMAIL:
 				case self::FIELD_HIDDEN:
 				case self::FIELD_PASSWORD:
 				case self::FIELD_TEXT:

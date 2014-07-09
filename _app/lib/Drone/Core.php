@@ -54,6 +54,7 @@ class Core
 		KEY_PATH_CONTROLLER = '__DRONE__.path.controller', // controller load path
 		KEY_PATH_TEMPLATE = '__DRONE__.path.template', // template load path
 		KEY_PATH_TEMPLATE_GLOBAL = '__DRONE__.path.template_global', // global template load path
+		KEY_REQUEST = '__DRONE__.request', // request string with query string
 		KEY_ROUTE_ACTION = '__DRONE__.route.action', // route action
 		KEY_ROUTE_CLASS = '__DRONE__.route.class', // route controller class
 		KEY_ROUTE_CONTROLLER = '__DRONE__.route.controller', // route controller
@@ -713,6 +714,7 @@ class Core
 			$is_index = false;
 			$request = $_SERVER['REQUEST_URI'];
 			$this->log->trace('Process request: \'' . $request . '\'', Logger::CATEGORY_DRONE);
+			$this->set(self::KEY_REQUEST, $request);
 			if(($pos = strpos($request, '?')) !== false) // rm query string
 			{
 				$request = substr($request, 0, $pos);

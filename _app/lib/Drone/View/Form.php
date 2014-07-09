@@ -293,7 +293,7 @@ class Form
 
 			if(isset($rule_arr['message']))
 			{
-				$field['error'][] = $rule_arr['message'];
+				$field['error'][$rule] = $rule_arr['message'];
 			}
 		}
 	}

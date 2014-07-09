@@ -352,6 +352,7 @@ class Form
 	public function forceError($error_message)
 	{
 		$this->__addRule(0, $error_message);
+		$this->isValid(); // push forced error to error queue
 		return $this;
 	}
 

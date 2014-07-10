@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
- * @version 0.1.3
+ * @version 0.1.4
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -39,6 +39,20 @@ class View
 	 * @var string
 	 */
 	private $__template_default;
+
+	/**
+	 * Global template footer path (optional)
+	 *
+	 * @var string
+	 */
+	private $__template_footer_path;
+
+	/**
+	 * Global template header path (optional)
+	 *
+	 * @var string
+	 */
+	private $__template_header_path;
 
 	/**
 	 * View property setter
@@ -130,6 +144,26 @@ class View
 	}
 
 	/**
+	 * Global footer template path getter
+	 *
+	 * @return string
+	 */
+	public function getTemplateFooter()
+	{
+		return $this->__template_footer_path;
+	}
+
+	/**
+	 * Global header template path getter
+	 *
+	 * @return string
+	 */
+	public function getTemplateHeader()
+	{
+		return $this->__template_header_path;
+	}
+
+	/**
 	 * Route param getter
 	 *
 	 * @param mixed $key (string for getter, null for get all, array for multiple get)
@@ -217,6 +251,17 @@ class View
 	}
 
 	/**
+	 * Global footer template path setter
+	 *
+	 * @param string $template
+	 * @return void
+	 */
+	public function templateFooter($template)
+	{
+		$this->__template_footer_path = $template;
+	}
+
+	/**
 	 * Template to formatted path getter using global template path
 	 *
 	 * @param string $template (ex: 'my_template')
@@ -225,5 +270,16 @@ class View
 	public function templateGlobal($template)
 	{
 		return drone()->get(Core::KEY_PATH_TEMPLATE_GLOBAL) . self::__formatTemplate($template);
+	}
+
+	/**
+	 * Global header template path setter
+	 *
+	 * @param string $template
+	 * @return void
+	 */
+	public function templateHeader($template)
+	{
+		$this->__template_header_path = $template;
 	}
 }

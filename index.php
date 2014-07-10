@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
- * @version 0.1.3
+ * @version 0.1.4
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -91,6 +91,7 @@ drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log-
 // Flash message templates
 //////////////////////////////////////////////////////////////////////////
 // example: \Drone\Core\Flash::template('error', '<div class="error">{$message}</div>');
+
 
 // run application (execute last)
 drone()->run();

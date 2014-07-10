@@ -323,6 +323,21 @@ This example includes the global template files `_app/tpl/_global/header.tpl` an
 
 > The helper function `template()` can be used to include non-global template files
 
+##### Global View Header and Footer Templates
+Global view *header* and *footer* templates can be used for rapid development, for example in the `index.php` file a *before* hook can be created to set the templates:
+```php
+drone()->hook(\Drone\Core::HOOK_BEFORE, function(){
+	view()->templateHeader(template_global('header'));
+	view()->templateFooter(template_global('footer'));
+});
+```
+Basically this tells the view to automatically include the global template files for `header` (`_app/tpl/_global/header.tpl`) and `footer` (`_app/tpl/_global/footer.tpl`). Now the `include template_global('header')` and `include template_global('footer')` lines are not required in the view template file.
+> If a view template file did not require the global header and footer template files, simply turn off the global includes in the controller file like:
+```php
+view()->templateHeader(template_global(''));
+view()->templateFooter(template_global(''));
+```
+
 ## Logging
 The `\Drone\Core\Logger` object is used for logging and accessed using the `logger()` helper function.
 

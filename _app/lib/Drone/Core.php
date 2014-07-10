@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
- * @version 0.1.3
+ * @version 0.1.4
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -63,7 +63,7 @@ class Core
 	/**
 	 * Package version
 	 */
-	const VERSION = '0.1.3';
+	const VERSION = '0.1.4';
 
 	/**
 	 * Last error message
@@ -917,7 +917,17 @@ class Core
 					// extract all view public properties for variable use in template
 					extract(get_object_vars($this->view), EXTR_OVERWRITE);
 
+					if(strlen($this->view->getTemplateHeader()) > 0)
+					{
+						include $this->view->getTemplateHeader();
+					}
+
 					require $this->view->getTemplate();
+
+					if(strlen($this->view->getTemplateFooter()) > 0)
+					{
+						include $this->view->getTemplateFooter();
+					}
 				}
 
 				if(!$this->error()) // no error, output

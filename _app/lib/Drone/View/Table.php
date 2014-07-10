@@ -90,6 +90,16 @@ class Table
 	}
 
 	/**
+	 * Get table string
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->get();
+	}
+
+	/**
 	 * Array of attributes to string
 	 *
 	 * @param array $attributes (ex: ['style' => 'color:#fff'])

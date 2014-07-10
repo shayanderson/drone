@@ -331,8 +331,8 @@ drone()->hook(\Drone\Core::HOOK_BEFORE, function(){
 	view()->templateFooter(template_global('footer'));
 });
 ```
-Basically this tells the view to automatically include the global template files for `header` (`_app/tpl/_global/header.tpl`) and `footer` (`_app/tpl/_global/footer.tpl`). Now the `include template_global('header')` and `include template_global('footer')` lines are not required in the view template file.
-> If a view template file did not require the global header and footer template files, simply turn off the global includes in the controller file like:
+Basically this tells the view to automatically include the global template files for `header` (`_app/tpl/_global/header.tpl`) and `footer` (`_app/tpl/_global/footer.tpl`). Now the `include template_global('header')` and `include template_global('footer')` lines are not required in the view template file (like in the [View Templates](https://github.com/shayanderson/drone#view-templates) example above).
+> If a view template file does not require the global header and footer template files, simply turn off the global includes in the controller file like:
 ```php
 view()->templateHeader(template_global(''));
 view()->templateFooter(template_global(''));

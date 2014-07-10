@@ -677,12 +677,14 @@ This will output the HTML:
 <div class="error">Please enter your email address</div>
 ```
 Also all group messages can be fetched using:
-```
+```html+php
 <?=flash('error.*')?>
 ```
 This will output something like this (in this example a template is used):
 ```html
-<div class="error">First error</div><div class="error">Next error</div><div class="error">Final error</div>
+<div class="error">First error</div>
+<div class="error">Next error</div>
+<div class="error">Final error</div>
 ```
 
 > Other useful flash methods:

@@ -256,7 +256,7 @@ class View
 	 * @param string $template
 	 * @return void
 	 */
-	public function templateFooter($template)
+	public function templateFooter($template = '')
 	{
 		$this->__template_footer_path = $template;
 	}
@@ -278,7 +278,7 @@ class View
 	 * @param string $template
 	 * @return void
 	 */
-	public function templateHeader($template)
+	public function templateHeader($template = '')
 	{
 		$this->__template_header_path = $template;
 	}

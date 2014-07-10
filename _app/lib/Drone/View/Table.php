@@ -325,6 +325,18 @@ class Table
 	}
 
 	/**
+	 * Column template setter
+	 *
+	 * @param string $column
+	 * @param string $template
+	 * @return void
+	 */
+	public function columnTemplate($column, $template)
+	{
+		$this->__templates[$column] = $template;
+	}
+
+	/**
 	 * Add data to table data
 	 *
 	 * @param mixed $value
@@ -504,17 +516,5 @@ class Table
 	public function headings($headings = null)
 	{
 		$this->__headings = is_array($headings) ? $headings : true;
-	}
-
-	/**
-	 * Column template setter
-	 *
-	 * @param string $column
-	 * @param string $template
-	 * @return void
-	 */
-	public function template($column, $template)
-	{
-		$this->__templates[$column] = $template;
 	}
 }

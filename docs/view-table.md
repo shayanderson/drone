@@ -165,11 +165,11 @@ $data = [
 	['id' => 5, 'title' => 'Item 1'],
 	['id' => 10, 'title' => 'My Item']
 ];
-$table = new \Drone\View\Table($data, ['title']); // only display 'title' column
-$table->headings(['Item']); // add column heading
+view()->table = new \Drone\View\Table($data, ['title']); // only display 'title' column
+view()->table->headings(['Item']); // add column heading
 
 // set column template
-$table->template('title', '<a href="?id={$id}">{$title}</a>');
+view()->table->columnTemplate('title', '<a href="?id={$id}">{$title}</a>');
 ```
 This will output the HTML:
 ```html

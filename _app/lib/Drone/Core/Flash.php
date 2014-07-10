@@ -103,16 +103,33 @@ class Flash
 		// check for group template
 		if(($pos = strpos($key, '.')) !== false && isset(self::$__templates[($group = substr($key, 0, $pos))]))
 		{
-			// apply group template
-			$out = str_replace(self::TEMPLATE_MESSAGE_PLACEHOLDER,
-				$this->__session->get(self::KEY_SESSION, $key), self::$__templates[$group]);
+			if(substr($key, $pos + 1, 1) === '*') // fetch all group messages + apply template
+			{
+				if($this->__session->has(self::KEY_SESSION))
+				{
+					foreach($this->__session->get(self::KEY_SESSION) as $k => $v)
+					{
+						if(substr($k, 0, $pos + 1) === $group . '.')
+						{
+							$out .= str_replace(self::TEMPLATE_MESSAGE_PLACEHOLDER,
+								$this->__session->get(self::KEY_SESSION, $k), self::$__templates[$group]);
+							$this->clear($k);
+						}
+					}
+				}
+			}
+			else if($this->has($key)) // apply group template
+			{
+				$out = str_replace(self::TEMPLATE_MESSAGE_PLACEHOLDER,
+					$this->__session->get(self::KEY_SESSION, $key), self::$__templates[$group]);
+				$this->clear($key); // flush message
+			}
 		}
-		else
+		else if($this->has($key))
 		{
 			$out = $this->__session->get(self::KEY_SESSION, $key);
+			$this->clear($key); // flush message
 		}
-
-		$this->clear($key); // flush message
 
 		return $out;
 	}
@@ -148,7 +165,7 @@ class Flash
 	/**
 	 * Flash message template setter
 	 *
-	 * @param string $group (or array for multiple load, ex: 'error')
+	 * @param string $group (ex: 'error', or array for multiple load ex: ['error' => x, 'alert' => y])
 	 * @param string $template (ex: '<div class="error">{$message}</div>')
 	 * @return void
 	 */

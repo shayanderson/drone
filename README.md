@@ -324,7 +324,7 @@ This example includes the global template files `_app/tpl/_global/header.tpl` an
 > The helper function `template()` can be used to include non-global template files
 
 ##### Global View Header and Footer Templates
-Global view *header* and *footer* templates can be used for rapid development, for example in the `index.php` file a *before* hook can be created to set the templates:
+Global view *header* and *footer* templates can be used, for example in the `index.php` file a *before* hook can be created to set the templates:
 ```php
 drone()->hook(\Drone\Core::HOOK_BEFORE, function(){
 	view()->templateHeader(template_global('header'));

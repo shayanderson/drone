@@ -59,6 +59,20 @@ class Table
 	private $__is_row = false;
 
 	/**
+	 * Cell templates
+	 *
+	 * @var array
+	 */
+	private $__templates = [];
+
+	/**
+	 * Use these columns in table (optional)
+	 *
+	 * @var array
+	 */
+	private $__use_columns;
+
+	/**
 	 * Number of columns in table
 	 *
 	 * @var int
@@ -83,10 +97,12 @@ class Table
 	 * Init
 	 *
 	 * @param array $data
+	 * @param array $columns (optional, only use these columns in table)
 	 */
-	public function __construct(array $data = [])
+	public function __construct(array $data = [], array $columns = [])
 	{
 		$this->__data = self::__cleanData($data);
+		$this->__use_columns = $columns;
 	}
 
 	/**
@@ -118,66 +134,36 @@ class Table
 	}
 
 	/**
-	 * Attributes string getter
-	 *
-	 * @param string $type
-	 * @param int $index
-	 * @param boolean $use_global
-	 * @return string
-	 */
-	private function &__getAttributes($type, $index, $use_global = true)
-	{
-		$attr = '';
-
-		if(isset($this->__attributes[$type][$index])) // part specific
-		{
-			$attr = &self::__attributes($this->__attributes[$type][$index]);
-		}
-		else if($use_global && isset($this->__attributes[$type][0])) // global
-		{
-			$attr = &self::__attributes($this->__attributes[$type][0]);
-		}
-
-		return $attr;
-	}
-
-	/**
-	 * Attributes setter
-	 *
-	 * @param string $type
-	 * @param string $name
-	 * @param string $value
-	 * @param int $index
-	 * @return void
-	 */
-	private function __setAttributes($type, $name, $value, $index)
-	{
-		if(is_array($index))
-		{
-			foreach($index as $v)
-			{
-				$this->__setAttributes($type, $name, $value, $v);
-			}
-			return;
-		}
-
-		$this->__attributes[$type][$index][$name] = $value;
-	}
-
-	/**
 	 * Add row cell
 	 *
 	 * @param string $html
 	 * @param string $value
+	 * @param array $row_data
+	 *
 	 * @return void
 	 */
-	private function __cell(&$html, $value)
+	private function __cell(&$html, $value, &$column, &$row_data)
 	{
 		$this->__index_cell++;
 
 		if(is_array($value))
 		{
 			$value = '&nbsp;';
+		}
+
+		if(isset($this->__templates[$column]) || array_key_exists($column, $this->__templates)) // apply cell template
+		{
+			$value = $this->__templates[$column];
+
+			preg_replace_callback('/{\$([\w]+)}/', function($m) use(&$value, &$row_data) {
+				if(isset($m[0]) && isset($m[1]))
+				{
+					if(isset($row_data[$m[1]]) || array_key_exists($m[1], $row_data))
+					{
+						$value = str_replace($m[0], $row_data[$m[1]], $value);
+					}
+				}
+			}, $value);
 		}
 
 		$html .= '<td' . $this->__getAttributes('td', $this->__index_cell) . '>' . $value . '</td>'
@@ -210,6 +196,30 @@ class Table
 	}
 
 	/**
+	 * Attributes string getter
+	 *
+	 * @param string $type
+	 * @param int $index
+	 * @param boolean $use_global
+	 * @return string
+	 */
+	private function &__getAttributes($type, $index, $use_global = true)
+	{
+		$attr = '';
+
+		if(isset($this->__attributes[$type][$index])) // part specific
+		{
+			$attr = &self::__attributes($this->__attributes[$type][$index]);
+		}
+		else if($use_global && isset($this->__attributes[$type][0])) // global
+		{
+			$attr = &self::__attributes($this->__attributes[$type][0]);
+		}
+
+		return $attr;
+	}
+
+	/**
 	 * Add row
 	 *
 	 * @param string $html
@@ -229,6 +239,29 @@ class Table
 			$html .= '</tr>' . $this->end_of_line;
 			$this->__is_row = false;
 		}
+	}
+
+	/**
+	 * Attributes setter
+	 *
+	 * @param string $type
+	 * @param string $name
+	 * @param string $value
+	 * @param int $index
+	 * @return void
+	 */
+	private function __setAttributes($type, $name, $value, $index)
+	{
+		if(is_array($index))
+		{
+			foreach($index as $v)
+			{
+				$this->__setAttributes($type, $name, $value, $v);
+			}
+			return;
+		}
+
+		$this->__attributes[$type][$index][$name] = $value;
 	}
 
 	/**
@@ -372,7 +405,10 @@ class Table
 						$this->__headings[] = $k; // auto heading
 					}
 
-					$this->__cell($html['body'], $row);
+					if(empty($this->__use_columns) || in_array($k, $this->__use_columns))
+					{
+						$this->__cell($html['body'], $row, $k, $this->__data);
+					}
 				}
 				else // array row
 				{
@@ -391,7 +427,10 @@ class Table
 							$this->__headings[] = $k; // auto heading
 						}
 
-						$this->__cell($html['body'], $v);
+						if(empty($this->__use_columns) || in_array($k, $this->__use_columns))
+						{
+							$this->__cell($html['body'], $v, $k, $row);
+						}
 					}
 
 					if(isset($headings))
@@ -413,7 +452,7 @@ class Table
 				{
 					while($i < $this->columns)
 					{
-						$this->__cell($html['body'], '&nbsp;');
+						$this->__cell($html['body'], '&nbsp;', null, null);
 						$i++;
 					}
 				}
@@ -465,5 +504,17 @@ class Table
 	public function headings($headings = null)
 	{
 		$this->__headings = is_array($headings) ? $headings : true;
+	}
+
+	/**
+	 * Column template setter
+	 *
+	 * @param string $column
+	 * @param string $template
+	 * @return void
+	 */
+	public function template($column, $template)
+	{
+		$this->__templates[$column] = $template;
 	}
 }

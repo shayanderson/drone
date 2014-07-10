@@ -33,6 +33,11 @@ view()->table->columns = 3; // set number of table columns to 3
 ```
 Which outputs the table:
 <table><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr><tr><td>7</td><td>8</td><td>9</td></tr></table>
+> Specific columns can be used, for example:
+```php
+view()->table = new \Drone\View\Table(['col1' => x, 'col2' => y, 'col3' => z], ['col2', 'col3']);
+```
+In this example only the data `y` and `z` will be displayed (columns `col2` and `col3`)
 
 The data can be displayed vertically using:
 ```php
@@ -151,4 +156,34 @@ view()->table->attributeHeading('style', 'color:#555', 2); // 2nd heading cell
 Or multiple cells:
 ```php
 view()->table->attributeHeading('style', 'color:#555', [2,4]); // 2nd + 4th heading cells
+```
+
+### Column Templates
+Column templates are used to modify column data, for example:
+```php
+$data = [
+	['id' => 5, 'title' => 'Item 1'],
+	['id' => 10, 'title' => 'My Item']
+];
+$table = new \Drone\View\Table($data, ['title']); // only display 'title' column
+$table->headings(['Item']); // add column heading
+
+// set column template
+$table->template('title', '<a href="?id={$id}">{$title}</a>');
+```
+This will output the HTML:
+```html
+<table>
+	<thead>
+		<tr>
+			<th>Item</th>
+		</tr>
+	</thead>
+	<tr>
+		<td><a href="?id=5">Item 1</a></td>
+	</tr>
+	<tr>
+		<td><a href="?id=10">My Item</a></td>
+	</tr>
+</table>
 ```

@@ -2,9 +2,9 @@
 ### Rapid Development Framework for PHP 5.5.0+
 
 Install Drone options:
-- Git clone: git clone https://github.com/shayanderson/drone.git
-- Subversion checkout URL: https://github.com/shayanderson/drone/trunk
-  - Subversion checkout library files only: https://github.com/shayanderson/drone/trunk/lib/Drone
+- Git clone: git clone `https://github.com/shayanderson/drone.git`
+- Subversion checkout URL: `https://github.com/shayanderson/drone/trunk`
+  - Subversion checkout library files only: `https://github.com/shayanderson/drone/trunk/lib/Drone`
 - Download [ZIP file](https://github.com/shayanderson/drone/archive/master.zip)
 
 #### Documentation Topics

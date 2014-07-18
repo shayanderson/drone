@@ -38,7 +38,7 @@ drone()->log->setLogLevel(\Drone\Core\Logger::LEVEL_TRACE);
 
 // custom user defined log handler that logs to database example:
 // drone()->log->setLogHandler(function($message, $level, $category) {
-//	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category]);
+//	xap('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category]);
 //	return true; });
 
 

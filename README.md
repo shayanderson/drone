@@ -260,7 +260,7 @@ class Controller extends \Drone\Controller
 	public function action()
 	{
 		logger()->debug('Controller action called');
-		
+
 		// action logic here
 	}
 }
@@ -389,12 +389,12 @@ This will output log messages to the log file `_app/var/drone.log`.
 Setting a custom log handler is simple, for example:
 ```php
 drone()->log->setLogHandler(function($message, $level, $category, $data) {
-	pdom('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category, 
+	xap('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category,
 		'data' => serialize($data)]);
 	return true;
 });
 ```
-In the above example a custom log handler has been set and allows the log messages to be saved in the database table *drone_log* using the [`pdom()`](https://github.com/shayanderson/drone#database-handling) database function.
+In the above example a custom log handler has been set and allows the log messages to be saved in the database table *drone_log* using the [`xap()`](https://github.com/shayanderson/drone#database-handling) database function.
 
 If a custom log handler is set and returns boolean value `false` Drone will continue on with the default logging logic (caching log messages and writing to a log file if configured), however, if `true` is returned by the log handler Drone will stop the default logging processes.
 
@@ -727,13 +727,13 @@ $trimmed = filter([' value 1 ', ' value 2 '], \Drone\Core\Data::FILTER_TRIM);
 Filters can also be used together:
 ```php
 // trim value + strip non-word characters
-$trimmed_words = filter(' my value! ', 
+$trimmed_words = filter(' my value! ',
 	\Drone\Core\Data::FILTER_TRIM | \Drone\Core\Data::FILTER_WORD); // 'myvalue'
 ```
 Some filter methods use arguments (or *params*), for example:
 ```php
 // strip non-word characters, but allow whitespaces
-$words = filter('my value!', \Drone\Core\Data::FILTER_WORD, 
+$words = filter('my value!', \Drone\Core\Data::FILTER_WORD,
 	[\Drone\Core\Data::PARAM_WHITESPACE => true]); // 'my value'
 ```
 >Filter methods can also be called statically:
@@ -765,7 +765,7 @@ filter('strip_hypens', function($v) { return str_replace('-', '', $v); }
 $no_hypens = filter('my-value', 'strip_hypens'); // 'myvalue'
 
 // or use custom filter with defined filter
-$no_hypens_trimmed = filter(' my-value ', 'strip_hypens', 
+$no_hypens_trimmed = filter(' my-value ', 'strip_hypens',
 	\Drone\Core\Data::FILTER_TRIM); // 'myvalue'
 ```
 
@@ -785,13 +785,13 @@ $currencies = format([5, 10.5], \Drone\Core\Data::FORMAT_CURRENCY);
 Formatters can also be used together:
 ```php
 // format byte value + upper case
-$bytes_upper = format(2000, 
+$bytes_upper = format(2000,
 	\Drone\Core\Data::FORMAT_BYTE | \Drone\Core\Data::FORMAT_UPPER); // '1.95 KB'
 ```
 Some formatter methods use arguments (or *params*), for example:
 ```php
 // format number to currency with custom currency format
-$currency = format(5, \Drone\Core\Data::FORMAT_CURRENCY, 
+$currency = format(5, \Drone\Core\Data::FORMAT_CURRENCY,
 	[\Drone\Core\Data::PARAM_FORMAT => '$%0.2f USD']); // '$5.00 USD'
 ```
 > Format methods can also be called statically:
@@ -818,7 +818,7 @@ format('quotes', function($v) { return '"' . $v . '"'; }
 $quoted = format('my value', 'quotes'); // '"my value"'
 
 // or use custom format with defined format
-$quoted_upper = format('my value', 'quotes', 
+$quoted_upper = format('my value', 'quotes',
 	\Drone\Core\Data::FORMAT_UPPER); // '"MY VALUE"'
 ```
 
@@ -839,7 +839,7 @@ if(validate('my value')) // valid
 
 Array values can also be used, for example:
 ```php
-$valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'], 
+$valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'],
 	\Drone\Core\Data::VALIDATE_EMAIL);
 // $valid is now: [1 => false, 2 => true]
 ```
@@ -855,7 +855,7 @@ if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED | \Drone\Core\Data:
 Some validator methods use arguments (or *params*), for example:
 ```php
 // validate string length (minimum 4, maximum 50)
-if(!validate('my string', \Drone\Core\Data::VALIDATE_LENGTH, 
+if(!validate('my string', \Drone\Core\Data::VALIDATE_LENGTH,
 	[\Drone\Core\Data::PARAM_MIN => 4, \Drone\Core\Data::PARAM_MAX => 50]))
 {
 	// warn
@@ -900,12 +900,12 @@ if(!validate('my value', 'upper', \Drone\Core\Data::VALIDATE_REQUIRED))
 ```
 
 ## Database Handling
-Drone uses the [PDOm](https://github.com/shayanderson/pdom) PDO wrapper with MySQL support for database handling. PDOm is an optional library and must be installed.
+Drone uses the [Xap](https://github.com/shayanderson/xap) MySQL rapid development engine for database handling. Xap is an optional library and must be installed.
 
-Get PDOm options:
+Get Xap options:
 
-- Git clone: `git clone https://github.com/shayanderson/drone.git`
-- Subversion checkout URL: `https://github.com/shayanderson/pdom`
-- Download [ZIP file](https://github.com/shayanderson/pdom/archive/master.zip)
+- Git clone: `git clone https://github.com/shayanderson/xap.git`
+- Subversion checkout URL: `https://github.com/shayanderson/xap`
+- Download [ZIP file](https://github.com/shayanderson/xap/archive/master.zip)
 
-To install PDOm put the bootstrap file in `_app/com/pdom.bootstrap.php`, put the `lib/Pdom` directory in the `_app/lib` directory, and include the `_app/com/pdom.bootstrap.php` in the `index.php` file.
+To install Xap put the bootstrap file in `_app/com/xap.bootstrap.php`, put the `lib/Xap` directory in the `_app/lib` directory, and include the `_app/com/xap.bootstrap.php` in the `index.php` file.

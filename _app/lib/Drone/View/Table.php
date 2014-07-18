@@ -155,7 +155,8 @@ class Table
 		{
 			$value = $this->__templates[$column];
 
-			preg_replace_callback('/{\$([\w]+)}/', function($m) use(&$value, &$row_data) {
+			preg_replace_callback('/\{\$([\w]+)\}/', function($m) use(&$value, &$row_data)
+			{
 				if(isset($m[0]) && isset($m[1]))
 				{
 					if(isset($row_data[$m[1]]) || array_key_exists($m[1], $row_data))

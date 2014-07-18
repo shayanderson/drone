@@ -241,7 +241,7 @@ class Form
 			return $str;
 		}
 
-		return preg_match('/{\$[a-z]*}/i', $decorator) ? preg_replace('/{\$[a-z]*}/i', $str, $decorator)
+		return preg_match('/\{\$[a-z]*\}/i', $decorator) ? preg_replace('/\{\$[a-z]*\}/i', $str, $decorator)
 			: $str . $decorator; // if no decorator pattern like {$anything} append decorator to str
 	}
 

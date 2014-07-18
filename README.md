@@ -1,6 +1,12 @@
 # Drone
 ### Rapid Development Framework for PHP 5.5.0+
 
+Install Drone options:
+- Git clone: git clone https://github.com/shayanderson/drone.git
+- Subversion checkout URL: https://github.com/shayanderson/drone/trunk
+  - Subversion checkout library files only: https://github.com/shayanderson/drone/trunk/lib/Drone
+- Download [ZIP file](https://github.com/shayanderson/drone/archive/master.zip)
+
 #### Documentation Topics
 - **[Quick Start](https://github.com/shayanderson/drone#quick-start)**: [Directory Structure](https://github.com/shayanderson/drone#directory-structure), [Class Autoloading](https://github.com/shayanderson/drone#class-autoloading), [Drone Function](https://github.com/shayanderson/drone#drone-function), [Helper Functions](https://github.com/shayanderson/drone#helper-functions), [Settings](https://github.com/shayanderson/drone#settings), [Run Application](https://github.com/shayanderson/drone#run-application)
 - **[Routes](https://github.com/shayanderson/drone#routes)**: [Static Routes](https://github.com/shayanderson/drone#static-routes), [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)
@@ -905,7 +911,7 @@ Drone uses the [Xap](https://github.com/shayanderson/xap) MySQL rapid developmen
 Get Xap options:
 
 - Git clone: `git clone https://github.com/shayanderson/xap.git`
-- Subversion checkout URL: `https://github.com/shayanderson/xap`
+- Subversion checkout URL: `https://github.com/shayanderson/xap/trunk`
 - Download [ZIP file](https://github.com/shayanderson/xap/archive/master.zip)
 
 To install Xap put the bootstrap file in `_app/com/xap.bootstrap.php`, put the `lib/Xap` directory in the `_app/lib` directory, and include the `_app/com/xap.bootstrap.php` in the `index.php` file.

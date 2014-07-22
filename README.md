@@ -482,7 +482,7 @@ $id = param('id'); // get route param 'id'
 ```
 To verify a route param exists check for the boolean value `false`:
 ```php
-if(param('id') === false)
+if(param('id') === null)
 {
 	// the param 'id' does not exist
 }

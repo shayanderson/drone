@@ -191,7 +191,7 @@ drone()->route([
 Now the request `/product/14.htm` will route to the controller file with the param `category_id` with value `14`. Likewise, the request `/product/14/5.htm` will route to the controller file with the params `category_id` with value `14`, and the `id` param with value `5`, for example:
 ```php
 $cat_id = param('category_id');
-if(param('id') !== false) // test if exists
+if(param('id') !== null) // test if exists
 {
 	$id = param('id');
 }

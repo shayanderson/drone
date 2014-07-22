@@ -167,7 +167,7 @@ class View
 	 * Route param getter
 	 *
 	 * @param mixed $key (string for getter, null for get all, array for multiple get)
-	 * @return mixed (false on param does not exist, array on multiple get)
+	 * @return mixed (null on param does not exist, array on multiple get)
 	 */
 	public function param($key)
 	{
@@ -193,7 +193,7 @@ class View
 			return $this->__route_params[$key];
 		}
 
-		return false;
+		return null;
 	}
 
 	/**

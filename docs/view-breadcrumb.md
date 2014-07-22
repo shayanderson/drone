@@ -10,6 +10,15 @@ view()->breadcrumbs->add('Home', '/');
 view()->breadcrumbs->add('Category 1', '/category-1.htm');
 view()->breadcrumbs->add('Current Page');
 ```
+Or the breadcrumbs can be set using an array:
+```php
+view()->breadcrumbs->add([
+	'/' => 'Home',
+	'/category-1.htm' => 'Category 1',
+	'Current Page'
+]);
+```
+
 > The breadcrumb items can also be added when setting the object:
 ```php
 view()->breadcrumbs = new \Drone\View\Breadcrumb([

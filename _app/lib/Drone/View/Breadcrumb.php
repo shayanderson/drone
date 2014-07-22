@@ -35,7 +35,7 @@ class Breadcrumb
 	 *
 	 * @var array
 	 */
-	private $__items;
+	private $__items = [];
 
 	/**
 	 * Breadcrumb item template
@@ -76,12 +76,9 @@ class Breadcrumb
 	 * Init
 	 *
 	 * @param mixed $breadcrumbs (optional, array setter ex: ['/url.htm' => 'Title', 'Current Page'])
-	 * @param boolean $use_base (use base items)
 	 */
-	public function __construct($items = null, $use_base = true)
+	public function __construct($items = null)
 	{
-		$this->__items = $use_base ? self::$__base : []; // init base
-
 		if(is_array($items))
 		{
 			$this->add($items);
@@ -154,10 +151,10 @@ class Breadcrumb
 	{
 		$str = '';
 
-		if(count($this->__items) > count(self::$__base)) // items?
+		if(count($this->__items) > 0)
 		{
 			$i = 0;
-			foreach($this->__items as $v)
+			foreach(array_merge(self::$__base, $this->__items) as $v)
 			{
 				if($i > 0)
 				{

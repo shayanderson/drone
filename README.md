@@ -21,7 +21,7 @@ Install Drone options:
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
 - Helper Classes
   - **[Filesystem](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md)**: [Directory](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md#dronefilesystemdirectory), [File](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md#dronefilesystemfile)
-  - View: [Form](https://github.com/shayanderson/drone/blob/master/docs/view-form.md), [Table](https://github.com/shayanderson/drone/blob/master/docs/view-table.md)
+  - View: [Breadcrumb](https://github.com/shayanderson/drone/blob/master/docs/view-breadcrumb.md), [Form](https://github.com/shayanderson/drone/blob/master/docs/view-form.md), [Table](https://github.com/shayanderson/drone/blob/master/docs/view-table.md)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.

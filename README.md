@@ -712,7 +712,7 @@ Now output the errors:
 ```
 The output HTML:
 ```html
-<div class="error">Please enter your name<br />Please enter a valid email address</div>
+<div class="error">Please enter your name<br />Please enter a valid email address<br /></div>
 ```
 Also the message template can be used without a group template, for example if every message should be in a separate `<div>` tag:
 ```php

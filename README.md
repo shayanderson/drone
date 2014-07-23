@@ -698,7 +698,7 @@ This will output the HTML:
 <div class="error">Please enter a valid email address</div>
 ```
 Also multiple group messages can be used:
-```
+```php
 // setup template to handle multiple messages
 // the 2nd param is the group template, the 3rd param is the message template
 \Drone\Core\Flash::template('error', '<div class="error">{$message}</div>', '{$message}<br />');

@@ -22,6 +22,13 @@ class Flash
 	const KEY_SESSION = '__DRONE__.flash';
 
 	/**
+	 * Keys for templates
+	 */
+	const
+		KEY_TEMPLATE_GROUP = 0,
+		KEY_TEMPLATE_MESSAGE = 1;
+
+	/**
 	 * Template message placeholder
 	 */
 	const TEMPLATE_MESSAGE_PLACEHOLDER = '{$message}';
@@ -100,35 +107,28 @@ class Flash
 	{
 		$out = '';
 
-		// check for group template
-		if(($pos = strpos($key, '.')) !== false && isset(self::$__templates[($group = substr($key, 0, $pos))]))
+		if($this->has($key) && is_array($_SESSION[self::KEY_SESSION][$key]))
 		{
-			if(substr($key, $pos + 1, 1) === '*') // fetch all group messages + apply template
+			foreach($this->__session->get(self::KEY_SESSION, $key) as $k => $v)
 			{
-				if($this->__session->has(self::KEY_SESSION))
+				if(isset(self::$__templates[$key][self::KEY_TEMPLATE_MESSAGE])
+					&& !empty(self::$__templates[$key][self::KEY_TEMPLATE_MESSAGE])) // apply message template
 				{
-					foreach($this->__session->get(self::KEY_SESSION) as $k => $v)
-					{
-						if(substr($k, 0, $pos + 1) === $group . '.')
-						{
-							$out .= str_replace(self::TEMPLATE_MESSAGE_PLACEHOLDER,
-								$this->__session->get(self::KEY_SESSION, $k), self::$__templates[$group]);
-							$this->clear($k);
-						}
-					}
+					$v = str_replace(self::TEMPLATE_MESSAGE_PLACEHOLDER, $v,
+						self::$__templates[$key][self::KEY_TEMPLATE_MESSAGE]);
 				}
+
+				$out .= $v;
 			}
-			else if($this->has($key)) // apply group template
+
+			if(isset(self::$__templates[$key][self::KEY_TEMPLATE_GROUP])
+				&& !empty(self::$__templates[$key][self::KEY_TEMPLATE_GROUP])) // apply group template
 			{
-				$out = str_replace(self::TEMPLATE_MESSAGE_PLACEHOLDER,
-					$this->__session->get(self::KEY_SESSION, $key), self::$__templates[$group]);
-				$this->clear($key); // flush message
+				$out = str_replace(self::TEMPLATE_MESSAGE_PLACEHOLDER, $out,
+					self::$__templates[$key][self::KEY_TEMPLATE_GROUP]);
 			}
-		}
-		else if($this->has($key))
-		{
-			$out = $this->__session->get(self::KEY_SESSION, $key);
-			$this->clear($key); // flush message
+
+			$this->clear($key); // flush message(s)
 		}
 
 		return $out;
@@ -159,26 +159,25 @@ class Flash
 			return;
 		}
 
-		$this->__session->add(self::KEY_SESSION, $key, $value);
+		if(!$this->has($key))
+		{
+			$this->__session->add(self::KEY_SESSION, $key, []);
+		}
+
+		$_SESSION[self::KEY_SESSION][$key][] = $value;
 	}
 
 	/**
 	 * Flash message template setter
 	 *
-	 * @param string $group (ex: 'error', or array for multiple load ex: ['error' => x, 'alert' => y])
-	 * @param string $template (ex: '<div class="error">{$message}</div>')
+	 * @param string $group (ex: 'error')
+	 * @param string $group_template (ex: '<div class="error">{$message}</div>')
+	 * @param string $message_template (optional, put multiple messages in group template, ex: '{$message}<br />')
 	 * @return void
 	 */
-	public static function template($group, $template)
+	public static function template($group, $group_template, $message_template = null)
 	{
-		if(is_array($group)) // multiple load
-		{
-			foreach($group as $k => $v)
-			{
-				self::template($k, $v);
-			}
-			return;
-		}
-		self::$__templates[$group] = $template;
+		self::$__templates[$group] = [self::KEY_TEMPLATE_GROUP => $group_template,
+			self::KEY_TEMPLATE_MESSAGE => $message_template];
 	}
 }

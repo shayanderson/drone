@@ -670,11 +670,11 @@ if(session()->has('user', 'id'))
 Flash messages are simple session messages that last only until they are used. The `\Drone\Core\Flash` object handles flash messages and can be accessed using the `flash()` helper function, example:
 ```php
 // in a controller a validation error is set as a flash message
-flash('error.email', 'Please enter your email address');
+flash('error', 'Please enter a valid email address');
 ```
 Next, in the view template file call the flash message:
 ```html+php
-<?=flash('error.email')?>
+<?=flash('error')?>
 ```
 The flash message will only appear once, and be destroyed immediately after. This is very helpful for displaying one-time client messages and errors.
 
@@ -687,25 +687,40 @@ The true power of flash messages is the use of templates, for example in the `in
 ```
 Then set the flash message in the controller:
 ```php
-flash('error.email', 'Please enter your email address');
+flash('error', 'Please enter a valid email address');
 ```
-Now in the view template when the `flash()` helper function is called with the group `error` (set with syntax `[group].[name]`) the template is applied:
+Now in the view template when the `flash()` helper function is called with the group `error` the template is applied:
 ```html+php
-<?=flash('error.email')?>
+<?=flash('error')?>
 ```
 This will output the HTML:
 ```html
 <div class="error">Please enter your email address</div>
 ```
-Also all group messages can be fetched using:
-```html+php
-<?=flash('error.*')?>
+Also multiple group messages can be used:
 ```
-This will output something like this (in this example a template is used):
+// setup template to handle multiple messages
+// the 2nd param is the group template, the 3rd param is the message template
+\Drone\Core\Flash::template('error', '<div class="error">{$message}</div>', '{$message}<br />');
+// set multiple validation errors in group 'error'
+flash('error', 'Please enter your name');
+flash('error', 'Please enter a valid email address');
+```
+Now output the errors:
+```html+php
+<?=flash('error')?>
+```
+The output HTML:
 ```html
-<div class="error">First error</div>
-<div class="error">Next error</div>
-<div class="error">Final error</div>
+<div class="error">Please enter your name<br />Please enter a valid email address</div>
+```
+Also the message template can be used without a group template, for example if every message should be in a separate `<div>` tag:
+```php
+\Drone\Core\Flash::template('error', null, '<div class="error">{$message}</div>');
+```
+Now using the same errors above the HTML output would be:
+```html
+<div class="error">Please enter your name</div><div class="error">Please enter a valid email address</div>
 ```
 
 > Other useful flash methods:

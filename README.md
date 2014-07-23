@@ -695,7 +695,7 @@ Now in the view template when the `flash()` helper function is called with the g
 ```
 This will output the HTML:
 ```html
-<div class="error">Please enter your email address</div>
+<div class="error">Please enter a valid email address</div>
 ```
 Also multiple group messages can be used:
 ```

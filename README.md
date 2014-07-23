@@ -720,7 +720,8 @@ Also the message template can be used without a group template, for example if e
 ```
 Now using the same errors above the HTML output would be:
 ```html
-<div class="error">Please enter your name</div><div class="error">Please enter a valid email address</div>
+<div class="error">Please enter your name</div>
+<div class="error">Please enter a valid email address</div>
 ```
 
 > Other useful flash methods:

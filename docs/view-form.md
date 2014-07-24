@@ -14,6 +14,9 @@ view()->form
 	->password('pwd')
 		->validateRequired('Password is required');
 
+// set decorator for field errors
+\Drone\View\Form::$decorator_errors = '<div class="errors">{$errors}</div>';
+
 // listen for form submit + validate data
 if(view()->form->isValid())
 {
@@ -35,11 +38,11 @@ Then in the view template display form:
 	<!-- form listener -->
 	<?=$form?>
 
-	<?php echo $form->getErrors('username'); // display validation errors ?>
+	<?php echo $form->getErrors('username', '<br />'); // display validation errors ?>
 	<label>Username:</label>
 	<?php echo $form->get('username'); // display username field ?><br />
 
-	<?=$form->getErrors('pwd')?>
+	<?=$form->getErrors('pwd', '<br />')?>
 	<label>Password:</label>
 	<?=$form->get('username')?><br />
 

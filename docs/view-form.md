@@ -13,7 +13,7 @@ view()->form
 	// add password field
 	->password('pwd')
 		->validateRequired('Password is required');
-		
+
 // listen for form submit + validate data
 if(view()->form->isValid())
 {
@@ -32,16 +32,17 @@ if(view()->form->isValid())
 Then in the view template display form:
 ```html+php
 <form method="post">
-	<?php echo $form->getFormIdField(); // form listener ?>
-	
+	<!-- form listener -->
+	<?=$form?>
+
 	<?php echo $form->getErrors('username'); // display validation errors ?>
 	<label>Username:</label>
 	<?php echo $form->get('username'); // display username field ?><br />
-	
+
 	<?=$form->getErrors('pwd')?>
 	<label>Password:</label>
 	<?=$form->get('username')?><br />
-	
+
 	<input type="submit" value="Login" />
 </form>
 ```
@@ -126,7 +127,7 @@ Forced errors can be used, for example:
 ```php
 view()->form
 	->text('username');
-	
+
 // do some logic to check valid login
 if(!$valid_login)
 {
@@ -164,7 +165,7 @@ The `getErrors` method will display all field errors, for example in the view te
 <label>Username:</label>
 <?php echo $form->get('username'); // display username field ?><br />
 ```
-Now if the form is submitted with no value for field `username` the HTML displayed will be `Username is required<br />Username must be between 4-30 characters<br />`. 
+Now if the form is submitted with no value for field `username` the HTML displayed will be `Username is required<br />Username must be between 4-30 characters<br />`.
 > The `<br />` string used as the second param is the decorator.
 
 All form field errors can be fetched using `null` in place of the field name:

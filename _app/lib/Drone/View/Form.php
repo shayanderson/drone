@@ -773,6 +773,18 @@ class Form
 	}
 
 	/**
+	 * Add validate email rule to field
+	 *
+	 * @param string $error_message (optional)
+	 * @return \Drone\View\Form
+	 */
+	public function &validateEmail($error_message = '')
+	{
+		$this->__addRule(Data::VALIDATE_EMAIL, $error_message);
+		return $this;
+	}
+
+	/**
 	 * Add validate length rule to field
 	 *
 	 * @param int $min

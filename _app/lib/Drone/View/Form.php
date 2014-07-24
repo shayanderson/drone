@@ -558,9 +558,10 @@ class Form
 	 */
 	public function getError($id, $decorator = null)
 	{
-		if(isset($this->__fields[$id]['error'][0]))
+		if(isset($this->__fields[$id]['error']))
 		{
-			return self::__decorate($this->__fields[$id]['error'][0], $decorator ?: self::$decorator_error);
+			return self::__decorate(array_values($this->__fields[$id]['error'])[0],
+				$decorator ?: self::$decorator_error);
 		}
 
 		return '';

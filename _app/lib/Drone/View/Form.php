@@ -558,6 +558,8 @@ class Form
 	 */
 	public function getError($id, $decorator = null)
 	{
+		$this->isValid(); // set validation errors
+
 		if(isset($this->__fields[$id]['error']))
 		{
 			return self::__decorate(array_values($this->__fields[$id]['error'])[0],
@@ -577,6 +579,8 @@ class Form
 	 */
 	public function getErrors($id, $decorator = null, $return_array = false)
 	{
+		$this->isValid(); // set validation errors
+
 		if($id === null) // get all
 		{
 			if($return_array)

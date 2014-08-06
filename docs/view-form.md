@@ -122,7 +122,8 @@ Custom validation rules can also be used, for example:
 view()->form
 	// add text field
 	->text('username')
-		->validate(function($v) { return $v !== 'some value'; }, 'Username field value does not equal \'some value\'');
+		->validate(function($v) { return $v !== 'some value'; }, 
+			'Username field value does not equal \'some value\'');
 ```
 This custom validation rule will flag the field value invalid if the value does not equal `some value`.
 
@@ -193,7 +194,8 @@ if(view()->form->isSubmitted())
 ```
 Or the data can be returned as an object:
 ```php
-	$data = view()->form->getData(); // stdClass Object(['username' => x, 'first_name' => y, 'pwd' => z])
+	// stdClass Object(['username' => x, 'first_name' => y, 'pwd' => z])
+	$data = view()->form->getData();
 ```
 Or the data can be returned as array:
 ```php
@@ -201,7 +203,8 @@ Or the data can be returned as array:
 ```
 Or the data can be returned for specific fields:
 ```php
-	$data = view()->form->getData(['username', 'pwd']); // stdClass Object(['username' => x, 'pwd' => y])
+	// stdClass Object(['username' => x, 'pwd' => y])
+	$data = view()->form->getData(['username', 'pwd']);
 ```
 Or the data for fields can be mapped to different keys:
 ```php

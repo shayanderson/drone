@@ -353,7 +353,8 @@ logger()->debug('My log message'); // log message with debug level
 ```
 A category can also be used when logging a message, for example:
 ```php
-logger()->debug('User login successful', 'account'); // log message with category 'account'
+// log message with category 'account'
+logger()->debug('User login successful', 'account');
 ```
 > The default category `app` is used when no category has be set
 
@@ -395,8 +396,8 @@ This will output log messages to the log file `_app/var/drone.log`.
 Setting a custom log handler is simple, for example:
 ```php
 drone()->log->setLogHandler(function($message, $level, $category, $data) {
-	xap('drone_log:add', ['message' => $message, 'level' => $level, 'category' => $category,
-		'data' => serialize($data)]);
+	xap('drone_log:add', ['message' => $message, 'level' => $level, 
+		'category' => $category, 'data' => serialize($data)]);
 	return true;
 });
 ```
@@ -434,7 +435,8 @@ error(100, 'My custom error'); // trigger 100 error handler
 #### Setting Error Handlers
 By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
 ```php
-drone()->error(function($error) { echo '<div style="color:#f00;">' . $error . '</div>'; });
+drone()->error(function($error) { echo '<div style="color:#f00;">' . $error 
+	. '</div>'; });
 drone()->error(404, function() { drone()->run('error->\ErrorController->_404'); });
 drone()->error(500, function() { drone()->run('error->\ErrorController->_500'); });
 ```
@@ -502,7 +504,10 @@ if(count(params(null)) > 2) // more than 2 params
 #### Events
 Events are global callables that can be accessed from the application. Register an event example in `index.php`:
 ```php
-drone()->event('cart.add', function(\Cart\Item $item) { return get('cart')->add($item); });
+drone()->event('cart.add', function(\Cart\Item $item)
+{
+	return get('cart')->add($item);
+});
 ```
 Now in any controller the event can be trigger:
 ```php
@@ -523,7 +528,8 @@ Example of *before* and *after* hooks set in `index.php`:
 // call function to init application logic
 drone()->hook(\Drone\Core::HOOK_BEFORE, function() { initAppLogic(); });
 // print Drone log
-drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log->get()); });
+drone()->hook(\Drone\Core::HOOK_AFTER, function() { 
+	pa('', 'Log:', drone()->log->get()); });
 ```
 
 > For controller level hooks (special methods `__before()` and `__after`) see [Controller Class](https://github.com/shayanderson/drone#controller-class)
@@ -585,7 +591,8 @@ Methods used to get request variables:
 
 > *Get* methods can also fetch multiple variables using an array, example:
 ```php
-$vars = request()->get(['var1', 'var2', 'var3']); // ['var1' => x, 'var2' => y, 'var3' => z]
+// ['var1' => x, 'var2' => y, 'var3' => z]
+$vars = request()->get(['var1', 'var2', 'var3']);
 ```
 
 Methods used to check if request variables exist:
@@ -701,7 +708,8 @@ Also multiple group messages can be used:
 ```php
 // setup template to handle multiple messages
 // the 2nd param is the group template, the 3rd param is the message template
-\Drone\Core\Flash::template('error', '<div class="error">{$message}</div>', '{$message}<br />');
+\Drone\Core\Flash::template('error', '<div class="error">{$message}</div>', 
+	'{$message}<br />');
 // set multiple validation errors in group 'error'
 flash('error', 'Please enter your name');
 flash('error', 'Please enter a valid email address');
@@ -712,7 +720,8 @@ Now output the errors:
 ```
 The output HTML:
 ```html
-<div class="error">Please enter your name<br />Please enter a valid email address<br /></div>
+<div class="error">Please enter your name<br />Please enter a valid email address
+<br /></div>
 ```
 Also the message template can be used without a group template, for example if every message should be in a separate `<div>` tag:
 ```php
@@ -869,7 +878,8 @@ $valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'],
 Validators can also be used together:
 ```php
 // validate required + alpha characters
-if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED | \Drone\Core\Data::VALIDATE_ALPHA))
+if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED 
+	| \Drone\Core\Data::VALIDATE_ALPHA))
 {
 	// warn
 }

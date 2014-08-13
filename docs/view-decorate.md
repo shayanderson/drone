@@ -60,7 +60,8 @@ echo Decorate::data($data, 'ID: {$id}, Title: {$title}, Key: {$:key}<br />');
 ```
 This would output:
 ```html
-ID: 5, Title: tester, Key: 0<br />ID: 14, Title: programmer, Key: 1<br />
+ID: 5, Title: tester, Key: 0<br />
+ID: 14, Title: programmer, Key: 1<br />
 ```
 Also, values can be tested within the decorator, for example:
 ```php

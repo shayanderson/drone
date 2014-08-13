@@ -21,7 +21,7 @@ Install Drone options:
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
 - Helper Classes
   - **[Filesystem](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md)**: [Directory](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md#dronefilesystemdirectory), [File](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md#dronefilesystemfile)
-  - View: [Breadcrumb](https://github.com/shayanderson/drone/blob/master/docs/view-breadcrumb.md), [Form](https://github.com/shayanderson/drone/blob/master/docs/view-form.md), [Table](https://github.com/shayanderson/drone/blob/master/docs/view-table.md)
+  - View: [Breadcrumb](https://github.com/shayanderson/drone/blob/master/docs/view-breadcrumb.md), [Decorate](https://github.com/shayanderson/drone/blob/master/docs/view-decorate.md), [Form](https://github.com/shayanderson/drone/blob/master/docs/view-form.md), [Table](https://github.com/shayanderson/drone/blob/master/docs/view-table.md)
 
 ## Quick Start
 To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.
@@ -396,7 +396,7 @@ This will output log messages to the log file `_app/var/drone.log`.
 Setting a custom log handler is simple, for example:
 ```php
 drone()->log->setLogHandler(function($message, $level, $category, $data) {
-	xap('drone_log:add', ['message' => $message, 'level' => $level, 
+	xap('drone_log:add', ['message' => $message, 'level' => $level,
 		'category' => $category, 'data' => serialize($data)]);
 	return true;
 });
@@ -435,7 +435,7 @@ error(100, 'My custom error'); // trigger 100 error handler
 #### Setting Error Handlers
 By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
 ```php
-drone()->error(function($error) { echo '<div style="color:#f00;">' . $error 
+drone()->error(function($error) { echo '<div style="color:#f00;">' . $error
 	. '</div>'; });
 drone()->error(404, function() { drone()->run('error->\ErrorController->_404'); });
 drone()->error(500, function() { drone()->run('error->\ErrorController->_500'); });
@@ -528,7 +528,7 @@ Example of *before* and *after* hooks set in `index.php`:
 // call function to init application logic
 drone()->hook(\Drone\Core::HOOK_BEFORE, function() { initAppLogic(); });
 // print Drone log
-drone()->hook(\Drone\Core::HOOK_AFTER, function() { 
+drone()->hook(\Drone\Core::HOOK_AFTER, function() {
 	pa('', 'Log:', drone()->log->get()); });
 ```
 
@@ -708,7 +708,7 @@ Also multiple group messages can be used:
 ```php
 // setup template to handle multiple messages
 // the 2nd param is the group template, the 3rd param is the message template
-\Drone\Core\Flash::template('error', '<div class="error">{$message}</div>', 
+\Drone\Core\Flash::template('error', '<div class="error">{$message}</div>',
 	'{$message}<br />');
 // set multiple validation errors in group 'error'
 flash('error', 'Please enter your name');
@@ -878,7 +878,7 @@ $valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'],
 Validators can also be used together:
 ```php
 // validate required + alpha characters
-if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED 
+if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED
 	| \Drone\Core\Data::VALIDATE_ALPHA))
 {
 	// warn

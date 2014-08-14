@@ -44,8 +44,9 @@ class Data
 		FORMAT_DATE_TIME = 0x8,
 		FORMAT_LOWER = 0x10, // lower case
 		FORMAT_TIME = 0x20,
-		FORMAT_UPPER = 0x40, // upper case
-		FORMAT_UPPER_WORDS = 0x80; // capitalize words
+		FORMAT_TIME_ELAPSED = 0x40,
+		FORMAT_UPPER = 0x80, // upper case
+		FORMAT_UPPER_WORDS = 0x100; // capitalize words
 
 	/**
 	 * Param keys
@@ -109,6 +110,7 @@ class Data
 			self::FORMAT_DATE_TIME => 'formatDateTime',
 			self::FORMAT_LOWER => 'formatLower',
 			self::FORMAT_TIME => 'formatTime',
+			self::FORMAT_TIME_ELAPSED => 'formatTimeElapsed',
 			self::FORMAT_UPPER => 'formatUpper',
 			self::FORMAT_UPPER_WORDS => 'formatUpperWords'
 		],
@@ -482,19 +484,26 @@ class Data
 	 * Format byte (ex: 2000 => '1.95 kb')
 	 *
 	 * @param int $value
+	 * @param mixed $params
+	 * @param array $characters (ex: [' b', ' kb', ' mb', ' gb', ' tb', ' pb'])
 	 * @return string (or false on invalid value)
 	 */
-	public static function formatByte($value)
+	public static function formatByte($value, $params = null,
+		array $characters = [' b', ' kb', ' mb', ' gb', ' tb', ' pb'])
 	{
+		if(count($characters) !== 6)
+		{
+			return 'Invalid format characters (must be 6 characters)';
+		}
+
 		$value = (float)$value;
 
 		if($value <= 0)
 		{
-			return '0 b';
+			return '0' . $characters[0];
 		}
 
-		return round($value / pow(1024, ( $k = floor(log($value, 1024)) )), 2) . ' '
-			. ['b', 'kb', 'mb', 'gb', 'tb', 'pb'][$k];
+		return round($value / pow(1024, ( $k = floor(log($value, 1024)) )), 2) . $characters[$k];
 	}
 
 	/**
@@ -558,6 +567,43 @@ class Data
 	{
 		return date(isset($params[self::PARAM_FORMAT]) ? $params[self::PARAM_FORMAT]
 			: self::$default_format_time, strtotime($value));
+	}
+
+	/**
+	 * Format time elapsed
+	 *
+	 * @param float $time_elapsed (ex: microtime(true) - $start)
+	 * @param mixed $params
+	 * @param array $characters (ex: ['y', 'w', 'd', 'h', 'm', 's'])
+	 * @return string (ex: '1h 35m 55s')
+	 */
+	public static function formatTimeElapsed($time_elapsed, $params = null,
+		array $characters = ['y', 'w', 'd', 'h', 'm', 's'])
+	{
+		if(count($characters) !== 6)
+		{
+			return 'Invalid format characters (must be 6 characters)';
+		}
+
+		$b = [
+			$characters[0] => $time_elapsed / 31556926 % 12,
+			$characters[1] => $time_elapsed / 604800 % 52,
+			$characters[2] => $time_elapsed / 86400 % 7,
+			$characters[3] => $time_elapsed / 3600 % 24,
+			$characters[4] => $time_elapsed / 60 % 60,
+			$characters[5] => $time_elapsed % 60,
+		];
+
+		$out = [];
+		foreach($b as $k => $v)
+		{
+			if($v > 0)
+			{
+				$out[] = $v . $k;
+			}
+		}
+
+		return implode(' ', $out);
 	}
 
 	/**

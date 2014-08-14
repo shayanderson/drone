@@ -103,4 +103,4 @@ Empty PHP values can be defined as:
 - "0" (string)
 - null
 - false
-- [] (an empty array)
+- array() (an empty array)

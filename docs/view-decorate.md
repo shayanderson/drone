@@ -79,3 +79,27 @@ This would output:
 ID: 5, Title: tester, Status:Active<br />
 ID: 14, Title: programmer, Status:Inactive<br />
 ```
+
+### Decorate Test Values
+Values can be tested for non-empty values (equivalent to the PHP function `empty`) and based on the value can use one of two strings in a decorator. The logic used is: `if value not empty x, if value empty y in x?:y`, for example:
+```php
+use Drone\View\Decorate;
+
+// example value
+$var = false;
+
+// test value
+echo Decorate::test($var, 'Non-empty value ?: Empty value');
+```
+This would output:
+```html
+Empty value
+```
+> Empty PHP values can be defined as:
+- "" (empty string)
+- 0 (integer)
+- 0.0 (float)
+- "0" (string)
+- null
+- false
+- [] (an empty array)

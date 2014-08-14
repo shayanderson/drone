@@ -67,6 +67,18 @@ class Form
 	private $__id;
 
 	/**
+	 * Global default attributes
+	 *
+	 * @var array (ex: ['class' => 'form-control'])
+	 */
+	public static
+		$attributes_checkbox_radio, // checkbox + radio fields
+		$attributes_field, // email, password, text fields
+		$attributes_fields, // all fields
+		$attributes_select,
+		$attributes_textarea;
+
+	/**
 	 * Global decorators
 	 *
 	 * @var string (ex: '<div>{$field}</div>')
@@ -75,6 +87,7 @@ class Form
 		$decorator_checkbox_radio, // checkbox + radio fields
 		$decorator_error,
 		$decorator_errors,
+		$decorator_errors_message, // individual messages inside of the decorator_errors decorator
 		$decorator_field, // email, password, text fields
 		$decorator_fields, // all fields
 		$decorator_options, // all checkbox/radio options
@@ -113,6 +126,22 @@ class Form
 	}
 
 	/**
+	 * Form field data getter (::getData() alias)
+	 *
+	 * @param string $name
+	 * @return mixed (false on field does not exist in data)
+	 */
+	public function __get($name)
+	{
+		if($this->hasData($name))
+		{
+			return $this->getData($name);
+		}
+
+		return false;
+	}
+
+	/**
 	 * Alias for getFormIdField() method
 	 *
 	 * @return string
@@ -141,7 +170,7 @@ class Form
 
 		$this->__fields[$id] = ['type' => $type];
 
-		if($this->isSubmitted() && isset($this->__data[$id])) // add data as value
+		if($this->isSubmitted() && $this->hasData($id)) // add data as value
 		{
 			if($type !== self::FIELD_PASSWORD)
 			{
@@ -382,6 +411,11 @@ class Form
 			{
 				case self::FIELD_CHECKBOX:
 				case self::FIELD_RADIO:
+					if(count($attributes) === 1) // set default attributes
+					{
+						$attributes += self::$attributes_checkbox_radio ?: self::$attributes_fields;
+					}
+
 					foreach($this->__fields[$id]['options'] as $k => $v)
 					{
 						$opt_attributes = $attributes;
@@ -431,6 +465,11 @@ class Form
 				case self::FIELD_HIDDEN:
 				case self::FIELD_PASSWORD:
 				case self::FIELD_TEXT:
+					if(count($attributes) === 1) // set default attributes
+					{
+						$attributes += self::$attributes_field ?: self::$attributes_fields;
+					}
+
 					if(isset($this->__fields[$id]['value'])) // set default value
 					{
 						$attributes += ['value' => $this->__fields[$id]['value']];
@@ -443,6 +482,11 @@ class Form
 					break;
 
 				case self::FIELD_SELECT:
+					if(count($attributes) === 1) // set default attributes
+					{
+						$attributes += self::$attributes_select ?: self::$attributes_fields;
+					}
+
 					if(isset($attributes['selected']))
 					{
 						$selected = $attributes['selected'];
@@ -465,6 +509,11 @@ class Form
 					break;
 
 				case self::FIELD_TEXTAREA:
+					if(count($attributes) === 1) // set default attributes
+					{
+						$attributes += self::$attributes_textarea ?: self::$attributes_fields;
+					}
+
 					$html = self::__decorate('<textarea' . self::__attributes($attributes) . '>'
 						. ( isset($this->__fields[$id]['value']) ? $this->__fields[$id]['value'] : '' )
 						. '</textarea>', self::$decorator_textarea ?: self::$decorator_fields);
@@ -490,7 +539,7 @@ class Form
 	 */
 	public function getData($fields = null, $return_object = true)
 	{
-		if(is_array($fields) && count($fields) > 0)
+		if(is_array($fields) && count($fields) > 0) // get multiple fields
 		{
 			$out = [];
 
@@ -498,14 +547,14 @@ class Form
 			{
 				if(is_int($k)) // field
 				{
-					if(isset($this->__data[$v]))
+					if($this->hasData($v))
 					{
 						$out[$v] = $this->__data[$v];
 					}
 				}
 				else // map field
 				{
-					if(isset($this->__data[$k]))
+					if($this->hasData($k))
 					{
 						$out[$v] = $this->__data[$k];
 					}
@@ -543,7 +592,7 @@ class Form
 
 			return (object)$out;
 		}
-		else if(isset($this->__data[$fields])) // get single value
+		else if($this->hasData($fields)) // get single value
 		{
 			return $this->__data[$fields];
 		}
@@ -619,10 +668,10 @@ class Form
 
 			foreach($this->__fields[$id]['error'] as $v)
 			{
-				$html .= self::__decorate($v, $decorator ?: self::$decorator_errors);
+				$html .= self::__decorate($v, $decorator ?: self::$decorator_errors_message);
 			}
 
-			return $html;
+			return self::__decorate($html, self::$decorator_errors);
 		}
 	}
 
@@ -634,6 +683,30 @@ class Form
 	public function getFormIdField()
 	{
 		return $this->__isFormId() ? '<input type="hidden" name="' . $this->__form_id . '">' : '';
+	}
+
+	/**
+	 * Field has data flag getter
+	 *
+	 * @param string $field (or array for multiple fields, ex: ['field1', 'field2', ...])
+	 * @return boolean
+	 */
+	public function hasData($field)
+	{
+		if(is_array($field)) // multiple fields
+		{
+			foreach($field as $v)
+			{
+				if(!$this->hasData($v))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		return isset($this->__data[$field]);
 	}
 
 	/**
@@ -667,7 +740,7 @@ class Form
 	 */
 	public function isSubmitted()
 	{
-		return $this->__isFormId() ? isset($this->__data[$this->__form_id]) : !empty($this->__data);
+		return $this->__isFormId() ? $this->hasData($this->__form_id) : !empty($this->__data);
 	}
 
 	/**
@@ -690,7 +763,19 @@ class Form
 			{
 				foreach($f['rule'] as $r => $v)
 				{
-					self::__validate($r, isset($this->__data[$k]) ? $this->__data[$k] : null, $f, $v, $is_valid);
+					if($r === Data::VALIDATE_MATCH) // match field x with y
+					{
+						if(!Data::validateMatch($this->getData($k),
+							[Data::PARAM_VALUE => $this->getData($v['param'][0])])) // valid match value
+						{
+							$is_valid = false;
+							$f['error'][$r] = $v['message'];
+						}
+					}
+					else
+					{
+						self::__validate($r, $this->hasData($k) ? $this->__data[$k] : null, $f, $v, $is_valid);
+					}
 				}
 			}
 		}
@@ -811,6 +896,19 @@ class Form
 		$this->__addRule(Data::VALIDATE_LENGTH, $error_message, $min > 0 && $max > 0 ?
 			[Data::PARAM_MIN => $min, Data::PARAM_MAX => $max] : ( $min > 0 ? [Data::PARAM_MIN => $min]
 				: [Data::PARAM_MAX => $max] ));
+		return $this;
+	}
+
+	/**
+	 * Add validate match fields
+	 *
+	 * @param string $match_field (ex: 'field1')
+	 * @param string $error_message (optional)
+	 * @return \Drone\View\Form
+	 */
+	public function &validateMatch($match_field, $error_message = '')
+	{
+		$this->__addRule(Data::VALIDATE_MATCH, $error_message, [$match_field]);
 		return $this;
 	}
 

@@ -16,12 +16,13 @@ view()->form
 
 // set decorator for field errors
 \Drone\View\Form::$decorator_errors = '<div class="errors">{$errors}</div>';
+\Drone\View\Form::$decorator_errors_message = '{$error}<br />';
 
 // listen for form submit + validate data
 if(view()->form->isValid())
 {
 	// check if user credentials valid
-	if(User::validateLogin(view()->form->getData('username'), view()->form->getData('pwd')))
+	if(User::validateLogin(view()->form->username, view()->form->pwd))
 	{
 		// set session, redirect to account, etc...
 	}
@@ -38,11 +39,11 @@ Then in the view template display form:
 	<!-- form listener -->
 	<?=$form?>
 
-	<?php echo $form->getErrors('username', '<br />'); // display validation errors ?>
+	<?php echo $form->getErrors('username'); // display validation errors ?>
 	<label>Username:</label>
 	<?php echo $form->get('username'); // display username field ?><br />
 
-	<?=$form->getErrors('pwd', '<br />')?>
+	<?=$form->getErrors('pwd')?>
 	<label>Password:</label>
 	<?=$form->get('username')?><br />
 
@@ -74,13 +75,21 @@ Will output the HTML:
 <input type="text" name="username" class="textclass" maxlength="30">
 ```
 
+Global default field attributes can be used for form fields. These attributes are used when no other attributes have been set. The global attributes are:
+
+- `\Drone\View\Form::$attributes_checkbox_radio` - for checkbox and radio button fields
+- `\Drone\View\Form::$attributes_field` - for email, password and text input fields
+- `\Drone\View\Form::$attributes_fields` - for all form fields
+- `\Drone\View\Form::$attributes_select` - for select lists
+- `\Drone\View\Form::$attributes_textarea` - for textarea fields
+
 ### Form Field Decorators
 Global decorators can be used for form fields. The global decorators are:
 
 - `\Drone\View\Form::$decorator_checkbox_radio` - for checkbox and radio button fields
 - `\Drone\View\Form::$decorator_error` - for single error message
 - `\Drone\View\Form::$decorator_errors` - for multiple error messages
-- `\Drone\View\Form::$decorator_field` - for password and text input fields
+- `\Drone\View\Form::$decorator_field` - for email, password and text input fields
 - `\Drone\View\Form::$decorator_fields` - for all form fields
 - `\Drone\View\Form::$decorator_options` - for checkbox and radio button options
 - `\Drone\View\Form::$decorator_select` - for select lists
@@ -117,12 +126,19 @@ view()->form
 ```
 Will apply the required and length validation rules.
 
+The form validation methods are:
+
+- `validateEmail()` - validate email address
+- `validateLength()` - validate value length
+- `validateMatch()` - validate field x with field y value
+- `validateRequired()` - validate value is required
+
 Custom validation rules can also be used, for example:
 ```php
 view()->form
 	// add text field
 	->text('username')
-		->validate(function($v) { return $v !== 'some value'; }, 
+		->validate(function($v) { return $v !== 'some value'; },
 			'Username field value does not equal \'some value\'');
 ```
 This custom validation rule will flag the field value invalid if the value does not equal `some value`.
@@ -192,6 +208,15 @@ if(view()->form->isSubmitted())
 	$password = view()->form->getData('password');
 }
 ```
+Or the shorthand version can be used:
+```php
+if(view()->form->isSubmitted())
+{
+	$username = view()->form->username;
+	$fname = view()->form->first_name;
+	$password = view()->form->password;
+}
+```
 Or the data can be returned as an object:
 ```php
 	// stdClass Object(['username' => x, 'first_name' => y, 'pwd' => z])
@@ -212,4 +237,12 @@ Or the data for fields can be mapped to different keys:
 		'username' => 'uid',
 		'pwd' => 'u_pwd'
 	]); // stdClass Object(['uid' => x, 'u_pwd' => y])
+```
+The `hasData()` method can be used to test if field value exists, for example:
+```php
+	if(view()->form->hasData('username')) ...
+```
+Or the shorthand version:
+```php
+	if(view()->form->username !== false) ...
 ```

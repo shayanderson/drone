@@ -44,6 +44,19 @@ This would output:
 ID: 5, Title: tester<br />
 ID: 14, Title: programmer<br />
 ```
+Or single arrays can be used:
+```php
+// example data
+$data = ['id' => 5, 'title' => 'tester'];
+
+// decorate data
+echo Decorate::data($data, 'ID: {$id}, Title: {$title}<br />');
+```
+This would output:
+```html
+ID: 5, Title: tester<br />
+```
+
 Callable filters can also be used:
 ```php
 echo Decorate::data($data, 'ID: {$id}, Title: {$title:format_title}<br />',

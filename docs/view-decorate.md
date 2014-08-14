@@ -93,7 +93,55 @@ ID: 5, Title: tester, Status:Active<br />
 ID: 14, Title: programmer, Status:Inactive<br />
 ```
 
-### Decorate Test Values
+### Decorate Object
+Objects can be decorated, for example:
+```php
+use Drone\View\Decorate;
+
+// example object
+$obj = new stdClass;
+$obj->name = 'mr. smith';
+$obj->id = 14;
+
+// decorate data
+echo Decorate::data($obj, 'ID: {$id}, Name: {$name}');
+```
+This would output:
+```html
+ID: 14, Name: mr. smith
+```
+Callable filters can also be used:
+```php
+echo Decorate::data($obj, 'ID: {$id}, Name: {$name:format_name}',
+	['format_name' => function($data) { return ucwords($data['name']); }]);
+```
+This would output:
+```html
+ID: 14, Name: Mr. Smith
+```
+
+Also an array of objects can be decorated, for example:
+```php
+// example objects
+$obj = new stdClass;
+$obj->name = 'mr. smith';
+$obj->id = 14;
+
+$obj2 = new stdClass;
+$obj2->name = 'mr. tester';
+$obj2->id = 5;
+
+// decorate data
+echo Decorate::data([$obj, $obj2], 'ID: {$id}, Name: {$name}<br />');
+```
+This would output:
+```html
+ID: 14, Name: mr. smith<br />
+ID: 5, Name: mr. tester<br />
+```
+> Callable filters can also be used with array of objects
+
+### Decorate Test Value
 Values can be tested for non-empty values (equivalent to the PHP function `empty`) and based on the value can use one of two strings in a decorator. The logic used is: `if value not empty x, if value empty y in x?:y`, for example:
 ```php
 use Drone\View\Decorate;

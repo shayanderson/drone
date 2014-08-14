@@ -95,8 +95,7 @@ This would output:
 ```html
 Empty value
 ```
-Empty PHP values can be defined as:
-
+> Empty PHP values can be defined as:
 - "" (empty string)
 - 0 (integer)
 - 0.0 (float)

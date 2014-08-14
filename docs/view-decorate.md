@@ -139,7 +139,16 @@ This would output:
 ID: 14, Name: mr. smith<br />
 ID: 5, Name: mr. tester<br />
 ```
-> Callable filters can also be used with array of objects
+Callable filters can also be used with array of objects:
+```php
+echo Decorate::data([$obj, $obj2], 'ID: {$id}, Name: {$name:format_name}<br />',
+	['format_name' => function($data) { return ucwords($data['name']); }]);
+```
+Which would output:
+```html
+ID: 14, Name: Mr. Smith<br />
+ID: 5, Name: Mr. Tester<br />
+```
 
 ### Decorate Test Value
 Values can be tested for non-empty values (equivalent to the PHP function `empty`) and based on the value can use one of two strings in a decorator. The logic used is: `if value not empty x, if value empty y in x?:y`, for example:

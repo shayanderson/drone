@@ -19,8 +19,7 @@ class Decorate
 	/**
 	 * Placeholder pattern for '{$var(:callable_filter|:TestYes?:TestNo)?}'
 	 */
-	const
-		PATTERN_VAR_PLACEHOLDER = '/{\$([\w]+)?(?:\:([^}]+))?}/i';
+	const PATTERN_VAR_PLACEHOLDER = '/{\$([\w]+)?(?:\:([^}]+))?}/i';
 
 	/**
 	 * Placeholder strings
@@ -44,7 +43,8 @@ class Decorate
 
 		preg_replace_callback(self::PATTERN_VAR_PLACEHOLDER, function($m) use(&$data, &$str, &$filters)
 		{
-			if(isset($m[1]) && (isset($data[$m[1]]) || array_key_exists($m[1], $data)) && is_scalar($data[$m[1]]))
+			if(isset($m[1]) && (isset($data[$m[1]]) || array_key_exists($m[1], $data))
+				&& (is_scalar($data[$m[1]]) || $data[$m[1]] === null))
 			{
 				if(isset($m[2])) // callable filter or test value
 				{

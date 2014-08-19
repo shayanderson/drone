@@ -257,6 +257,26 @@ class Form
 	}
 
 	/**
+	 * Apply global attributes
+	 *
+	 * @param array $attributes
+	 * @param mixed $field_attribute
+	 * @param mixed $fields_attributes
+	 * @return void
+	 */
+	private static function __attributesGlobal(&$attributes, &$field_attribute, &$fields_attributes)
+	{
+		if(is_array($field_attribute))
+		{
+			$attributes += $field_attribute;
+		}
+		else if(is_array($fields_attributes))
+		{
+			$attributes += $fields_attributes;
+		}
+	}
+
+	/**
 	 * Decorator string method
 	 *
 	 * @param string $str
@@ -413,7 +433,8 @@ class Form
 				case self::FIELD_RADIO:
 					if(count($attributes) === 1) // set default attributes
 					{
-						$attributes += self::$attributes_checkbox_radio ?: self::$attributes_fields;
+						self::__attributesGlobal($attributes, self::$attributes_checkbox_radio,
+							self::$attributes_fields);
 					}
 
 					foreach($this->__fields[$id]['options'] as $k => $v)
@@ -467,7 +488,7 @@ class Form
 				case self::FIELD_TEXT:
 					if(count($attributes) === 1) // set default attributes
 					{
-						$attributes += self::$attributes_field ?: self::$attributes_fields;
+						self::__attributesGlobal($attributes, self::$attributes_field, self::$attributes_fields);
 					}
 
 					if(isset($this->__fields[$id]['value'])) // set default value
@@ -484,7 +505,7 @@ class Form
 				case self::FIELD_SELECT:
 					if(count($attributes) === 1) // set default attributes
 					{
-						$attributes += self::$attributes_select ?: self::$attributes_fields;
+						self::__attributesGlobal($attributes, self::$attributes_select, self::$attributes_fields);
 					}
 
 					if(isset($attributes['selected']))
@@ -511,7 +532,7 @@ class Form
 				case self::FIELD_TEXTAREA:
 					if(count($attributes) === 1) // set default attributes
 					{
-						$attributes += self::$attributes_textarea ?: self::$attributes_fields;
+						self::__attributesGlobal($attributes, self::$attributes_textarea, self::$attributes_fields);
 					}
 
 					$html = self::__decorate('<textarea' . self::__attributes($attributes) . '>'

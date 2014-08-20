@@ -85,6 +85,7 @@ class Form
 	 */
 	public static
 		$decorator_checkbox_radio, // checkbox + radio fields
+		$decorator_default_validation_message = 'Enter valid value for field \'{$field}\'',
 		$decorator_error,
 		$decorator_errors,
 		$decorator_errors_message, // individual messages inside of the decorator_errors decorator
@@ -203,6 +204,8 @@ class Form
 	private function __addRule($rule, $error_message, $param = null)
 	{
 		static $callable_id = 0;
+
+		$error_message = $error_message ?: self::__decorate($this->__id, self::$decorator_default_validation_message);
 
 		if($this->isField($this->__id))
 		{

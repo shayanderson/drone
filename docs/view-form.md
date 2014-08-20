@@ -39,13 +39,12 @@ Then in the view template display form:
 	<!-- form listener -->
 	<?=$form?>
 
-	<?php echo $form->getErrors('username'); // display validation errors ?>
 	<label>Username:</label>
+	<?php echo $form->getErrors('username'); // display validation errors ?>
 	<?php echo $form->get('username'); // display username field ?><br />
 
-	<?=$form->getErrors('pwd')?>
 	<label>Password:</label>
-	<?=$form->get('username')?><br />
+	<?=$form->getErrorsAndField('pwd') // shorthand method ?><br />
 
 	<input type="submit" value="Login" />
 </form>
@@ -87,6 +86,7 @@ Global default field attributes can be used for form fields. These attributes ar
 Global decorators can be used for form fields. The global decorators are:
 
 - `\Drone\View\Form::$decorator_checkbox_radio` - for checkbox and radio button fields
+- `\Drone\View\Form::$decorator_default_validation_message` - default validation error message when error message not used
 - `\Drone\View\Form::$decorator_error` - for single error message
 - `\Drone\View\Form::$decorator_errors` - for multiple error messages
 - `\Drone\View\Form::$decorator_field` - for email, password and text input fields
@@ -125,6 +125,17 @@ view()->form
 		->validateLength(4, 30, 'Username must be between 4-30 characters');
 ```
 Will apply the required and length validation rules.
+> If no error message is used, for example:
+```php
+view()->form
+	// add text field
+	->text('username')
+		->validateRequired();
+```
+The default validation error message decorator will be used, and by default the value is:
+```php
+\Drone\View\Form::$decorator_default_validation_message = 'Enter valid value for field \'{$field}\'';
+```
 
 The form validation methods are:
 

@@ -620,7 +620,7 @@ class Form
 	}
 
 	/**
-	 * Field error string getter
+	 * Field first error string getter
 	 *
 	 * @param string $id
 	 * @param mixed $decorator (string when setting, or null)
@@ -637,6 +637,18 @@ class Form
 		}
 
 		return '';
+	}
+
+	/**
+	 * Form field HTML with field first error string getter
+	 *
+	 * @param string $id
+	 * @param mixed $attributes (array when setting, or null)
+	 * @return string
+	 */
+	public function getErrorAndField($id, $attributes = null)
+	{
+		return $this->getError($id) . $this->get($id, $attributes);
 	}
 
 	/**
@@ -694,6 +706,18 @@ class Form
 
 			return self::__decorate($html, self::$decorator_errors);
 		}
+	}
+
+	/**
+	 * Form field HTML with field errors string getter
+	 *
+	 * @param string $id
+	 * @param mixed $attributes (array when setting, or null)
+	 * @return string
+	 */
+	public function getErrorsAndField($id, $attributes = null)
+	{
+		return $this->getErrors($id) . $this->get($id, $attributes);
 	}
 
 	/**

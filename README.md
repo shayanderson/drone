@@ -302,6 +302,13 @@ To assign a custom view template file use a template name, for example:
 // display template file '_app/tpl/my-dir/my-template.tpl'
 view()->display('my-dir/my-template');
 ```
+Also, a controller template path can be set using the `view()->displayPath()` method:
+```php
+// set controller template path '_app/tpl/my-dir/'
+view()->displayPath('my-dir');
+// display template file '_app/tpl/my-dir/my-template.tpl'
+view()->display('my-template');
+```
 
 > Other useful view methods:
 > - `view()->clearProperties()` - clears all view variables/properties

@@ -21,7 +21,7 @@ logger()->debug('Index controller start');
 view()->drone_ver = \Drone\Core::VERSION;
 view()->drone_params = drone()->getAll();
 
-// display view (displays _app/tpl/index.tpl when no template name)
+// display view (displays '_app/tpl/index.tpl' when no template name)
 view()->display();
 
 // log example

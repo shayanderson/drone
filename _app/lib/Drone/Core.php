@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
- * @version 0.1.7
+ * @version 0.1.8
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -63,7 +63,7 @@ class Core
 	/**
 	 * Package version
 	 */
-	const VERSION = '0.1.7';
+	const VERSION = '0.1.8';
 
 	/**
 	 * Last error message

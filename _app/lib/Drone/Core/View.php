@@ -123,28 +123,28 @@ class View
 	 */
 	public function display($template = null)
 	{
-		if($template !== null)
+		if($template !== null) // template
 		{
 			$this->__template = drone()->get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
 				. self::__formatTemplate($template);
 		}
-		else if(!empty($this->__template_display_path)) // controller display path
+		else if(!empty($this->__template_display_path)) // controller display path + default template
 		{
 			$this->__template = drone()->get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
 				. self::__formatTemplate(basename($this->__template_default));
 		}
-		else
+		else // default template
 		{
 			$this->__template = self::__formatTemplate($this->__template_default);
 		}
-
-		/*
-		$this->__template = !is_null($template)
-			? drone()->get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path . self::__formatTemplate($template)
-			: self::__formatTemplate($this->__template_default);
-		 */
 	}
 
+	/**
+	 * Set controller template path (ex: 'my/path')
+	 *
+	 * @param string $path
+	 * @return void
+	 */
 	public function displayPath($path)
 	{
 		$this->__template_display_path = rtrim(ltrim($path, DIRECTORY_SEPARATOR), DIRECTORY_SEPARATOR)

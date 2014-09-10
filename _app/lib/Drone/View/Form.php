@@ -525,7 +525,7 @@ class Form
 
 					foreach($this->__fields[$id]['options'] as $k => $v)
 					{
-						$html .= '<option value="' . $k . '"' . ( isset($selected) && $selected === $k
+						$html .= '<option value="' . $k . '"' . ( isset($selected) && strcmp($selected, $k) === 0
 							? ' selected' : '' ) . '>' . $v	. '</option>';
 					}
 

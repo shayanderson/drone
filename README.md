@@ -273,7 +273,7 @@ class Controller extends \Drone\Controller
 ```
 In the mapped route example above the class method `action()` will be called for the request `/my/route.htm`.
 
-Any public properties in the `Controller` class will be available as variables in view template files, for example in the `Controller` class example above we could add:
+Any *public* properties in the `Controller` class will be available as variables in view template files, for example in the `Controller` class example above we could add:
 ```php
 ...
 	public function action()

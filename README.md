@@ -284,7 +284,7 @@ Any *public* properties in the `Controller` class will be available as variables
 	}
 ...
 ```
-Now the variable `$my_class_var` is accessible from the view template file, *unless* the same variable name has been set using the `view()->[var name]` logic, which will override the class variable.
+Now the variable `$my_class_var` is accessible from the view template file, *unless* the same variable name has been set using the `view()->[var name]` logic, which will override class variables.
 
 > The `Controller` class can use two special methods:
 > - `__before()` - called *before* the controller action method is called

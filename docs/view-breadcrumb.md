@@ -85,5 +85,10 @@ Global filters can be used to modify all titles and/or URLs, for example:
 ```php
 // upper case all titles
 \Drone\View\Breadcrumb::$filter_title = function($title) { return strtoupper($title); };
+
+// urlencode all URL parts
+\Drone\View\Breadcrumb::$filter_url = function($url)
+{
+	return implode('/', array_map('urlencode', explode('/', $url)));
+};
 ```
-The filter for URLs can be set using `\Drone\View\Breadcrumb::$filter_url`

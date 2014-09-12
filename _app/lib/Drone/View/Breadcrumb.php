@@ -177,12 +177,12 @@ class Breadcrumb
 
 				if(is_callable(self::$filter_title))
 				{
-					$v[self::KEY_TITLE] = self::$filter_title($v[self::KEY_TITLE]);
+					$v[self::KEY_TITLE] = call_user_func(self::$filter_title, $v[self::KEY_TITLE]);
 				}
 
 				if(is_callable(self::$filter_url))
 				{
-					$v[self::KEY_URL] = self::$filter_url($v[self::KEY_URL]);
+					$v[self::KEY_URL] = call_user_func(self::$filter_url, $v[self::KEY_URL]);
 				}
 
 				if(isset($v[self::KEY_URL])) // non-active item

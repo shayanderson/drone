@@ -273,6 +273,19 @@ class Controller extends \Drone\Controller
 ```
 In the mapped route example above the class method `action()` will be called for the request `/my/route.htm`.
 
+Any public properties in the `Controller` class will be available as variables in view template files, for example in the `Controller` class example above we could add:
+```php
+...
+	public function action()
+	{
+		$this->my_class_var = 'my value';
+
+		// action logic here
+	}
+...
+```
+Now the variable `$my_class_var` is accessible from the view template file, *unless* the same variable name has been set using the `view()->[var name]` logic, which will override the class variable.
+
 > The `Controller` class can use two special methods:
 > - `__before()` - called *before* the controller action method is called
 > - `__after()` - called *after* the controller action method is called

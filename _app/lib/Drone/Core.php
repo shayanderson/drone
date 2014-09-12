@@ -914,6 +914,11 @@ class Core
 						return;
 					}
 
+					if(isset($controller)) // extract Controller object public props
+					{
+						extract(get_object_vars($controller), EXTR_OVERWRITE);
+					}
+
 					// extract all view public properties for variable use in template
 					extract(get_object_vars($this->view), EXTR_OVERWRITE);
 

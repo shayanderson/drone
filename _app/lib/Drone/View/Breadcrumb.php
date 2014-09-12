@@ -38,6 +38,20 @@ class Breadcrumb
 	private $__items = [];
 
 	/**
+	 * Callable filter for all titles
+	 *
+	 * @var callable
+	 */
+	public static $filter_title;
+
+	/**
+	 * Callable filter for all URLs
+	 *
+	 * @var callable
+	 */
+	public static $filter_url;
+
+	/**
 	 * Breadcrumb item template
 	 *
 	 * @var string (ex: '<a href="{$url}">{$title}</a>')
@@ -159,6 +173,16 @@ class Breadcrumb
 				if($i > 0)
 				{
 					$str .= self::$separator;
+				}
+
+				if(is_callable(self::$filter_title))
+				{
+					$v[self::KEY_TITLE] = self::$filter_title($v[self::KEY_TITLE]);
+				}
+
+				if(is_callable(self::$filter_url))
+				{
+					$v[self::KEY_URL] = self::$filter_url($v[self::KEY_URL]);
 				}
 
 				if(isset($v[self::KEY_URL])) // non-active item

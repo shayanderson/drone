@@ -79,3 +79,11 @@ The breadcrumb item separator can be changed using:
 ```php
 \Drone\View\Breadcrumb::$separator = ' / ';
 ```
+
+### Filters
+Global filters can be used to modify all titles and/or URLs, for example:
+```php
+// upper case all titles
+\Drone\View\Breadcrumb::$filter_title = function($title) { return strtoupper($title); };
+```
+The filter for URLs can be set using `\Drone\View\Breadcrumb::$filter_url`.

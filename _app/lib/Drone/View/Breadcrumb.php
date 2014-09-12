@@ -180,13 +180,13 @@ class Breadcrumb
 					$v[self::KEY_TITLE] = call_user_func(self::$filter_title, $v[self::KEY_TITLE]);
 				}
 
-				if(is_callable(self::$filter_url))
-				{
-					$v[self::KEY_URL] = call_user_func(self::$filter_url, $v[self::KEY_URL]);
-				}
-
 				if(isset($v[self::KEY_URL])) // non-active item
 				{
+					if(is_callable(self::$filter_url))
+					{
+						$v[self::KEY_URL] = call_user_func(self::$filter_url, $v[self::KEY_URL]);
+					}
+					
 					$str .= str_replace('{$url}', $v[self::KEY_URL], str_replace('{$title}', $v[self::KEY_TITLE],
 						self::$template));
 				}

@@ -391,7 +391,7 @@ class Request
 	 * @param string $path (required if path used to set cookie, ex: '/account')
 	 * @return boolean (true on actual cookie set expired)
 	 */
-	public function removeCookie($key, $path = null)
+	public function removeCookie($key, $path = '/')
 	{
 		if($this->hasCookie($key))
 		{
@@ -480,7 +480,7 @@ class Request
 	 * @param boolean $http_only (accessible only in HTTP protocol)
 	 * @return boolean (false on fail, true on send but cannot tell if client accepted cookie)
 	 */
-	function setCookie($name, $value, $expire = '+1 day', $path = null, $domain = null, $only_secure = false,
+	function setCookie($name, $value, $expire = '+1 day', $path = '/', $domain = null, $only_secure = false,
 		$http_only = false)
 	{
 		if(headers_sent())

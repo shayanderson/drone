@@ -1,6 +1,6 @@
 <?php
 /**
- * Drone - Rapid Development Framework for PHP 5.5.0+
+ * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
  * @version 0.1.8
@@ -32,8 +32,8 @@ class ErrorController extends \Drone\Controller
 	 */
 	public function _404()
 	{
-		view()->error_code = 404;
-		view()->error_message = '404 error';
+		$this->error_code = 404;
+		$this->error_message = '404 error';
 	}
 
 	/**
@@ -41,7 +41,7 @@ class ErrorController extends \Drone\Controller
 	 */
 	public function _500()
 	{
-		view()->error_code = 500;
-		view()->error_message = '500 error<br /><br />' . error_last();
+		$this->error_code = 500;
+		$this->error_message = '500 error<br /><br />' . error_last();
 	}
 }

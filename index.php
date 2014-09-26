@@ -1,6 +1,6 @@
 <?php
 /**
- * Drone - Rapid Development Framework for PHP 5.5.0+
+ * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
  * @version 0.1.8
@@ -9,7 +9,7 @@
  */
 
 //////////////////////////////////////////////////////////////////////////
-// Load Drone Framework + Run Application
+// Load Drone Framework + run application
 //////////////////////////////////////////////////////////////////////////
 // set root path
 define('PATH_ROOT', __DIR__ . '/');

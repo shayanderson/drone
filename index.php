@@ -14,17 +14,14 @@
 // set root path
 define('PATH_ROOT', __DIR__ . '/');
 
-// include common functions
-require_once './_app/lib/Drone/com/core.php';
+// include Drone common functions
+require_once './_app/lib/Drone/com.php';
 
 // set class autoloading paths
 autoload([
 	PATH_ROOT . '_app/lib',
 	// PATH_ROOT . '_app/mdl'
 ]);
-
-// include helper functions
-require_once './_app/lib/Drone/com/helper.php';
 
 // include app/Drone bootstrap
 require_once './_app/com/app.bootstrap.php';

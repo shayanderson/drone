@@ -9,10 +9,26 @@
  */
 
 /**
- * Drone helper functions
+ * Drone common functions
  *
  * @author Shay Anderson 05.14 <http://www.shayanderson.com/contact>
  */
+
+/**
+ * Class autoloading
+ *
+ * @param array $autoload_paths
+ * @return void
+ */
+function autoload(array $autoload_paths)
+{
+	set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR, $autoload_paths));
+
+	function __autoload($class)
+	{
+		require_once str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+	}
+}
 
 /**
  * Clear/unset param key/value pair (\Drone\Core->clear() alias)
@@ -23,6 +39,16 @@
 function clear($key)
 {
 	drone()->clear($key);
+}
+
+/**
+ * Drone Core instance getter
+ *
+ * @return \Drone\Core
+ */
+function &drone()
+{
+	return Drone\Core::getInstance();
 }
 
 /**

@@ -60,13 +60,19 @@ ID: 5, Title: tester<br />
 Callable filters can also be used:
 ```php
 echo Decorate::data($data, 'ID: {$id}, Title: {$title:format_title}<br />',
-	['format_title' => function($row) { return ucwords($row['title']); }]);
+	['format_title' => function($title) { return ucwords($title); }]);
 ```
 This would output:
 ```html
 ID: 5, Title: Tester<br />
 ID: 14, Title: Programmer<br />
 ```
+> A filter can also be setup to use the entire array as the parameter, for example:
+```php
+echo Decorate::data($data, 'ID: {$id}, Title: {$:format_title}<br />',
+	['format_title' => function($array) { return ucwords($array['title']); }]);
+```
+
 Arrays keys can also be used in the decorator when desired, for example:
 ```php
 echo Decorate::data($data, 'ID: {$id}, Title: {$title}, Key: {$:key}<br />');

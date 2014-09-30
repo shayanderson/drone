@@ -57,6 +57,7 @@ This would output:
 ID: 5, Title: tester<br />
 ```
 
+##### Filters
 Callable filters can also be used:
 ```php
 echo Decorate::data($data, 'ID: {$id}, Title: {$title:format_title}<br />',

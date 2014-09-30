@@ -74,6 +74,7 @@ echo Decorate::data($data, 'ID: {$id}, Title: {$:format_title}<br />',
 	['format_title' => function($array) { return ucwords($array['title']); }]);
 ```
 
+#### Array Keys
 Arrays keys can also be used in the decorator when desired, for example:
 ```php
 echo Decorate::data($data, 'ID: {$id}, Title: {$title}, Key: {$:key}<br />');
@@ -83,6 +84,8 @@ This would output:
 ID: 5, Title: tester, Key: 0<br />
 ID: 14, Title: programmer, Key: 1<br />
 ```
+
+#### Test Values
 Also, values can be tested within the decorator, for example:
 ```php
 // example data with 'is_active' added

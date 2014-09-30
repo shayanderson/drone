@@ -248,7 +248,7 @@ logger()->debug('Index controller end');
 ```
 In the controller file several helper functions are called: `logger()` and `view()`. These helper functions access Drone core components (in this case `drone()->log` and `drone()->view`). So instead of calling `drone()->log->debug('x')` a helper function can be used (see more [Helper Functions](https://github.com/shayanderson/drone#helper-functions)).
 
-View variables can be set using the `view()` helper function, which accesses the `\Drone\Core\View` object, for example:
+View variables can be set using the `view()` helper function, which accesses the `\Drone\View` object, for example:
 ```php
 view()->my_var = 'my value';
 ```
@@ -295,7 +295,7 @@ Now the variable `$my_class_var` is accessible from the view template file, *unl
 > It is recommended that `Controller` classes extend the `\Drone\Controller` class, this is because the `\Drone\Controller` will automatically deny static requests to the controller file (or mapped requests with no action).
 
 ## Views
-The Drone `\Drone\Core\View` object handles all view logic like view variables and template path formatting.
+The Drone `\Drone\View` object handles all view logic like view variables and template path formatting.
 
 The view object is accessible via the `view()` helper function.
 
@@ -365,7 +365,7 @@ view()->templateFooter();
 ```
 
 ## Logging
-The `\Drone\Core\Logger` object is used for logging and accessed using the `logger()` helper function.
+The `\Drone\Logger` object is used for logging and accessed using the `logger()` helper function.
 
 Log a simple application message example:
 ```php
@@ -400,7 +400,7 @@ Logging configuration is done in the `index.php` file.
 
 To set the global *log level* use:
 ```php
-drone()->log->setLogLevel(\Drone\Core\Logger::LEVEL_DEBUG);
+drone()->log->setLogLevel(\Drone\Logger::LEVEL_DEBUG);
 ```
 This means only messages with the *debug* level or higher will be logged.
 
@@ -450,7 +450,7 @@ error(100, 'My custom error'); // trigger 100 error handler
 
 <blockquote>A custom error code will attempt to trigger a custom error handler, if the handler is not found the <code>500</code> error handler will be triggered</blockquote>
 
-<blockquote>Errors are automatically sent to the <code>\Drone\Core\Logger</code> object to be logged</blockquote>
+<blockquote>Errors are automatically sent to the <code>\Drone\Logger</code> object to be logged</blockquote>
 
 #### Setting Error Handlers
 By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
@@ -595,7 +595,7 @@ drone()->stop(); // the application will stop
 <blockquote><i>After</i> hooks are triggered during a forced application stop, but the <code>Controller</code> method <code>__after()</code> will not be called</blockquote>
 
 ## Request Variables
-Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Core\Request` object), for example:
+Request variables can be accessed using the `request()` helper function (which uses the `\Drone\Request` object), for example:
 ```php
 $name = request()->get('name'); // get value from GET variable 'name'
 ```
@@ -636,7 +636,7 @@ Methods used to remove request variables:
 Request variable values can be globally sanitized using the `request()->filter()` method, for example:
 ```php
 // auto trim all GET + POST variable values
-request()->filter(\Drone\Core\Request::TYPE_GET | \Drone\Core\Request::TYPE_POST,
+request()->filter(\Drone\Request::TYPE_GET | \Drone\Request::TYPE_POST,
 	function($v) { return trim($v); });
 ```
 
@@ -661,7 +661,7 @@ request()->setCookie('my_cookie', 'cookie value', '+10 days');
 > - `request()->isSecure()` - check if HTTPS request
 
 ## Session Handling
-Sessions are handled with the `\Drone\Core\Session` object and accessed using the `session()` helper function, example:
+Sessions are handled with the `\Drone\Session` object and accessed using the `session()` helper function, example:
 ```php
 session()->set('my_key', 'my value');
 ...
@@ -694,7 +694,7 @@ if(session()->has('user', 'id'))
 > - `session()->newId()` - regenerate session ID
 
 #### Flash Messages
-Flash messages are simple session messages that last only until they are used. The `\Drone\Core\Flash` object handles flash messages and can be accessed using the `flash()` helper function, example:
+Flash messages are simple session messages that last only until they are used. The `\Drone\Flash` object handles flash messages and can be accessed using the `flash()` helper function, example:
 ```php
 // in a controller a validation error is set as a flash message
 flash('error', 'Please enter a valid email address');
@@ -710,7 +710,7 @@ The flash message will only appear once, and be destroyed immediately after. Thi
 The true power of flash messages is the use of templates, for example in the `index.php` file set a flash message template:
 ```php
 // sets template for flash message group 'error'
-\Drone\Core\Flash::template('error', '<div class="error">{$message}</div>');
+\Drone\Flash::template('error', '<div class="error">{$message}</div>');
 ```
 Then set the flash message in the controller:
 ```php
@@ -728,7 +728,7 @@ Also multiple group messages can be used:
 ```php
 // setup template to handle multiple messages
 // the 2nd param is the group template, the 3rd param is the message template
-\Drone\Core\Flash::template('error', '<div class="error">{$message}</div>',
+\Drone\Flash::template('error', '<div class="error">{$message}</div>',
 	'{$message}<br />');
 // set multiple validation errors in group 'error'
 flash('error', 'Please enter your name');
@@ -745,7 +745,7 @@ The output HTML:
 ```
 Also the message template can be used without a group template, for example if every message should be in a separate `<div>` tag:
 ```php
-\Drone\Core\Flash::template('error', null, '<div class="error">{$message}</div>');
+\Drone\Flash::template('error', null, '<div class="error">{$message}</div>');
 ```
 Now using the same errors above the HTML output would be:
 ```html
@@ -759,19 +759,19 @@ Now using the same errors above the HTML output would be:
 > - `flash()->has()` - check if flash message exists
 
 ## Data Handling
-Drone supports data handling: filtering, formatting and validation using the `\Drone\Core\Data` object.
+Drone supports data handling: filtering, formatting and validation using the `\Drone\Data` object.
 
 #### Filter
 Data can be filtered/sanitized using the `filter()` helper function, for example:
 ```php
 // trim value
-$trimmed = filter(' my value ', \Drone\Core\Data::FILTER_TRIM); // 'my value'
+$trimmed = filter(' my value ', \Drone\Data::FILTER_TRIM); // 'my value'
 ```
 > If no filter is passed to the `filter()` helper function the value will be trimmed
 
 Array values can also be used, for example:
 ```php
-$trimmed = filter([' value 1 ', ' value 2 '], \Drone\Core\Data::FILTER_TRIM);
+$trimmed = filter([' value 1 ', ' value 2 '], \Drone\Data::FILTER_TRIM);
 // $trimmed is now: ['value 1', 'value 2']
 ```
 
@@ -779,17 +779,17 @@ Filters can also be used together:
 ```php
 // trim value + strip non-word characters
 $trimmed_words = filter(' my value! ',
-	\Drone\Core\Data::FILTER_TRIM | \Drone\Core\Data::FILTER_WORD); // 'myvalue'
+	\Drone\Data::FILTER_TRIM | \Drone\Data::FILTER_WORD); // 'myvalue'
 ```
 Some filter methods use arguments (or *params*), for example:
 ```php
 // strip non-word characters, but allow whitespaces
-$words = filter('my value!', \Drone\Core\Data::FILTER_WORD,
-	[\Drone\Core\Data::PARAM_WHITESPACE => true]); // 'my value'
+$words = filter('my value!', \Drone\Data::FILTER_WORD,
+	[\Drone\Data::PARAM_WHITESPACE => true]); // 'my value'
 ```
 >Filter methods can also be called statically:
 ```php
-$trimmed = \Drone\Core\Data::filterTrim(' my value '); // 'my value'
+$trimmed = \Drone\Data::filterTrim(' my value '); // 'my value'
 ```
 
 Available filters are:
@@ -817,19 +817,19 @@ $no_hypens = filter('my-value', 'strip_hypens'); // 'myvalue'
 
 // or use custom filter with defined filter
 $no_hypens_trimmed = filter(' my-value ', 'strip_hypens',
-	\Drone\Core\Data::FILTER_TRIM); // 'myvalue'
+	\Drone\Data::FILTER_TRIM); // 'myvalue'
 ```
 
 #### Format
 Data can be formatted using the `format()` helper function, for example:
 ```php
 // format number to currency
-$currency = format(5, \Drone\Core\Data::FORMAT_CURRENCY); // '$5.00'
+$currency = format(5, \Drone\Data::FORMAT_CURRENCY); // '$5.00'
 ```
 
 Array values can also be used, for example:
 ```php
-$currencies = format([5, 10.5], \Drone\Core\Data::FORMAT_CURRENCY);
+$currencies = format([5, 10.5], \Drone\Data::FORMAT_CURRENCY);
 // $currencies is now: ['$5.00', '$10.50']
 ```
 
@@ -837,17 +837,17 @@ Formatters can also be used together:
 ```php
 // format byte value + upper case
 $bytes_upper = format(2000,
-	\Drone\Core\Data::FORMAT_BYTE | \Drone\Core\Data::FORMAT_UPPER); // '1.95 KB'
+	\Drone\Data::FORMAT_BYTE | \Drone\Data::FORMAT_UPPER); // '1.95 KB'
 ```
 Some formatter methods use arguments (or *params*), for example:
 ```php
 // format number to currency with custom currency format
-$currency = format(5, \Drone\Core\Data::FORMAT_CURRENCY,
-	[\Drone\Core\Data::PARAM_FORMAT => '$%0.2f USD']); // '$5.00 USD'
+$currency = format(5, \Drone\Data::FORMAT_CURRENCY,
+	[\Drone\Data::PARAM_FORMAT => '$%0.2f USD']); // '$5.00 USD'
 ```
 > Format methods can also be called statically:
 ```php
-$upper_words = \Drone\Core\Data::formatUpperWords('my value'); // 'My Value'
+$upper_words = \Drone\Data::formatUpperWords('my value'); // 'My Value'
 ```
 
 Available formats are:
@@ -871,14 +871,14 @@ $quoted = format('my value', 'quotes'); // '"my value"'
 
 // or use custom format with defined format
 $quoted_upper = format('my value', 'quotes',
-	\Drone\Core\Data::FORMAT_UPPER); // '"MY VALUE"'
+	\Drone\Data::FORMAT_UPPER); // '"MY VALUE"'
 ```
 
 #### Validate
 Data validation can be done using the `validate()` helper function, for example:
 ```php
 // validate email value
-if(!validate('bad-email@', \Drone\Core\Data::VALIDATE_EMAIL))
+if(!validate('bad-email@', \Drone\Data::VALIDATE_EMAIL))
 {
 	// warn user
 }
@@ -892,15 +892,15 @@ if(validate('my value')) // valid
 Array values can also be used, for example:
 ```php
 $valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'],
-	\Drone\Core\Data::VALIDATE_EMAIL);
+	\Drone\Data::VALIDATE_EMAIL);
 // $valid is now: [1 => false, 2 => true]
 ```
 
 Validators can also be used together:
 ```php
 // validate required + alpha characters
-if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED
-	| \Drone\Core\Data::VALIDATE_ALPHA))
+if(!validate('string14', \Drone\Data::VALIDATE_REQUIRED
+	| \Drone\Data::VALIDATE_ALPHA))
 {
 	// warn
 }
@@ -908,15 +908,15 @@ if(!validate('string14', \Drone\Core\Data::VALIDATE_REQUIRED
 Some validator methods use arguments (or *params*), for example:
 ```php
 // validate string length (minimum 4, maximum 50)
-if(!validate('my string', \Drone\Core\Data::VALIDATE_LENGTH,
-	[\Drone\Core\Data::PARAM_MIN => 4, \Drone\Core\Data::PARAM_MAX => 50]))
+if(!validate('my string', \Drone\Data::VALIDATE_LENGTH,
+	[\Drone\Data::PARAM_MIN => 4, \Drone\Data::PARAM_MAX => 50]))
 {
 	// warn
 }
 ```
 > Validation methods can also be called statically:
 ```php
-if(!\Drone\Core\Data::validateEmail('bad-email@'))
+if(!\Drone\Data::validateEmail('bad-email@'))
 ```
 
 Available validators are:
@@ -949,7 +949,7 @@ if(!validate('my value', 'upper'))
 }
 
 // or use custom validator with defined validator
-if(!validate('my value', 'upper', \Drone\Core\Data::VALIDATE_REQUIRED))
+if(!validate('my value', 'upper', \Drone\Data::VALIDATE_REQUIRED))
 ```
 
 ## Database Handling

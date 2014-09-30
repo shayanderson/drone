@@ -3,26 +3,26 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.1.8
+ * @version 0.1.9
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 namespace Drone;
 
-use Drone\Core\Logger;
-use Drone\Core\Route;
+use Drone\Logger;
+use Drone\Route;
 
 /**
  * Drone Core class
  *
  * @author Shay Anderson 05.14 <http://www.shayanderson.com/contact>
  *
- * @property \Drone\Core\Data $data
- * @property \Drone\Core\Flash $flash
- * @property \Drone\Core\Logger $log
- * @property \Drone\Core\Request $request
- * @property \Drone\Core\Session $session
- * @property \Drone\Core\View $view
+ * @property \Drone\Data $data
+ * @property \Drone\Flash $flash
+ * @property \Drone\Logger $log
+ * @property \Drone\Request $request
+ * @property \Drone\Session $session
+ * @property \Drone\View $view
  */
 class Core
 {
@@ -63,7 +63,7 @@ class Core
 	/**
 	 * Package version
 	 */
-	const VERSION = '0.1.8';
+	const VERSION = '0.1.9';
 
 	/**
 	 * Last error message
@@ -99,12 +99,12 @@ class Core
 	 * @var array
 	 */
 	private static $__objects_map = [
-		'data' => '\Drone\Core\Data',
-		'flash' => '\Drone\Core\Flash',
-		'log' => '\Drone\Core\Logger',
-		'request' => '\Drone\Core\Request',
-		'session' => '\Drone\Core\Session',
-		'view' => '\Drone\Core\View'
+		'data' => '\Drone\Data',
+		'flash' => '\Drone\Flash',
+		'log' => '\Drone\Logger',
+		'request' => '\Drone\Request',
+		'session' => '\Drone\Session',
+		'view' => '\Drone\View'
 	];
 
 	/**
@@ -117,7 +117,7 @@ class Core
 	/**
 	 * Mapped routes
 	 *
-	 * @var array (\Drone\Core\Route)
+	 * @var array (\Drone\Route)
 	 */
 	private $__routes = [];
 

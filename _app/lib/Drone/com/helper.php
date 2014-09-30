@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.1.8
+ * @version 0.1.9
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -60,11 +60,11 @@ function filter($value, $_ = null)
 }
 
 /**
- * Flash message getter/setter (or \Drone\Core\Flash instance getter (drone()->flash alias))
+ * Flash message getter/setter (or \Drone\Flash instance getter (drone()->flash alias))
  *
  * @param mixed $key
  * @param mixed $value
- * @return \Drone\Core\Flash (or mixed on getter/setter)
+ * @return \Drone\Flash (or mixed on getter/setter)
  */
 function flash($key = null, $value = null)
 {
@@ -136,9 +136,9 @@ function load_com($file, $load_once = true, $ext = '.php')
 }
 
 /**
- * \Drone\Core\Logger instance getter (drone()->log alias)
+ * \Drone\Logger instance getter (drone()->log alias)
  *
- * @return \Drone\Core\Logger
+ * @return \Drone\Logger
  */
 function logger()
 {
@@ -192,9 +192,9 @@ function redirect($location, $use_301 = false)
 }
 
 /**
- * \Drone\Core\Request instance getter (drone()->request alias)
+ * \Drone\Request instance getter (drone()->request alias)
  *
- * @return \Drone\Core\Request
+ * @return \Drone\Request
  */
 function request()
 {
@@ -202,9 +202,9 @@ function request()
 }
 
 /**
- * \Drone\Core\Session instance getter (drone()->session alias)
+ * \Drone\Session instance getter (drone()->session alias)
  *
- * @return \Drone\Core\Session
+ * @return \Drone\Session
  */
 function session()
 {
@@ -258,9 +258,9 @@ function validate($value, $_ = null)
 }
 
 /**
- * \Drone\Core\View instance getter (drone()->view alias)
+ * \Drone\View instance getter (drone()->view alias)
  *
- * @return \Drone\Core\View
+ * @return \Drone\View
  */
 function view()
 {

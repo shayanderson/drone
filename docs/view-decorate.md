@@ -84,7 +84,7 @@ This would output:
 ID: 5, Title: tester, Key: 0<br />
 ID: 14, Title: programmer, Key: 1<br />
 ```
-> Note: a [filter](https://github.com/shayanderson/drone/blob/master/docs/view-decorate.md#filters) setup with an array as the filter parameter can override this `$:key` logic
+> Note: a [filter](https://github.com/shayanderson/drone/blob/master/docs/view-decorate.md#filters) setup with an array as the filter parameter can override this `$:key` placeholder if the filter is named `key`
 
 ##### Test Values
 Also, values can be tested within the decorator, for example:

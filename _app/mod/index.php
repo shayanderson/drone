@@ -26,3 +26,27 @@ view()->display();
 
 // log example
 logger()->debug('Index controller end');
+
+use \Drone\View\Decorate;
+
+pa( Decorate::data([
+	[
+		'id' => 14,
+		'name' => 'Shay',
+		'active' => 1
+	],
+	[
+		'id' => 20,
+		'name' => 'duce',
+		'active' => 0
+	]
+], '<div>{$:key} - {$name:name_format} - {$id},{$name} - {$active: Yes ?: No}</div>', [
+	'key' => function($r)
+	{
+		return '#' . $r['id'] . ' (' . strtoupper($r['name']) . ')';
+	},
+	'name_format' => function($name)
+	{
+		return ucwords($name);
+	}
+]) );

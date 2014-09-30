@@ -57,7 +57,6 @@ This would output:
 ID: 5, Title: tester<br />
 ```
 
-
 ##### Filters
 Callable filters can also be used:
 ```php
@@ -75,7 +74,6 @@ echo Decorate::data($data, 'ID: {$id}, Title: {$:format_title}<br />',
 	['format_title' => function($array) { return ucwords($array['title']); }]);
 ```
 
-
 ##### Array Keys
 Arrays keys can also be used in the decorator when desired, for example:
 ```php
@@ -86,7 +84,7 @@ This would output:
 ID: 5, Title: tester, Key: 0<br />
 ID: 14, Title: programmer, Key: 1<br />
 ```
-
+> Note: a [filter](https://github.com/shayanderson/drone/blob/master/docs/view-decorate.md#filters) setup with an array as the filter parameter can override this `$:key` logic
 
 ##### Test Values
 Also, values can be tested within the decorator, for example:

@@ -18,10 +18,7 @@ define('PATH_ROOT', __DIR__ . '/');
 require_once './_app/lib/Drone/com.php';
 
 // set class autoloading paths
-autoload([
-	PATH_ROOT . '_app/lib',
-	// PATH_ROOT . '_app/mdl'
-]);
+autoload([PATH_ROOT . '_app/lib']);
 
 // include app/Drone bootstrap
 require_once './_app/com/app.bootstrap.php';

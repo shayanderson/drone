@@ -3,10 +3,10 @@
 The `\Drone\View\Form` helper class can be used for HTML forms, for example in a controller set the form object and set form fields:
 ```php
 // set form object with POST request + 'login_form' as form ID
-view()->form = new \Drone\View\Form($_POST, 'login_form');
+$this->form = new \Drone\View\Form($_POST, 'login_form');
 
 // set form fields
-view()->form
+$this->form
 	// add text field
 	->text('username')
 		->validateRequired('Username is required')
@@ -19,17 +19,17 @@ view()->form
 \Drone\View\Form::$decorator_errors_message = '{$error}<br />';
 
 // listen for form submit + validate data
-if(view()->form->isValid())
+if($this->form->isValid())
 {
 	// check if user credentials valid
-	if(User::validateLogin(view()->form->username, view()->form->pwd))
+	if(User::validateLogin($this->form->username, $this->form->pwd))
 	{
 		// set session, redirect to account, etc...
 	}
 	else
 	{
 		// warn user invalid credentials
-		view()->form->field('username')->forceError('Invalid username and/or password');
+		$this->form->field('username')->forceError('Invalid username and/or password');
 	}
 }
 ```
@@ -51,7 +51,7 @@ Then in the view template display form:
 ```
 > When setting the form object the `form_id` param is optional - it is used to detect when an exact form is submitted. When using the `form_id` make sure to include the `<?=$form->getFormIdField()?>` (or `<?=$form?>`) code in the view template to ensure the form ID will be used.
 
-<blockquote>The form object will auto sanitize form data - to disable auto sanitizing set the object using a <code>false</code> flag as the third param: <code>view()->form = new \Drone\View\Form($_POST, 'login_form', false);</code></blockquote>
+<blockquote>The form object will auto sanitize form data - to disable auto sanitizing set the object using a <code>false</code> flag as the third param: <code>$this->form = new \Drone\View\Form($_POST, 'login_form', false);</code></blockquote>
 
 ### Form Fields
 The `\Drone\View\Form` class uses the following methods for adding fields:
@@ -101,7 +101,7 @@ A global decorator can be set before setting the form object like:
 \Drone\View\Form::$decorator_field = '<div class="field">{$field}</div>';
 
 // set
-view()->form
+$this->form
 	// add text field
 	->text('username');
 ```
@@ -118,7 +118,7 @@ Will output the HTML:
 ### Form Validator Methods
 Form field validation methods can be used to validate form data, for example:
 ```php
-view()->form
+$this->form
 	// add text field
 	->text('username')
 		->validateRequired('Username is required')
@@ -127,7 +127,7 @@ view()->form
 Will apply the required and length validation rules.
 > If no error message is used, for example:
 ```php
-view()->form
+$this->form
 	// add text field
 	->text('username')
 		->validateRequired();
@@ -146,7 +146,7 @@ The form validation methods are:
 
 Custom validation rules can also be used, for example:
 ```php
-view()->form
+$this->form
 	// add text field
 	->text('username')
 		->validate(function($v) { return $v !== 'some value'; },
@@ -156,13 +156,13 @@ This custom validation rule will flag the field value invalid if the value does 
 
 Forced errors can be used, for example:
 ```php
-view()->form
+$this->form
 	->text('username');
 
 // do some logic to check valid login
 if(!$valid_login)
 {
-	view()->form->field('username')->forceError('Invalid username and/or password');
+	$this->form->field('username')->forceError('Invalid username and/or password');
 }
 ```
 Now if the login is invalid the error will be displayed to the user in the view template file.
@@ -176,7 +176,7 @@ Form field validation errors (and *forced* errors) can be displayed using two me
 
 The `getError()` method is used to fetch the first field error message, for example in the controller file:
 ```php
-view()->form
+$this->form
 	// add text field
 	->text('username')
 		->validateRequired('Username is required')
@@ -207,53 +207,53 @@ All form field errors can be fetched using `null` in place of the field name:
 ### Accessing Form Data
 Form field data is accessed using the `getData()` method:
 ```php
-view()->form
+$this->form
 	->text('username')
 	->text('first_name')
 	->password('pwd');
 
-if(view()->form->isSubmitted())
+if($this->form->isSubmitted())
 {
-	$username = view()->form->getData('username');
-	$fname = view()->form->getData('first_name');
-	$password = view()->form->getData('password');
+	$username = $this->form->getData('username');
+	$fname = $this->form->getData('first_name');
+	$password = $this->form->getData('password');
 }
 ```
 Or the shorthand version can be used:
 ```php
-if(view()->form->isSubmitted())
+if($this->form->isSubmitted())
 {
-	$username = view()->form->username;
-	$fname = view()->form->first_name;
-	$password = view()->form->password;
+	$username = $this->form->username;
+	$fname = $this->form->first_name;
+	$password = $this->form->password;
 }
 ```
 Or the data can be returned as an object:
 ```php
 	// stdClass Object(['username' => x, 'first_name' => y, 'pwd' => z])
-	$data = view()->form->getData();
+	$data = $this->form->getData();
 ```
 Or the data can be returned as array:
 ```php
-	$data = view()->form->getData(null, false); // ['username' => x, 'first_name' => y, 'pwd' => z]
+	$data = $this->form->getData(null, false); // ['username' => x, 'first_name' => y, 'pwd' => z]
 ```
 Or the data can be returned for specific fields:
 ```php
 	// stdClass Object(['username' => x, 'pwd' => y])
-	$data = view()->form->getData(['username', 'pwd']);
+	$data = $this->form->getData(['username', 'pwd']);
 ```
 Or the data for fields can be mapped to different keys:
 ```php
-	$data = view()->form->getData([
+	$data = $this->form->getData([
 		'username' => 'uid',
 		'pwd' => 'u_pwd'
 	]); // stdClass Object(['uid' => x, 'u_pwd' => y])
 ```
 The `hasData()` method can be used to test if field value exists, for example:
 ```php
-	if(view()->form->hasData('username')) ...
+	if($this->form->hasData('username')) ...
 ```
 Or the shorthand version:
 ```php
-	if(view()->form->username !== false) ...
+	if($this->form->username !== false) ...
 ```

@@ -57,7 +57,7 @@ Then in the view template display form:
 The `\Drone\View\Form` class uses the following methods for adding fields:
 
 - `checkbox()` - checkbox input, example: `$form->checkbox('field_name', [1 => 'Option 1', 2 => 'Option 2'], 'default checked (optional)')`
-- `hidden()` - hidden input, example: `$form->hidden('field_name', 'default value')`
+- `hidden()` - hidden input, example: `$form->hidden('field_name', 'default value (optional)')`
 - `password()` - password input, example: `$form->password('field_name', 'default value (optional)')`
 - `radio()` - radio button, example: `$form->radio('field_name', [1 => 'Option 1', 2 => 'Option 2'], 'default checked (optional)')`
 - `select()` - select list, example: `$form->select('field_name', [1 => 'Option 1', 2 => 'Option 2'], 'default selected (optional)')`

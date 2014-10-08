@@ -56,13 +56,13 @@ Then in the view template display form:
 ### Form Fields
 The `\Drone\View\Form` class uses the following methods for adding fields:
 
-- `checkbox()` - checkbox input, example: `$form->checkbox('field_name', [1 => 'Option 1', 2 => 'Option 2'])`
+- `checkbox()` - checkbox input, example: `$form->checkbox('field_name', [1 => 'Option 1', 2 => 'Option 2'], 'default checked (optional)')`
 - `hidden()` - hidden input, example: `$form->hidden('field_name', 'default value')`
-- `password()` - password input, example: `$form->password('field_name')`
-- `radio()` - radio button, example: `$form->radio('field_name', [1 => 'Option 1', 2 => 'Option 2'])`
-- `select()` - select list, example: `$form->select('field_name', [1 => 'Option 1', 2 => 'Option 2'])`
-- `text()` - text input, example: `$form->text('field_name')`
-- `textarea()` - multi-line text input, example: `$form->textarea('field_name')`
+- `password()` - password input, example: `$form->password('field_name', 'default value (optional)')`
+- `radio()` - radio button, example: `$form->radio('field_name', [1 => 'Option 1', 2 => 'Option 2'], 'default checked (optional)')`
+- `select()` - select list, example: `$form->select('field_name', [1 => 'Option 1', 2 => 'Option 2'], 'default selected (optional)')`
+- `text()` - text input, example: `$form->text('field_name', 'default value (optional)')`
+- `textarea()` - multi-line text input, example: `$form->textarea('field_name', 'default value (optional)')`
 
 ### Form Field Attributes
 Form field attributes are added in the view template file, for example:

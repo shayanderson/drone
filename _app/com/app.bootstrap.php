@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.1.9
+ * @version 0.2.0
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -42,7 +42,7 @@ drone()->error(500, function() { drone()->run('error->\ErrorController->_500'); 
 // Hooks
 //////////////////////////////////////////////////////////////////////////
 // after hook that displays log example:
-drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log->get()); });
+drone()->hookAfter(function() { pa('', 'Log:', drone()->log->get()); });
 
 
 //////////////////////////////////////////////////////////////////////////

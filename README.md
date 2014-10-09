@@ -14,7 +14,7 @@ Install Drone options:
 - **[Views](https://github.com/shayanderson/drone#views)**: [View Templates](https://github.com/shayanderson/drone#view-templates)
 - **[Logging](https://github.com/shayanderson/drone#logging)**: [Log Levels](https://github.com/shayanderson/drone#log-levels), [Log Configuration](https://github.com/shayanderson/drone#log-configuration), [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**: [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
-- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**: [Parameters](https://github.com/shayanderson/drone#parameters), [Route Parameters](https://github.com/shayanderson/drone#route-parameters), [Events](https://github.com/shayanderson/drone#events), [Hooks](https://github.com/shayanderson/drone#hooks), [Redirect](https://github.com/shayanderson/drone#redirect), [Headers](https://github.com/shayanderson/drone#headers), [Timers](https://github.com/shayanderson/drone#timers), [Stop Application](https://github.com/shayanderson/drone#stop-application)
+- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**: [Parameters](https://github.com/shayanderson/drone#parameters), [Route Parameters](https://github.com/shayanderson/drone#route-parameters), [Hooks](https://github.com/shayanderson/drone#hooks), [Redirect](https://github.com/shayanderson/drone#redirect), [Headers](https://github.com/shayanderson/drone#headers), [Timers](https://github.com/shayanderson/drone#timers), [Stop Application](https://github.com/shayanderson/drone#stop-application)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**: [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
 - **[Data Handling](https://github.com/shayanderson/drone#data-handling)**: [Filter](https://github.com/shayanderson/drone#filter), [Format](https://github.com/shayanderson/drone#format), [Validate](https://github.com/shayanderson/drone#validate)
@@ -58,7 +58,7 @@ Would load the class `_app/lib/Mylib/Myclass.php` or `_app/mdl/Mylib/Myclass.php
 #### Drone Function
 The `drone()` function can be used to easily access the Drone core class, example:
 ```php
-drone()->trigger('myevent');
+drone()->header('Content-type', 'image/jpeg');
 ```
 
 #### Helper Functions
@@ -519,35 +519,15 @@ if(count(params(null)) > 2) // more than 2 params
 ```
 > [*Optional*](https://github.com/shayanderson/drone#optional-route-parameters) and [*wildcard*](https://github.com/shayanderson/drone#wildcard-route-parameters) route params are also available
 
-#### Events
-Events are global callables that can be accessed from the application. Register an event example in `index.php`:
-```php
-drone()->event('cart.add', function(\Cart\Item $item)
-{
-	return get('cart')->add($item);
-});
-```
-Now in any controller the event can be trigger:
-```php
-if(drone()->trigger('cart.add', $item)) // trigger event
-{
-	// alert user
-	flash('alert.cart.add', 'Item ' . $item->sku . ' has been added to cart');
-}
-```
-
-> Events support any number of function params, for example: `drone()->trigger('my_event', x, y, z)`
-
 #### Hooks
 Hooks can be used to initialize or finalize an application. The two types of hooks are: *before* (triggered before the controller file is imported) and *after* (triggered after the controller file is imported and action called when action exists).
 
 Example of *before* and *after* hooks set in `index.php`:
 ```php
 // call function to init application logic
-drone()->hook(\Drone\Core::HOOK_BEFORE, function() { initAppLogic(); });
+drone()->hookBefore(function() { initAppLogic(); });
 // print Drone log
-drone()->hook(\Drone\Core::HOOK_AFTER, function() {
-	pa('', 'Log:', drone()->log->get()); });
+drone()->hookAfter(function() { pa('', 'Log:', drone()->log->get()); });
 ```
 
 > For controller level hooks (special methods `__before()` and `__after`) see [Controller Class](https://github.com/shayanderson/drone#controller-class)

@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.1.9
+ * @version 0.2.0
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
@@ -63,7 +63,7 @@ class Core
 	/**
 	 * Package version
 	 */
-	const VERSION = '0.1.9';
+	const VERSION = '0.2.0';
 
 	/**
 	 * Last error message
@@ -71,13 +71,6 @@ class Core
 	 * @var string
 	 */
 	private static $__error_last;
-
-	/**
-	 * Events
-	 *
-	 * @var array
-	 */
-	private $__events = [];
 
 	/**
 	 * Hooks
@@ -233,6 +226,20 @@ class Core
 				}
 			}
 		}
+	}
+
+	/**
+	 * Register hook
+	 *
+	 * @param int $type
+	 * @param callable $hook
+	 * @return void
+	 */
+	public function __hook($type, callable $hook)
+	{
+		$this->__hooks[$type][] = $hook;
+		$this->log->trace('Hook registered (' . ( $type == self::HOOK_BEFORE ? 'before' : 'after' ) . ')',
+			Logger::CATEGORY_DRONE);
 	}
 
 	/**
@@ -471,31 +478,6 @@ class Core
 	}
 
 	/**
-	 * Register application event
-	 *
-	 * @param string $key (or array for multiple load)
-	 * @param callable $event
-	 * @return void
-	 */
-	public function event($key, callable $callable)
-	{
-		if(is_array($key)) // multiple load
-		{
-			foreach($key as $k => $v)
-			{
-				$this->event($k, $v);
-			}
-			return;
-		}
-
-		if(!isset($this->__events[$key]))
-		{
-			$this->log->trace('Event registered: \'' . $key . '\'', Logger::CATEGORY_DRONE);
-			$this->__events[$key] = $callable;
-		}
-	}
-
-	/**
 	 * Param value getter
 	 *
 	 * @param string $key
@@ -585,17 +567,25 @@ class Core
 	}
 
 	/**
-	 * Register hook
+	 * Register after hook
 	 *
-	 * @param int $type
 	 * @param callable $hook
 	 * @return void
 	 */
-	public function hook($type, callable $hook)
+	public function hookAfter(callable $hook)
 	{
-		$this->__hooks[$type][] = $hook;
-		$this->log->trace('Hook registered (' . ( $type == self::HOOK_BEFORE ? 'before' : 'after' ) . ')',
-			Logger::CATEGORY_DRONE);
+		$this->__hook(self::HOOK_AFTER, $hook);
+	}
+
+	/**
+	 * Register before hook
+	 *
+	 * @param callable $hook
+	 * @return void
+	 */
+	public function hookBefore(callable $hook)
+	{
+		$this->__hook(self::HOOK_BEFORE, $hook);
 	}
 
 	/**
@@ -1030,29 +1020,5 @@ class Core
 		{
 			return number_format(microtime(true) - $timers[$name], (int)$decimals, '.', '');
 		}
-	}
-
-	/**
-	 * Trigger event
-	 *
-	 * @param string $event_key
-	 * @param mixed $_ (optional values for callable params)
-	 * @return mixed (event callable return type)
-	 * @throws \OutOfBoundsException
-	 */
-	public function trigger($event_key, $_ = null)
-	{
-		if(!isset($this->__events[$event_key]))
-		{
-			throw new \OutOfBoundsException('Failed to trigger event \'' . $event_key
-				. '\', event key not found');
-		}
-
-		$params = func_get_args();
-		array_shift($params); // rm event key
-
-		$this->log->trace('Triggering event: \'' . $event_key . '\'', Logger::CATEGORY_DRONE);
-
-		return call_user_func_array($this->__events[$event_key], $params);
 	}
 }

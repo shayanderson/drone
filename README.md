@@ -610,7 +610,7 @@ Request variable values can be globally sanitized using the `request()->filter()
 ```php
 // auto trim all GET + POST variable values
 request()->filter(\Drone\Request::TYPE_GET | \Drone\Request::TYPE_POST,
-	function($v) { return \Drone\Data::filterSanitize(\Drone\Data::filterTrim($v)); });
+	function($v) { return data()->filterSanitize(trim($v)); });
 ```
 
 Cookies are easy to set using:

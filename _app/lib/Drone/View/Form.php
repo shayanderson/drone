@@ -32,6 +32,15 @@ class Form
 		FIELD_TEXTAREA = 2;
 
 	/**
+	 * Validation types
+	 */
+	const
+		VALIDATE_EMAIL = 1,
+		VALIDATE_LENGTH = 2,
+		VALIDATE_MATCH = 3,
+		VALIDATE_REQUIRED = 4;
+
+	/**
 	 * Get|post data
 	 *
 	 * @var array
@@ -107,7 +116,7 @@ class Form
 	{
 		if($sanitize_data) // auto sanitize data
 		{
-			$this->__data = drone()->data->filter($data, Data::FILTER_SANITIZE);
+			$this->__data = drone()->data->filterSanitize($data);
 		}
 		else
 		{
@@ -811,9 +820,9 @@ class Form
 			{
 				foreach($f['rule'] as $r => $v)
 				{
-					if($r === Data::VALIDATE_MATCH) // match field x with y
+					if($r === self::VALIDATE_MATCH) // match field x with y
 					{
-						if(!Data::validateMatch($this->getData($k),
+						if(!drone()->data->validateMatch($this->getData($k),
 							[Data::PARAM_VALUE => $this->getData($v['param'][0])])) // valid match value
 						{
 							$is_valid = false;
@@ -918,7 +927,7 @@ class Form
 	 */
 	public function &validateEmail($error_message = '')
 	{
-		$this->__addRule(Data::VALIDATE_EMAIL, $error_message);
+		$this->__addRule(self::VALIDATE_EMAIL, $error_message);
 		return $this;
 	}
 
@@ -941,7 +950,7 @@ class Form
 			throw new \Exception('Minimum length or maximum length must be greater than zero');
 		}
 
-		$this->__addRule(Data::VALIDATE_LENGTH, $error_message, $min > 0 && $max > 0 ?
+		$this->__addRule(self::VALIDATE_LENGTH, $error_message, $min > 0 && $max > 0 ?
 			[Data::PARAM_MIN => $min, Data::PARAM_MAX => $max] : ( $min > 0 ? [Data::PARAM_MIN => $min]
 				: [Data::PARAM_MAX => $max] ));
 		return $this;
@@ -956,7 +965,7 @@ class Form
 	 */
 	public function &validateMatch($match_field, $error_message = '')
 	{
-		$this->__addRule(Data::VALIDATE_MATCH, $error_message, [$match_field]);
+		$this->__addRule(self::VALIDATE_MATCH, $error_message, [$match_field]);
 		return $this;
 	}
 
@@ -968,7 +977,7 @@ class Form
 	 */
 	public function &validateRequired($error_message = '')
 	{
-		$this->__addRule(Data::VALIDATE_REQUIRED, $error_message);
+		$this->__addRule(self::VALIDATE_REQUIRED, $error_message);
 		return $this;
 	}
 }

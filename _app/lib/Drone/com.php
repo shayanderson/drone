@@ -31,14 +31,13 @@ function autoload(array $autoload_paths)
 }
 
 /**
- * Clear/unset param key/value pair (\Drone\Core->clear() alias)
+ * \Drone\Data instance getter (drone()->data alias)
  *
- * @param string $key
- * @return void
+ * @return \Drone\Data
  */
-function clear($key)
+function data()
 {
-	drone()->clear($key);
+	return drone()->data;
 }
 
 /**
@@ -48,7 +47,7 @@ function clear($key)
  */
 function &drone()
 {
-	return Drone\Core::getInstance();
+	return \Drone\Core::getInstance();
 }
 
 /**
@@ -74,18 +73,6 @@ function error_last()
 }
 
 /**
- * Filter value (\Drone\Core->data->filter() alias)
- *
- * @param mixed $value
- * @param mixed $_ (flags or strings)
- * @return mixed
- */
-function filter($value, $_ = null)
-{
-	return call_user_func_array([drone()->data, 'filter'], func_get_args());
-}
-
-/**
  * Flash message getter/setter (or \Drone\Flash instance getter (drone()->flash alias))
  *
  * @param mixed $key
@@ -108,18 +95,6 @@ function flash($key = null, $value = null)
 }
 
 /**
- * Format value (\Drone\Core->data->format() alias)
- *
- * @param mixed $value
- * @param mixed $_ (flags or strings)
- * @return mixed
- */
-function format($value, $_ = null)
-{
-	return call_user_func_array([drone()->data, 'format'], func_get_args());
-}
-
-/**
  * Param value getter (\Drone\Core->get() alias)
  *
  * @param string $key
@@ -128,37 +103,6 @@ function format($value, $_ = null)
 function get($key)
 {
 	return drone()->get($key);
-}
-
-/**
- * Param exists flag getter (\Drone\Core->has() alias)
- *
- * @param string $key
- * @return boolean
- */
-function has($key)
-{
-	return drone()->has($key);
-}
-
-/**
- * Load common file
- *
- * @param string $file (ex: 'my_common_file')
- * @param boolean $load_once (only load file once)
- * @param string $ext (file extension)
- * @return void
- */
-function load_com($file, $load_once = true, $ext = '.php')
-{
-	if(substr($file, -4) !== $ext)
-	{
-		$file .= $ext;
-	}
-
-	$file = PATH_ROOT . '_app' . DIRECTORY_SEPARATOR . 'com' . DIRECTORY_SEPARATOR . $file;
-
-	$load_once ? require_once $file : require $file;
 }
 
 /**
@@ -269,18 +213,6 @@ function template($template)
 function template_global($template)
 {
 	return drone()->view->templateGlobal($template);
-}
-
-/**
- * Validate value (\Drone\Core->data->validate() alias)
- *
- * @param mixed $value
- * @param mixed $_ (flags or strings)
- * @return boolean
- */
-function validate($value, $_ = null)
-{
-	return call_user_func_array([drone()->data, 'validate'], func_get_args());
 }
 
 /**

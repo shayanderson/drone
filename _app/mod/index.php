@@ -26,5 +26,3 @@ view()->display();
 
 // log example
 logger()->debug('Index controller end');
-
-pa(\Drone\Data::formatByte(memory_get_usage()));

@@ -67,15 +67,10 @@ Drone helper functions can be used to access Drone components easily, example of
 $name = request()->post('name'); // get POST request value for 'name'
 ```
 Drone helper functions available:
-- [`clear()`](https://github.com/shayanderson/drone#parameters) - clear param key/value pair (`drone()->clear()` alias)
 - [`error()`](https://github.com/shayanderson/drone#error-handling) - trigger error (`drone()->error()` alias)
 - [`error_last()`](https://github.com/shayanderson/drone#error-handling) - get last error (`drone()->errorLast()` alias)
-- [`filter()`](https://github.com/shayanderson/drone#filter) - filter data (`drone()->data->filter()` alias)
 - [`flash()`](https://github.com/shayanderson/drone#flash-messages) - set flash message (`drone()->flash` alias)
-- [`format()`](https://github.com/shayanderson/drone#format) - format data (`drone()->data->format()` alias)
 - [`get()`](https://github.com/shayanderson/drone#parameters) - get param value (`drone()->get()` alias)
-- [`has()`](https://github.com/shayanderson/drone#parameters) - check if param exists (`drone()->has()` alias)
-- `load_com()` - load common file from `_app/com` directory
 - [`logger()`](https://github.com/shayanderson/drone#logging) - `drone()->log` alias
 - `pa()` - string/array printer
 - [`param()`](https://github.com/shayanderson/drone#route-parameters) - get route param (similar to `view()->param()`)
@@ -85,7 +80,6 @@ Drone helper functions available:
 - [`set()`](https://github.com/shayanderson/drone#parameters) - set param value (`drone()->set()` alias)
 - [`template()`](https://github.com/shayanderson/drone#view-templates) - get template formatted name (`drone()->view->template()` alias)
 - [`template_global()`](https://github.com/shayanderson/drone#view-templates) - get global template formatted name (`drone()->view->templateGlobal()` alias)
-- [`validate()`](https://github.com/shayanderson/drone#validate) - validate value (`drone()->data->validate()` alias)
 - [`view()`](https://github.com/shayanderson/drone#views) - `drone->view` alias
 
 #### Settings
@@ -478,10 +472,10 @@ There are Drone core (`\Drone\Core`) methods that are available for application 
 
 #### Parameters
 Application parameters, or *params*, can be useful for global variables and objects. Params can be managed using the following helper functions or methods:
-- `clear()` - clear param (drone()->clear() alias)
+- `drone()->clear()` - clear param
 - `get()` - get param value (drone()->get() alias)
 - `drone()->getAll()` - get all params as array
-- `has()` - check if param exists (drone()->has() alias)
+- `drone()->has()` - check if param exists
 - `set()` - set param value (drone()->set() alias)
 Param example:
 ```php
@@ -615,7 +609,7 @@ Request variable values can be globally sanitized using the `request()->filter()
 ```php
 // auto trim all GET + POST variable values
 request()->filter(\Drone\Request::TYPE_GET | \Drone\Request::TYPE_POST,
-	function($v) { return trim($v); });
+	function($v) { return \Drone\Data::filterSanitize(\Drone\Data::filterTrim($v)); });
 ```
 
 Cookies are easy to set using:
@@ -737,198 +731,100 @@ Now using the same errors above the HTML output would be:
 > - `flash()->has()` - check if flash message exists
 
 ## Data Handling
-Drone supports data handling: filtering, formatting and validation using the `\Drone\Data` object.
+Drone supports data handling: filtering, formatting and validation using the `data()` helper function (which uses the `\Drone\Data` object).
 
 #### Filter
-Data can be filtered/sanitized using the `filter()` helper function, for example:
+Data can be filtered/sanitized using the `data()->filter*` helper function syntax, for example:
 ```php
 // trim value
-$trimmed = filter(' my value ', \Drone\Data::FILTER_TRIM); // 'my value'
-```
-> If no filter is passed to the `filter()` helper function the value will be trimmed
-
-Array values can also be used, for example:
-```php
-$trimmed = filter([' value 1 ', ' value 2 '], \Drone\Data::FILTER_TRIM);
-// $trimmed is now: ['value 1', 'value 2']
+$trimmed = data()->filterTrim(' my value '); // 'my value'
 ```
 
-Filters can also be used together:
-```php
-// trim value + strip non-word characters
-$trimmed_words = filter(' my value! ',
-	\Drone\Data::FILTER_TRIM | \Drone\Data::FILTER_WORD); // 'myvalue'
-```
 Some filter methods use arguments (or *params*), for example:
 ```php
 // strip non-word characters, but allow whitespaces
-$words = filter('my value!', \Drone\Data::FILTER_WORD,
+$words = = data()->filterWord('my value!',
 	[\Drone\Data::PARAM_WHITESPACE => true]); // 'my value'
-```
->Filter methods can also be called statically:
-```php
-$trimmed = \Drone\Data::filterTrim(' my value '); // 'my value'
 ```
 
 Available filters are:
-- `FILTER_ALNUM` - strip non-alphanumeric characters
-- `FILTER_ALPHA` - strip non-alpha characters
-- `FILTER_DATE` - strip non-date characters
-- `FILTER_DATE_TIME` - strip non-date/time characters
-- `FILTER_DECIMAL` - strip non-decimal characters
-- `FILTER_EMAIL` - strip non-email characters
-- `FILTER_HTML_ENCODE` - encode HTML special characters
-- `FILTER_NUMERIC` - strip non-numeric characters
-- `FILTER_SANITIZE` - strip tags
-- `FILTER_TIME` - strip non-time characters
-- `FILTER_TRIM` - trim spaces
-- `FILTER_URL_ENCODE` - encode URL
-- `FILTER_WORD` - strip non-word characters (same as character class '\w')
-
-Custom filters can be used, for example:
-```php
-// register custom filter
-filter('strip_hypens', function($v) { return str_replace('-', '', $v); }
-...
-// use custom filter
-$no_hypens = filter('my-value', 'strip_hypens'); // 'myvalue'
-
-// or use custom filter with defined filter
-$no_hypens_trimmed = filter(' my-value ', 'strip_hypens',
-	\Drone\Data::FILTER_TRIM); // 'myvalue'
-```
+- filterAlnum(value, params) - strip non-alphanumeric characters
+- filterAlpha(value, params) - strip non-alpha characters
+- filterDate(value) - strip non-date characters
+- filterDateTime(value) - strip non-date/time characters
+- filterDecimal(value) - strip non-decimal characters
+- filterEmail(value) - strip non-email characters
+- filterHtmlEncode(value) - encode HTML special characters
+- filterNumeric(value) - strip non-numeric characters
+- filterSanitize(value) - strip tags
+- filterTime(value) - strip non-time characters
+- filterTrim(value) - trim spaces
+- filterUrlEncode(value) - encode URL
+- filterWord(value, params) - strip non-word characters (same as character class '\w')
 
 #### Format
-Data can be formatted using the `format()` helper function, for example:
+Data can be formatted using the `data()->format*` helper function syntax, for example:
 ```php
 // format number to currency
-$currency = format(5, \Drone\Data::FORMAT_CURRENCY); // '$5.00'
+$currency = data()->formatCurrency(5); // '$5.00'
 ```
 
-Array values can also be used, for example:
-```php
-$currencies = format([5, 10.5], \Drone\Data::FORMAT_CURRENCY);
-// $currencies is now: ['$5.00', '$10.50']
-```
-
-Formatters can also be used together:
-```php
-// format byte value + upper case
-$bytes_upper = format(2000,
-	\Drone\Data::FORMAT_BYTE | \Drone\Data::FORMAT_UPPER); // '1.95 KB'
-```
 Some formatter methods use arguments (or *params*), for example:
 ```php
 // format number to currency with custom currency format
-$currency = format(5, \Drone\Data::FORMAT_CURRENCY,
+$currency = data()->formatCurrency(5,
 	[\Drone\Data::PARAM_FORMAT => '$%0.2f USD']); // '$5.00 USD'
-```
-> Format methods can also be called statically:
-```php
-$upper_words = \Drone\Data::formatUpperWords('my value'); // 'My Value'
 ```
 
 Available formats are:
-- `FORMAT_BYTE`
-- `FORMAT_CURRENCY`
-- `FORMAT_DATE`
-- `FORMAT_DATE_TIME`
-- `FORMAT_LOWER`
-- `FORMAT_TIME`
-- `FORMAT_TIME_ELAPSED`
-- `FORMAT_UPPER`
-- `FORMAT_UPPER_WORDS`
-
-Custom formats can be used, for example:
-```php
-// register custom format
-format('quotes', function($v) { return '"' . $v . '"'; }
-...
-// use custom format
-$quoted = format('my value', 'quotes'); // '"my value"'
-
-// or use custom format with defined format
-$quoted_upper = format('my value', 'quotes',
-	\Drone\Data::FORMAT_UPPER); // '"MY VALUE"'
-```
+- formatByte(value, params, characters)
+- formatCurrency(value, params)
+- formatDate(value, params)
+- formatDateTime(value, params)
+- formatLower(value)
+- formatTime(value, params)
+- formatTimeElapsed(time_elapsed, params, characters)
+- formatUpper(value)
+- formatUpperWords(value)
 
 #### Validate
-Data validation can be done using the `validate()` helper function, for example:
+Data validation can be done using the `data()->validate*` helper function syntax, for example:
 ```php
 // validate email value
-if(!validate('bad-email@', \Drone\Data::VALIDATE_EMAIL))
+if(!data()->validateEmail('bad-email@'))
 {
 	// warn user
 }
 ```
-> If no validator is passed to the `validate()` helper function the `VALIDATE_REQUIRED` validator will be used, for example:
-```php
-if(validate('')) // not valid
-if(validate('my value')) // valid
-```
 
-Array values can also be used, for example:
-```php
-$valid = validate([1 => 'bad-email@', 2 => 'good-email@example.com'],
-	\Drone\Data::VALIDATE_EMAIL);
-// $valid is now: [1 => false, 2 => true]
-```
-
-Validators can also be used together:
-```php
-// validate required + alpha characters
-if(!validate('string14', \Drone\Data::VALIDATE_REQUIRED
-	| \Drone\Data::VALIDATE_ALPHA))
-{
-	// warn
-}
-```
 Some validator methods use arguments (or *params*), for example:
 ```php
 // validate string length (minimum 4, maximum 50)
-if(!validate('my string', \Drone\Data::VALIDATE_LENGTH,
+if(!data()->validateLength('my string',
 	[\Drone\Data::PARAM_MIN => 4, \Drone\Data::PARAM_MAX => 50]))
 {
 	// warn
 }
 ```
-> Validation methods can also be called statically:
-```php
-if(!\Drone\Data::validateEmail('bad-email@'))
-```
 
 Available validators are:
-- `VALIDATE_ALNUM` - value is alphanumeric characters
-- `VALIDATE_ALPHA` - value is alpha characters
-- `VALIDATE_BETWEEN` - value between min and max values
-- `VALIDATE_CONTAINS` - value contains value
-- `VALIDATE_CONTAINS_NOT` - value does not contain value
-- `VALIDATE_DECIMAL` - value is decimal
-- `VALIDATE_EMAIL` - value is email
-- `VALIDATE_IPV4` - value is IPv4 address
-- `VALIDATE_IPV6` - value is IPv6 address
-- `VALIDATE_LENGTH` - value is min length, or under max length, or between min and max lengths
-- `VALIDATE_MATCH` - value is match to value
-- `VALIDATE_NUMERIC` - value is numeric
-- `VALIDATE_REGEX` - value is Perl-compatible regex pattern
-- `VALIDATE_REQUIRED` - value exists (length > 0)
-- `VALIDATE_URL` - value is URL
-- `VALIDATE_WORD` - value is word (same as character class '\w')
+- validateAlnum(value, params) - value is alphanumeric characters
+- validateAlpha(value, params = null) - value is alpha characters
+- validateBetween(value, params) - value between min and max values
+- validateContains(value, params) - value contains value
+- validateContainsNot(value, params) - value does not contain value
+- validateDecimal(value) - value is decimal
+- validateEmail(value) - value is email
+- validateIpv4(value) - value is IPv4 address
+- validateIpv6(value) - value is IPv6 address
+- validateLength(value, params) - value is min length, or under max length, or between min and max lengths
+- validateMatch(value, params) - value is match to value
+- validateNumeric(value) - value is numeric
+- validateRegex(value) - value is Perl-compatible regex pattern
+- validateRequired(value) - value exists (length > 0)
+- validateUrl(value) - value is URL
+- validateWord(value, params) - value is word (same as character class '\w')
 
-Custom validators can be used, for example:
-```php
-// register custom validator
-validate('upper', function($v) { return preg_match('/^[A-Z]*$/', $v); }
-...
-// use custom validator
-if(!validate('my value', 'upper'))
-{
-	// warn
-}
-
-// or use custom validator with defined validator
-if(!validate('my value', 'upper', \Drone\Data::VALIDATE_REQUIRED))
-```
 
 ## Database Handling
 Drone uses the [Xap](https://github.com/shayanderson/xap) MySQL rapid development engine for database handling. Xap is an optional library and must be installed.

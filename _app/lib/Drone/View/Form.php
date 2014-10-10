@@ -343,8 +343,21 @@ class Form
 			}
 			else
 			{
-				$valid = isset($rule_arr['param']) ? drone()->data->validate($value, $rule, $rule_arr['param'])
-					: drone()->data->validate($value, $rule);
+				switch($rule)
+				{
+					case self::VALIDATE_EMAIL:
+						$valid = drone()->data->validateEmail($value);
+						break;
+
+					case self::VALIDATE_LENGTH:
+						$valid = drone()->data->validateLength($value, isset($rule_arr['param'])
+							? $rule_arr['param'] : null);
+						break;
+
+					case self::VALIDATE_REQUIRED:
+						$valid = drone()->data->validateRequired($value);
+						break;
+				}
 			}
 		}
 

@@ -67,6 +67,7 @@ Drone helper functions can be used to access Drone components easily, example of
 $name = request()->post('name'); // get POST request value for 'name'
 ```
 Drone helper functions available:
+- [`data()`](https://github.com/shayanderson/drone#data-handling) - `drone()->data` alias
 - [`error()`](https://github.com/shayanderson/drone#error-handling) - trigger error (`drone()->error()` alias)
 - [`error_last()`](https://github.com/shayanderson/drone#error-handling) - get last error (`drone()->errorLast()` alias)
 - [`flash()`](https://github.com/shayanderson/drone#flash-messages) - set flash message (`drone()->flash` alias)

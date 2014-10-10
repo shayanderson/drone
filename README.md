@@ -749,19 +749,19 @@ $words = = data()->filterWord('my value!',
 ```
 
 Available filters are:
-- filterAlnum(value, params) - strip non-alphanumeric characters
-- filterAlpha(value, params) - strip non-alpha characters
-- filterDate(value) - strip non-date characters
-- filterDateTime(value) - strip non-date/time characters
-- filterDecimal(value) - strip non-decimal characters
-- filterEmail(value) - strip non-email characters
-- filterHtmlEncode(value) - encode HTML special characters
-- filterNumeric(value) - strip non-numeric characters
-- filterSanitize(value) - strip tags
-- filterTime(value) - strip non-time characters
-- filterTrim(value) - trim spaces
-- filterUrlEncode(value) - encode URL
-- filterWord(value, params) - strip non-word characters (same as character class '\w')
+- `filterAlnum(value, params)` - strip non-alphanumeric characters
+- `filterAlpha(value, params)` - strip non-alpha characters
+- `filterDate(value)` - strip non-date characters
+- `filterDateTime(value)` - strip non-date/time characters
+- `filterDecimal(value)` - strip non-decimal characters
+- `filterEmail(value)` - strip non-email characters
+- `filterHtmlEncode(value)` - encode HTML special characters
+- `filterNumeric(value)` - strip non-numeric characters
+- `filterSanitize(value)` - strip tags
+- `filterTime(value)` - strip non-time characters
+- `filterTrim(value)` - trim spaces
+- `filterUrlEncode(value)` - encode URL
+- `filterWord(value, params)` - strip non-word characters (same as character class '\w')
 
 #### Format
 Data can be formatted using the `data()->format*` helper function syntax, for example:
@@ -778,15 +778,15 @@ $currency = data()->formatCurrency(5,
 ```
 
 Available formats are:
-- formatByte(value, params, characters)
-- formatCurrency(value, params)
-- formatDate(value, params)
-- formatDateTime(value, params)
-- formatLower(value)
-- formatTime(value, params)
-- formatTimeElapsed(time_elapsed, params, characters)
-- formatUpper(value)
-- formatUpperWords(value)
+- `formatByte(value, params, characters)`
+- `formatCurrency(value, params)`
+- `formatDate(value, params)`
+- `formatDateTime(value, params)`
+- `formatLower(value)`
+- `formatTime(value, params)`
+- `formatTimeElapsed(time_elapsed, params, characters)`
+- `formatUpper(value)`
+- `formatUpperWords(value)`
 
 #### Validate
 Data validation can be done using the `data()->validate*` helper function syntax, for example:
@@ -809,22 +809,22 @@ if(!data()->validateLength('my string',
 ```
 
 Available validators are:
-- validateAlnum(value, params) - value is alphanumeric characters
-- validateAlpha(value, params = null) - value is alpha characters
-- validateBetween(value, params) - value between min and max values
-- validateContains(value, params) - value contains value
-- validateContainsNot(value, params) - value does not contain value
-- validateDecimal(value) - value is decimal
-- validateEmail(value) - value is email
-- validateIpv4(value) - value is IPv4 address
-- validateIpv6(value) - value is IPv6 address
-- validateLength(value, params) - value is min length, or under max length, or between min and max lengths
-- validateMatch(value, params) - value is match to value
-- validateNumeric(value) - value is numeric
-- validateRegex(value) - value is Perl-compatible regex pattern
-- validateRequired(value) - value exists (length > 0)
-- validateUrl(value) - value is URL
-- validateWord(value, params) - value is word (same as character class '\w')
+- `validateAlnum(value, params)` - value is alphanumeric characters
+- `validateAlpha(value, params = null)` - value is alpha characters
+- `validateBetween(value, params)` - value between min and max values
+- `validateContains(value, params)` - value contains value
+- `validateContainsNot(value, params)` - value does not contain value
+- `validateDecimal(value)` - value is decimal
+- `validateEmail(value)` - value is email
+- `validateIpv4(value)` - value is IPv4 address
+- `validateIpv6(value)` - value is IPv6 address
+- `validateLength(value, params)` - value is min length, or under max length, or between min and max lengths
+- `validateMatch(value, params)` - value is match to value
+- `validateNumeric(value)` - value is numeric
+- `validateRegex(value)` - value is Perl-compatible regex pattern
+- `validateRequired(value)` - value exists (length > 0)
+- `validateUrl(value)` - value is URL
+- `validateWord(value, params)` - value is word (same as character class '\w')
 
 
 ## Database Handling

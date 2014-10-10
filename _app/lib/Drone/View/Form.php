@@ -116,7 +116,7 @@ class Form
 	{
 		if($sanitize_data) // auto sanitize data
 		{
-			$this->__data = drone()->data->filterSanitize($data);
+			$this->__data = array_map([drone()->data, 'filterSanitize'], $data);
 		}
 		else
 		{

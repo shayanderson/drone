@@ -826,6 +826,11 @@ Available validators are:
 - `validateUrl(value)` - value is URL
 - `validateWord(value, params)` - value is word (same as character class '\w')
 
+> Arrays can be passed to data methods, for example:
+```php
+$values = [' a ', ' b ', ' c '];
+$trimmed = array_map([data(), 'filterTrim'], $values) ); // ['a', 'b', 'c']
+```
 
 ## Database Handling
 Drone uses the [Xap](https://github.com/shayanderson/xap) MySQL rapid development engine for database handling. Xap is an optional library and must be installed.

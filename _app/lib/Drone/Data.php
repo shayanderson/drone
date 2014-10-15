@@ -214,6 +214,28 @@ class Data
 	}
 
 	/**
+	* URL safe base64 decode value
+	*
+	* @param string $value
+	* @return string
+	*/
+	public function formatBase64UrlDecode($value)
+	{
+		return base64_decode(str_pad(strtr($value, '-_', '+/'), strlen($value) % 4, '=', STR_PAD_RIGHT));
+	}
+
+	/**
+	 * URL safe base64 encode value
+	 *
+	 * @param string $value
+	 * @return string
+	 */
+	public function formatBase64UrlEncode($value)
+	{
+		return rtrim(strtr(base64_encode($value), '+/', '-_'), '=');
+	}
+
+	/**
 	 * Format byte (ex: 2000 => '1.95 kb')
 	 *
 	 * @param int $value

@@ -778,6 +778,8 @@ $currency = data()->formatCurrency(5,
 ```
 
 Available formats are:
+- `formatBase64UrlDecode(value)`
+- `formatBase64UrlEncode(value)`
 - `formatByte(value, params, characters)`
 - `formatCurrency(value, params)`
 - `formatDate(value, params)`

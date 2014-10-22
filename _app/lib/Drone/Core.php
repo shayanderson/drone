@@ -740,33 +740,30 @@ class Core
 			}
 
 			// test mapped routes
-			if($request !== '/') // if not base '/'
+			foreach($this->__routes as $r)
 			{
-				foreach($this->__routes as $r)
+				if($r->match($request))
 				{
-					if($r->match($request))
+					$this->set([
+						self::KEY_ROUTE_CONTROLLER => $r->getController(),
+						self::KEY_ROUTE_CLASS => $r->getClass(),
+						self::KEY_ROUTE_TEMPLATE => $r->getController()
+					]);
+
+					if($r->isAction())
 					{
-						$this->set([
-							self::KEY_ROUTE_CONTROLLER => $r->getController(),
-							self::KEY_ROUTE_CLASS => $r->getClass(),
-							self::KEY_ROUTE_TEMPLATE => $r->getController()
-						]);
-
-						if($r->isAction())
-						{
-							$this->set(self::KEY_ROUTE_ACTION, $r->getAction());
-						}
-
-						$this->view->setRouteParams($r->getParams()); // set route params
-
-						$this->log->trace('Route (mapped) detected: \'' . $r->getPath() . '\'',
-							Logger::CATEGORY_DRONE);
-						break;
+						$this->set(self::KEY_ROUTE_ACTION, $r->getAction());
 					}
-				}
 
-				unset($r);
+					$this->view->setRouteParams($r->getParams()); // set route params
+
+					$this->log->trace('Route (mapped) detected: \'' . $r->getPath() . '\'',
+						Logger::CATEGORY_DRONE);
+					break;
+				}
 			}
+
+			unset($r);
 
 			// test static routes
 			if($this->get(self::KEY_ROUTE_CONTROLLER) === false)

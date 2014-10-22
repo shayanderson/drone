@@ -181,6 +181,11 @@ class Route
 	 */
 	public function match($request_path)
 	{
+		if($this->__path === '/') // mapped '/' request
+		{
+			return $request_path === '/';
+		}
+
 		$route = explode('/', $this->__path);
 		$request = explode('/', $request_path);
 		$is_protect = false; // dup content protection flag

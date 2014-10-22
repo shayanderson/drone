@@ -143,12 +143,6 @@ class Core
 			if(!isset($this->__objects[$name]))
 			{
 				$this->__objects[$name] = new self::$__objects_map[$name];
-
-				if(isset($this->__objects['log']))
-				{
-					$this->__objects['log']->trace('Loaded core object: \'' . $name . '\'',
-						Logger::CATEGORY_DRONE);
-				}
 			}
 
 			return $this->__objects[$name];

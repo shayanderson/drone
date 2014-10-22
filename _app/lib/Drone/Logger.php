@@ -349,7 +349,7 @@ class Logger
 	/**
 	 * Log level setter
 	 *
-	 * @param int $log_level ()
+	 * @param int $log_level
 	 * @return void
 	 */
 	public function setLogLevel($log_level = self::LEVEL_TRACE)

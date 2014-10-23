@@ -82,6 +82,12 @@ Global default field attributes can be used for form fields. These attributes ar
 - `\Drone\View\Form::$attributes_select` - for select lists
 - `\Drone\View\Form::$attributes_textarea` - for textarea fields
 
+Global attribute example:
+```php
+// default field class
+\Drone\View\Form::$attributes_field = ['class' => 'form-control'];
+```
+
 ### Form Field Decorators
 Global decorators can be used for form fields. The global decorators are:
 

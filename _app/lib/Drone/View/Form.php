@@ -3,9 +3,10 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.2.0
+ * @version 0.2.1
  * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
+ * @link <https://github.com/shayanderson/drone>
  */
 namespace Drone\View;
 
@@ -38,7 +39,8 @@ class Form
 		VALIDATE_EMAIL = 1,
 		VALIDATE_LENGTH = 2,
 		VALIDATE_MATCH = 3,
-		VALIDATE_REQUIRED = 4;
+		VALIDATE_REGEX = 4,
+		VALIDATE_REQUIRED = 5;
 
 	/**
 	 * Get|post data
@@ -241,6 +243,25 @@ class Form
 	}
 
 	/**
+	 * Add field validation rule message
+	 *
+	 * @param int $rule
+	 * @param string $error_message
+	 * @return void
+	 */
+	private function __addRuleMessage($rule, $error_message)
+	{
+		if($this->isField($this->__id) && isset($this->__fields[$this->__id]['rule'][$rule]))
+		{
+			$this->__fields[$this->__id]['rule'][$rule]['message'] = $error_message;
+		}
+		else
+		{
+			throw new \Exception('Adding validation message \'' . $error_message . '\' for rule that does not exist');
+		}
+	}
+
+	/**
 	 * Array of attributes to string
 	 *
 	 * @param array $attributes (or null for no attributes, ex: ['style' => 'color:#fff'])
@@ -352,6 +373,11 @@ class Form
 					case self::VALIDATE_LENGTH:
 						$valid = drone()->data->validateLength($value, isset($rule_arr['param'])
 							? $rule_arr['param'] : null);
+						break;
+
+					case self::VALIDATE_REGEX:
+						$valid = drone()->data->validateRegex($value, isset($rule_arr['param'][0])
+							? $rule_arr['param'][0] : null);
 						break;
 
 					case self::VALIDATE_REQUIRED:
@@ -945,6 +971,18 @@ class Form
 	}
 
 	/**
+	 * Add validate email rule message to field
+	 *
+	 * @param string $error_message
+	 * @return \Drone\View\Form
+	 */
+	public function &validateEmailMessage($error_message)
+	{
+		$this->__addRuleMessage(self::VALIDATE_EMAIL, $error_message);
+		return $this;
+	}
+
+	/**
 	 * Add validate length rule to field
 	 *
 	 * @param int $min
@@ -970,6 +1008,18 @@ class Form
 	}
 
 	/**
+	 * Add validate length rule message to field
+	 *
+	 * @param string $error_message
+	 * @return \Drone\View\Form
+	 */
+	public function &validateLengthMessage($error_message)
+	{
+		$this->__addRuleMessage(self::VALIDATE_LENGTH, $error_message);
+		return $this;
+	}
+
+	/**
 	 * Add validate match fields
 	 *
 	 * @param string $match_field (ex: 'field1')
@@ -983,6 +1033,43 @@ class Form
 	}
 
 	/**
+	 * Add validate match fields rule message to field
+	 *
+	 * @param string $error_message
+	 * @return \Drone\View\Form
+	 */
+	public function &validateMatchMessage($error_message)
+	{
+		$this->__addRuleMessage(self::VALIDATE_MATCH, $error_message);
+		return $this;
+	}
+
+	/**
+	 * Add validate regex rule to field
+	 *
+	 * @param string $regex_pattern
+	 * @param string $error_message (optional)
+	 * @return \Drone\View\Form
+	 */
+	public function &validateRegex($regex_pattern, $error_message = '')
+	{
+		$this->__addRule(self::VALIDATE_REGEX, $error_message, [$regex_pattern]);
+		return $this;
+	}
+
+	/**
+	 * Add validate regex rule message to field
+	 *
+	 * @param string $error_message
+	 * @return \Drone\View\Form
+	 */
+	public function &validateRegexMessage($error_message)
+	{
+		$this->__addRuleMessage(self::VALIDATE_REGEX, $error_message);
+		return $this;
+	}
+
+	/**
 	 * Add validate required rule to field
 	 *
 	 * @param string $error_message (optional)
@@ -991,6 +1078,18 @@ class Form
 	public function &validateRequired($error_message = '')
 	{
 		$this->__addRule(self::VALIDATE_REQUIRED, $error_message);
+		return $this;
+	}
+
+	/**
+	 * Add validate required rule message to field
+	 *
+	 * @param string $error_message
+	 * @return \Drone\View\Form
+	 */
+	public function &validateRequiredMessage($error_message)
+	{
+		$this->__addRuleMessage(self::VALIDATE_REQUIRED, $error_message);
 		return $this;
 	}
 }

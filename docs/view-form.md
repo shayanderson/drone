@@ -143,11 +143,26 @@ The default validation error message decorator will be used, and by default the 
 \Drone\View\Form::$decorator_default_validation_message = 'Enter valid value for field \'{$field}\'';
 ```
 
+Field validation error message can also be set *after* setting the validation rule, for example:
+```php
+$this->form
+	// add text field
+	->text('username')
+		->validateRequired();
+// more code
+//  and logic here
+
+// now set validation message for required rule
+$this->form->field('username')
+	->validateRequiredMessage('Username is required');
+```
+
 The form validation methods are:
 
 - `validateEmail()` - validate email address
 - `validateLength()` - validate value length
 - `validateMatch()` - validate field x with field y value
+- `validateRegex()` - validate value using regex pattern
 - `validateRequired()` - validate value is required
 
 Custom validation rules can also be used, for example:

@@ -23,14 +23,14 @@ class Form
 	 * Form field types
 	 */
 	const
-		FIELD_CHECKBOX = 'checkbox',
-		FIELD_EMAIL = 'email',
-		FIELD_HIDDEN = 'hidden',
-		FIELD_PASSWORD = 'password',
-		FIELD_RADIO = 'radio',
-		FIELD_SELECT = 1,
-		FIELD_TEXT = 'text',
-		FIELD_TEXTAREA = 2;
+		TYPE_CHECKBOX = 'checkbox',
+		TYPE_EMAIL = 'email',
+		TYPE_HIDDEN = 'hidden',
+		TYPE_PASSWORD = 'password',
+		TYPE_RADIO = 'radio',
+		TYPE_SELECT = 1,
+		TYPE_TEXT = 'text',
+		TYPE_TEXTAREA = 2;
 
 	/**
 	 * Validation types
@@ -184,13 +184,13 @@ class Form
 
 		if($this->isSubmitted() && $this->hasData($id)) // add data as value
 		{
-			if($type !== self::FIELD_PASSWORD)
+			if($type !== self::TYPE_PASSWORD)
 			{
 				$this->__fields[$id]['value'] = $this->__data[$id];
 			}
 		}
 		else if($default_value !== null && is_scalar($default_value)
-			|| $type === self::FIELD_CHECKBOX && is_array($default_value))
+			|| $type === self::TYPE_CHECKBOX && is_array($default_value))
 		{
 			$this->__fields[$id]['value'] = $default_value;
 		}
@@ -409,7 +409,7 @@ class Form
 	 */
 	public function &checkbox($id, array $options, $default_checked = null)
 	{
-		$this->__addField(self::FIELD_CHECKBOX, $id, $default_checked, $options);
+		$this->__addField(self::TYPE_CHECKBOX, $id, $default_checked, $options);
 		return $this;
 	}
 
@@ -422,7 +422,7 @@ class Form
 	 */
 	public function &email($id, $default_value = null)
 	{
-		$this->__addField(self::FIELD_EMAIL, $id, $default_value);
+		$this->__addField(self::TYPE_EMAIL, $id, $default_value);
 		return $this;
 	}
 
@@ -481,8 +481,8 @@ class Form
 
 			switch($this->__fields[$id]['type'])
 			{
-				case self::FIELD_CHECKBOX:
-				case self::FIELD_RADIO:
+				case self::TYPE_CHECKBOX:
+				case self::TYPE_RADIO:
 					if(count($attributes) === 1) // set default attributes
 					{
 						self::__attributesGlobal($attributes, self::$attributes_checkbox_radio,
@@ -496,7 +496,7 @@ class Form
 						{
 							if(is_array($opt_attributes['checked']))
 							{
-								if($this->__fields[$id]['type'] === self::FIELD_CHECKBOX
+								if($this->__fields[$id]['type'] === self::TYPE_CHECKBOX
 									&& in_array($k, $opt_attributes['checked']))
 								{
 									$checked = true;
@@ -512,7 +512,7 @@ class Form
 						{
 							if(is_array($this->__fields[$id]['value']))
 							{
-								if($this->__fields[$id]['type'] === self::FIELD_CHECKBOX
+								if($this->__fields[$id]['type'] === self::TYPE_CHECKBOX
 									&& in_array($k, $this->__fields[$id]['value']))
 								{
 									$checked = true;
@@ -534,10 +534,10 @@ class Form
 					$html = self::__decorate($html, self::$decorator_checkbox_radio ?: self::$decorator_fields);
 					break;
 
-				case self::FIELD_EMAIL:
-				case self::FIELD_HIDDEN:
-				case self::FIELD_PASSWORD:
-				case self::FIELD_TEXT:
+				case self::TYPE_EMAIL:
+				case self::TYPE_HIDDEN:
+				case self::TYPE_PASSWORD:
+				case self::TYPE_TEXT:
 					if(count($attributes) === 1) // set default attributes
 					{
 						self::__attributesGlobal($attributes, self::$attributes_field, self::$attributes_fields);
@@ -550,11 +550,11 @@ class Form
 
 					$html = self::__decorate('<input type="' . $this->__fields[$id]['type'] . '"'
 						. self::__attributes($attributes) . '>',
-						$this->__fields[$id]['type'] !== self::FIELD_HIDDEN ? ( self::$decorator_field
+						$this->__fields[$id]['type'] !== self::TYPE_HIDDEN ? ( self::$decorator_field
 							?: self::$decorator_fields ) : null);
 					break;
 
-				case self::FIELD_SELECT:
+				case self::TYPE_SELECT:
 					if(count($attributes) === 1) // set default attributes
 					{
 						self::__attributesGlobal($attributes, self::$attributes_select, self::$attributes_fields);
@@ -581,7 +581,7 @@ class Form
 					$html = self::__decorate($html . '</select>', self::$decorator_select ?: self::$decorator_fields);
 					break;
 
-				case self::FIELD_TEXTAREA:
+				case self::TYPE_TEXTAREA:
 					if(count($attributes) === 1) // set default attributes
 					{
 						self::__attributesGlobal($attributes, self::$attributes_textarea, self::$attributes_fields);
@@ -815,7 +815,7 @@ class Form
 	 */
 	public function &hidden($id, $default_value = null)
 	{
-		$this->__addField(self::FIELD_HIDDEN, $id, $default_value);
+		$this->__addField(self::TYPE_HIDDEN, $id, $default_value);
 		return $this;
 	}
 
@@ -888,7 +888,7 @@ class Form
 	 */
 	public function &password($id)
 	{
-		$this->__addField(self::FIELD_PASSWORD, $id);
+		$this->__addField(self::TYPE_PASSWORD, $id);
 		return $this;
 	}
 
@@ -902,7 +902,7 @@ class Form
 	 */
 	public function &radio($id, array $options, $default_checked = null)
 	{
-		$this->__addField(self::FIELD_RADIO, $id, $default_checked, $options);
+		$this->__addField(self::TYPE_RADIO, $id, $default_checked, $options);
 		return $this;
 	}
 
@@ -916,7 +916,7 @@ class Form
 	 */
 	public function &select($id, array $options, $default_selected = null)
 	{
-		$this->__addField(self::FIELD_SELECT, $id, $default_selected, $options);
+		$this->__addField(self::TYPE_SELECT, $id, $default_selected, $options);
 		return $this;
 	}
 
@@ -929,7 +929,7 @@ class Form
 	 */
 	public function &text($id, $default_value = null)
 	{
-		$this->__addField(self::FIELD_TEXT, $id, $default_value);
+		$this->__addField(self::TYPE_TEXT, $id, $default_value);
 		return $this;
 	}
 
@@ -942,7 +942,7 @@ class Form
 	 */
 	public function &textarea($id, $default_value = null)
 	{
-		$this->__addField(self::FIELD_TEXTAREA, $id, $default_value);
+		$this->__addField(self::TYPE_TEXTAREA, $id, $default_value);
 		return $this;
 	}
 

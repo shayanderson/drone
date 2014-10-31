@@ -18,19 +18,6 @@ namespace Drone;
 class Data
 {
 	/**
-	 * Param keys
-	 */
-	const
-		PARAM_CASE_INSENSITIVE = 'case', // allow case-insensitive value compare
-		PARAM_EXACT = 'exact', // exact value
-		PARAM_FORMAT = 'format', // format value for format methods
-		PARAM_MIN = 'min', // minimum value
-		PARAM_MAX = 'max', // maximum value
-		PARAM_PATTERN = 'pattern', // regex pattern for matching
-		PARAM_VALUE = 'value', // when second value is required
-		PARAM_WHITESPACE = 'whitespace'; // allow whitespaces in value flag
-
-	/**
 	 * Default currency format (ex: '$%0.2f')
 	 *
 	 * @var string (sprintf format: <http://www.php.net/manual/en/function.sprintf.php>)
@@ -62,12 +49,12 @@ class Data
 	 * Strip non-alphanumeric characters
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_WHITESPACE)
+	 * @param boolean $allow_whitespaces
 	 * @return mixed
 	 */
-	public function filterAlnum($value, $params = null)
+	public function filterAlnum($value, $allow_whitespaces = false)
 	{
-		return isset($params[self::PARAM_WHITESPACE]) ? preg_replace('/[^a-zA-Z0-9\s]+/', '', $value)
+		return $allow_whitespaces ? preg_replace('/[^a-zA-Z0-9\s]+/', '', $value)
 			: preg_replace('/[^a-zA-Z0-9]+/', '', $value);
 	}
 
@@ -75,12 +62,12 @@ class Data
 	 * Strip non-alpha characters
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_WHITESPACE)
+	 * @param boolean $allow_whitespaces
 	 * @return mixed
 	 */
-	public function filterAlpha($value, $params = null)
+	public function filterAlpha($value, $allow_whitespaces = false)
 	{
-		return isset($params[self::PARAM_WHITESPACE]) ? preg_replace('/[^a-zA-Z\s]+/', '', $value)
+		return $allow_whitespaces ? preg_replace('/[^a-zA-Z\s]+/', '', $value)
 			: preg_replace('/[^a-zA-Z]+/', '', $value);
 	}
 
@@ -205,12 +192,12 @@ class Data
 	 * Strip non-word characters (same as character class '\w')
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_WHITESPACE)
+	 * @param boolean $allow_whitespaces
 	 * @return mixed
 	 */
-	public function filterWord($value, $params = null)
+	public function filterWord($value, $allow_whitespaces = false)
 	{
-		return isset($params[self::PARAM_WHITESPACE]) ? preg_replace('/[^\w\s]/', '', $value)
+		return $allow_whitespaces ? preg_replace('/[^\w\s]/', '', $value)
 			: preg_replace('/[^\w]/', '', $value);
 	}
 
@@ -240,12 +227,10 @@ class Data
 	 * Format byte (ex: 2000 => '1.95 kb')
 	 *
 	 * @param int $value
-	 * @param mixed $params
 	 * @param array $characters (ex: [' b', ' kb', ' mb', ' gb', ' tb', ' pb'])
 	 * @return string (or false on invalid value)
 	 */
-	public function formatByte($value, $params = null,
-		array $characters = [' b', ' kb', ' mb', ' gb', ' tb', ' pb'])
+	public function formatByte($value, array $characters = [' b', ' kb', ' mb', ' gb', ' tb', ' pb'])
 	{
 		if(count($characters) !== 6)
 		{
@@ -266,39 +251,36 @@ class Data
 	 * Format currency
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_FORMAT)
+	 * @param mixed $format
 	 * @return mixed
 	 */
-	public function formatCurrency($value, $params = null)
+	public function formatCurrency($value, $format = null)
 	{
-		return sprintf(isset($params[self::PARAM_FORMAT]) ? $params[self::PARAM_FORMAT]
-			: self::$default_format_currency, $value);
+		return sprintf($format !== null ? $format : self::$default_format_currency, $value);
 	}
 
 	/**
 	 * Format date
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_FORMAT)
+	 * @param mixed $format
 	 * @return mixed
 	 */
-	public function formatDate($value, $params = null)
+	public function formatDate($value, $format = null)
 	{
-		return date(isset($params[self::PARAM_FORMAT]) ? $params[self::PARAM_FORMAT]
-			: self::$default_format_date, strtotime($value));
+		return date($format !== null ? $format : self::$default_format_date, strtotime($value));
 	}
 
 	/**
 	 * Format date/time
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_FORMAT)
+	 * @param mixed $format
 	 * @return mixed
 	 */
-	public function formatDateTime($value, $params = null)
+	public function formatDateTime($value, $format = null)
 	{
-		return date(isset($params[self::PARAM_FORMAT]) ? $params[self::PARAM_FORMAT]
-			: self::$default_format_date_time, strtotime($value));
+		return date($format !== null ? $format : self::$default_format_date_time, strtotime($value));
 	}
 
 	/**
@@ -316,25 +298,22 @@ class Data
 	 * Format time
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_FORMAT)
+	 * @param mixed $format
 	 * @return mixed
 	 */
-	public function formatTime($value, $params = null)
+	public function formatTime($value, $format = null)
 	{
-		return date(isset($params[self::PARAM_FORMAT]) ? $params[self::PARAM_FORMAT]
-			: self::$default_format_time, strtotime($value));
+		return date($format !== null ? $format : self::$default_format_time, strtotime($value));
 	}
 
 	/**
 	 * Format time elapsed
 	 *
 	 * @param float $time_elapsed (ex: microtime(true) - $start)
-	 * @param mixed $params
 	 * @param array $characters (ex: ['y', 'w', 'd', 'h', 'm', 's'])
 	 * @return string (ex: '1h 35m 55s')
 	 */
-	public function formatTimeElapsed($time_elapsed, $params = null,
-		array $characters = ['y', 'w', 'd', 'h', 'm', 's'])
+	public function formatTimeElapsed($time_elapsed, array $characters = ['y', 'w', 'd', 'h', 'm', 's'])
 	{
 		if(count($characters) !== 6)
 		{
@@ -388,88 +367,65 @@ class Data
 	 * Validate value is alphanumeric characters
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_WHITESPACE)
+	 * @param boolean $allow_whitespaces
 	 * @return boolean
 	 */
-	public function validateAlnum($value, $params = null)
+	public function validateAlnum($value, $allow_whitespaces = false)
 	{
-		return isset($params[self::PARAM_WHITESPACE]) ? preg_match('/^[a-zA-Z0-9\s]+$/', $value)
-			: ctype_alnum($value);
+		return $allow_whitespaces ? preg_match('/^[a-zA-Z0-9\s]+$/', $value) : ctype_alnum($value);
 	}
 
 	/**
 	 * Validate value is alpha characters
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_WHITESPACE)
+	 * @param boolean $allow_whitespaces
 	 * @return boolean
 	 */
-	public function validateAlpha($value, $params = null)
+	public function validateAlpha($value, $allow_whitespaces = false)
 	{
-		return isset($params[self::PARAM_WHITESPACE]) ? preg_match('/^[a-zA-Z\s]+$/', $value)
-			: ctype_alpha($value);
+		return $allow_whitespaces ? preg_match('/^[a-zA-Z\s]+$/', $value) : ctype_alpha($value);
 	}
 
 	/**
 	 * Validate value between min and max values
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (PARAM_MIN, PARAM_MAX)
+	 * @param int min
+	 * @param int max
 	 * @return boolean
-	 * @throws \Exception
 	 */
-	public function validateBetween($value, $params)
+	public function validateBetween($value, $min, $max)
 	{
-		if(!isset($params[self::PARAM_MIN]) || !isset($params[self::PARAM_MAX]))
-		{
-			throw new \Exception(__METHOD__ . ': Method \'validateBetween()\' requires array params: \''
-				. self::PARAM_MIN . '\' and \'' . self::PARAM_MAX . '\'');
-			return false;
-		}
-
-		return $value > $params[self::PARAM_MIN] && $value < $params[self::PARAM_MAX];
+		return $value > $min && $value < $max;
 	}
 
 	/**
 	 * Validate value contains value
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (PARAM_VALUE, optional: PARAM_CASE_INSENSITIVE)
+	 * @param mixed $contain_value
+	 * @param boolean $is_case_insensitive
 	 * @return boolean
-	 * @throws \Exception
 	 */
-	public function validateContains($value, $params)
+	public function validateContains($value, $contain_value, $is_case_insensitive = false)
 	{
-		if(!isset($params[self::PARAM_VALUE]))
-		{
-			throw new \Exception(__METHOD__ . ': Method \'validateContains()\' requires array param: \''
-				. self::PARAM_VALUE . '\'');
-			return false;
-		}
-
-		return isset($params[self::PARAM_CASE_INSENSITIVE]) ? stripos($value, $params[self::PARAM_VALUE]) !== false
-			: strpos($value, $params[self::PARAM_VALUE]) !== false;
+		return $is_case_insensitive ? stripos($value, $contain_value) !== false
+			: strpos($value, $contain_value) !== false;
 	}
 
 	/**
 	 * Validate value does not contain value
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (PARAM_VALUE, optional: PARAM_CASE_INSENSITIVE)
+	 * @param mixed $contain_not_value
+	 * @param boolean $is_case_insensitive
 	 * @return boolean
-	 * @throws \Exception
 	 */
-	public function validateContainsNot($value, $params)
+	public function validateContainsNot($value, $contain_not_value, $is_case_insensitive = false)
 	{
-		if(!isset($params[self::PARAM_VALUE]))
-		{
-			throw new \Exception(__METHOD__ . ': Method \'validateContainsNot()\' requires array param: \''
-				. self::PARAM_VALUE . '\'');
-			return false;
-		}
-
-		return isset($params[self::PARAM_CASE_INSENSITIVE]) ? stripos($value, $params[self::PARAM_VALUE]) === false
-			: strpos($value, $params[self::PARAM_VALUE]) === false;
+		return $is_case_insensitive ? stripos($value, $contain_not_value) === false
+			: strpos($value, $contain_not_value) === false;
 	}
 
 	/**
@@ -522,71 +478,52 @@ class Data
 	}
 
 	/**
-	 * Validate value is min length, or under max length, or between min and max lengths
+	 * Validate value is min length, or under max length, or between min and max lengths, or exact length
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (PARAM_MIN, PARAM_MAX, PARAM_EXACT)
+	 * @param int $min
+	 * @param int $max
+	 * @param int $exact
 	 * @return boolean
-	 * @throws \Exception
 	 */
-	public function validateLength($value, $params)
+	public function validateLength($value, $min = 0, $max = 0, $exact = 0)
 	{
-		if(isset($params[self::PARAM_MIN]) && isset($params[self::PARAM_MAX]))
+		$min = (int)$min;
+		$max = (int)$max;
+		$exact = (int)$exact;
+
+		if($min && $max)
 		{
-			return strlen($value) >= (int)$params[self::PARAM_MIN]
-				&& strlen($value) <= (int)$params[self::PARAM_MAX];
+			return strlen($value) >= $min && strlen($value) <= $max;
 		}
-		else if(isset($params[self::PARAM_MIN]))
+		else if($min)
 		{
-			return strlen($value) >= (int)$params[self::PARAM_MIN];
+			return strlen($value) >= $min;
 		}
-		else if(isset($params[self::PARAM_MAX]))
+		else if($max)
 		{
-			return strlen($value) <= (int)$params[self::PARAM_MAX];
+			return strlen($value) <= $max;
 		}
-		else if(isset($params[self::PARAM_EXACT]))
+		else if($exact)
 		{
-			return strlen($value) === (int)$params[self::PARAM_EXACT];
+			return strlen($value) === $exact;
 		}
-		else
-		{
-			throw new \Exception(__METHOD__ . ': Method \'validateLength()\' requires array params: \''
-				. self::PARAM_MIN . '\' and/or \'' . self::PARAM_MAX . '\', or \'' . self::PARAM_EXACT . '\'');
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
 	 * Validate value is match to value
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (PARAM_VALUE, optional: PARAM_CASE_INSENSITIVE, PARAM_PATTERN)
+	 * @param mixed $compare_value
+	 * @param boolean $is_case_insensitive
 	 * @return boolean
-	 * @throws \Exception
 	 */
-	public function validateMatch($value, $params)
+	public function validateMatch($value, $compare_value, $is_case_insensitive = false)
 	{
-		if(isset($params[self::PARAM_PATTERN])) // test regex pattern
-		{
-			if(!self::validateRegex($params[self::PARAM_PATTERN]))
-			{
-				throw new \Exception(__METHOD__ . ': Method \'validateMatch()\' param: \'' . self::PARAM_PATTERN
-					. '\' is not a valid pattern (tested with method \'validateRegex()\')');
-				return false;
-			}
-
-			return preg_match($params[self::PARAM_PATTERN], $value);
-		}
-
-		if(!isset($params[self::PARAM_VALUE]))
-		{
-			throw new \Exception(__METHOD__ . ': Method \'validateMatch()\' requires array param: \''
-				. self::PARAM_VALUE . '\'');
-			return false;
-		}
-
-		return isset($params[self::PARAM_CASE_INSENSITIVE]) ? strcasecmp($value, $params[self::PARAM_VALUE]) === 0
-			: strcmp($value, $params[self::PARAM_VALUE]) === 0;
+		return $is_case_insensitive ? strcasecmp($value, $compare_value) === 0
+			: strcmp($value, $compare_value) === 0;
 	}
 
 	/**
@@ -638,12 +575,11 @@ class Data
 	 * Validate value is word (same as character class '\w')
 	 *
 	 * @param mixed $value
-	 * @param mixed $params (optional: PARAM_WHITESPACE)
+	 * @param boolean $allow_whitespaces
 	 * @return boolean
 	 */
-	public function validateWord($value, $params = null)
+	public function validateWord($value, $allow_whitespaces = false)
 	{
-		return isset($params[self::PARAM_WHITESPACE]) ? preg_match('/^[\w\s]+$/', $value)
-			: preg_match('/^[\w]+$/', $value);
+		return $allow_whitespaces ? preg_match('/^[\w\s]+$/', $value) : preg_match('/^[\w]+$/', $value);
 	}
 }

@@ -744,13 +744,12 @@ $trimmed = data()->filterTrim(' my value '); // 'my value'
 Some filter methods use arguments (or *params*), for example:
 ```php
 // strip non-word characters, but allow whitespaces
-$words = = data()->filterWord('my value!',
-	[\Drone\Data::PARAM_WHITESPACE => true]); // 'my value'
+$words = = data()->filterWord('my value!', true); // 'my value'
 ```
 
 Available filters are:
-- `filterAlnum(value, params)` - strip non-alphanumeric characters
-- `filterAlpha(value, params)` - strip non-alpha characters
+- `filterAlnum(value, allow_whitespaces)` - strip non-alphanumeric characters
+- `filterAlpha(value, allow_whitespaces)` - strip non-alpha characters
 - `filterDate(value)` - strip non-date characters
 - `filterDateTime(value)` - strip non-date/time characters
 - `filterDecimal(value)` - strip non-decimal characters
@@ -761,7 +760,7 @@ Available filters are:
 - `filterTime(value)` - strip non-time characters
 - `filterTrim(value)` - trim spaces
 - `filterUrlEncode(value)` - encode URL
-- `filterWord(value, params)` - strip non-word characters (same as character class '\w')
+- `filterWord(value, allow_whitespaces)` - strip non-word characters (same as character class '\w')
 
 #### Format
 Data can be formatted using the `data()->format*` helper function syntax, for example:
@@ -773,20 +772,19 @@ $currency = data()->formatCurrency(5); // '$5.00'
 Some formatter methods use arguments (or *params*), for example:
 ```php
 // format number to currency with custom currency format
-$currency = data()->formatCurrency(5,
-	[\Drone\Data::PARAM_FORMAT => '$%0.2f USD']); // '$5.00 USD'
+$currency = data()->formatCurrency(5, '$%0.2f USD'); // '$5.00 USD'
 ```
 
 Available formats are:
 - `formatBase64UrlDecode(value)`
 - `formatBase64UrlEncode(value)`
-- `formatByte(value, params, characters)`
-- `formatCurrency(value, params)`
-- `formatDate(value, params)`
-- `formatDateTime(value, params)`
+- `formatByte(value, characters)`
+- `formatCurrency(value, format)`
+- `formatDate(value, format)`
+- `formatDateTime(value, format)`
 - `formatLower(value)`
-- `formatTime(value, params)`
-- `formatTimeElapsed(time_elapsed, params, characters)`
+- `formatTime(value, format)`
+- `formatTimeElapsed(time_elapsed, characters)`
 - `formatUpper(value)`
 - `formatUpperWords(value)`
 
@@ -803,30 +801,29 @@ if(!data()->validateEmail('bad-email@'))
 Some validator methods use arguments (or *params*), for example:
 ```php
 // validate string length (minimum 4, maximum 50)
-if(!data()->validateLength('my string',
-	[\Drone\Data::PARAM_MIN => 4, \Drone\Data::PARAM_MAX => 50]))
+if(!data()->validateLength('my string', 4, 50))
 {
 	// warn
 }
 ```
 
 Available validators are:
-- `validateAlnum(value, params)` - value is alphanumeric characters
-- `validateAlpha(value, params = null)` - value is alpha characters
-- `validateBetween(value, params)` - value between min and max values
-- `validateContains(value, params)` - value contains value
-- `validateContainsNot(value, params)` - value does not contain value
+- `validateAlnum(value, allow_whitespaces)` - value is alphanumeric characters
+- `validateAlpha(value, allow_whitespaces)` - value is alpha characters
+- `validateBetween(value, min, max)` - value between min and max values
+- `validateContains(value, contain_value, is_case_insensitive)` - value contains value
+- `validateContainsNot(value, contain_not_value, is_case_insensitive)` - value does not contain value
 - `validateDecimal(value)` - value is decimal
 - `validateEmail(value)` - value is email
 - `validateIpv4(value)` - value is IPv4 address
 - `validateIpv6(value)` - value is IPv6 address
-- `validateLength(value, params)` - value is min length, or under max length, or between min and max lengths
-- `validateMatch(value, params)` - value is match to value
+- `validateLength(value, min, max, exact)` - value is min length, or under max length, or between min and max lengths
+- `validateMatch(value, compare_value, is_case_insensitive)` - value is match to value
 - `validateNumeric(value)` - value is numeric
-- `validateRegex(value)` - value is Perl-compatible regex pattern
+- `validateRegex(value, pattern)` - value is Perl-compatible regex pattern
 - `validateRequired(value)` - value exists (length > 0)
 - `validateUrl(value)` - value is URL
-- `validateWord(value, params)` - value is word (same as character class '\w')
+- `validateWord(value, allow_whitespaces)` - value is word (same as character class '\w')
 
 > Arrays can be passed to data methods, for example:
 ```php

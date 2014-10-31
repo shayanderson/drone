@@ -371,8 +371,9 @@ class Form
 						break;
 
 					case self::VALIDATE_LENGTH:
-						$valid = drone()->data->validateLength($value, isset($rule_arr['param'])
-							? $rule_arr['param'] : null);
+						$valid = drone()->data->validateLength($value, isset($rule_arr['param']['min'])
+							? $rule_arr['param']['min'] : 0, isset($rule_arr['param']['max'])
+							? $rule_arr['param']['max'] : 0);
 						break;
 
 					case self::VALIDATE_REGEX:
@@ -861,8 +862,8 @@ class Form
 				{
 					if($r === self::VALIDATE_MATCH) // match field x with y
 					{
-						if(!drone()->data->validateMatch($this->getData($k),
-							[Data::PARAM_VALUE => $this->getData($v['param'][0])])) // valid match value
+						// valid match value
+						if(!drone()->data->validateMatch($this->getData($k), $this->getData($v['param'][0])))
 						{
 							$is_valid = false;
 							$f['error'][$r] = $v['message'];
@@ -1001,9 +1002,7 @@ class Form
 			throw new \Exception('Minimum length or maximum length must be greater than zero');
 		}
 
-		$this->__addRule(self::VALIDATE_LENGTH, $error_message, $min > 0 && $max > 0 ?
-			[Data::PARAM_MIN => $min, Data::PARAM_MAX => $max] : ( $min > 0 ? [Data::PARAM_MIN => $min]
-				: [Data::PARAM_MAX => $max] ));
+		$this->__addRule(self::VALIDATE_LENGTH, $error_message, ['min' => $min, 'max' => $max]);
 		return $this;
 	}
 

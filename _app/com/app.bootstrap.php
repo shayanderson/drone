@@ -18,7 +18,7 @@
 //////////////////////////////////////////////////////////////////////////
 // set logging level
 drone()->log->setLogLevel(\Drone\Logger::LEVEL_TRACE);
-// drone()->log->setLogFile(PATH_ROOT . '_app/var/drone.log'); // set log file (optional)
+// drone()->log->setLogFile('_app/var/drone.log'); // set log file (optional)
 
 
 //////////////////////////////////////////////////////////////////////////

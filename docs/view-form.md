@@ -111,6 +111,7 @@ $this->form
 	// add text field
 	->text('username');
 ```
+> A decorator can use the pattern like `{$string}<br />`, or simply `{$}<br />`, or if no `{$...}<br />` pattern is found the decorator is added to the end of the string like `[string]<br />`.
 Now in the view template:
 ```html+php
 <?=$form->get('username')?>
@@ -119,7 +120,11 @@ Will output the HTML:
 ```html
 <div class="field"><input type="text" name="username"></div>
 ```
-> A decorator can use the pattern like `{$string}<br />`, or simply `{$}<br />`, or if no `{$...}<br />` pattern is found the decorator is added to the end of the string like `[string]<br />`.
+> Global decorators can be disabled for any field using:
+```php
+// false disables global decorator for this field only
+<?=$form->get('username', null, false)?>
+```
 
 ### Form Validator Methods
 Form field validation methods can be used to validate form data, for example:

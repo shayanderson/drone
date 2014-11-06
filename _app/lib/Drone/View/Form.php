@@ -314,10 +314,16 @@ class Form
 	 *
 	 * @param string $str
 	 * @param mixed $decorator (string|null when no decorator)
+	 * @param boolean $decorate
 	 * @return string
 	 */
-	private static function __decorate($str, $decorator = null)
+	private static function __decorate($str, $decorator = null, $decorate = true)
 	{
+		if(!$decorate) // force no decorate
+		{
+			return $str;
+		}
+
 		if($decorator === null) // no decorator
 		{
 			return $str;
@@ -462,11 +468,12 @@ class Form
 	 *
 	 * @param string $id
 	 * @param mixed $attributes (array when setting, or null)
+	 * @param boolean $use_global_decorators (true applies global decorators)
 	 * @param mixed $options_decorator (string when setting, or null)
 	 * @return string
 	 * @throws \OutOfBoundsException (when field does not exist)
 	 */
-	public function get($id, $attributes = null, $options_decorator = null)
+	public function get($id, $attributes = null, $use_global_decorators = true, $options_decorator = null)
 	{
 		$html = '';
 
@@ -527,11 +534,12 @@ class Form
 						$html .= self::__decorate('<input type="' . $this->__fields[$id]['type'] . '"'
 							. self::__attributes($opt_attributes) . ' value="' . $k . '"'
 							. ( isset($checked) ? ' checked' : '' ) . '>' . $v,
-								$options_decorator ?: self::$decorator_options);
+								$options_decorator ?: ( $use_global_decorators ? self::$decorator_options : '' ));
 
 						unset($checked);
 					}
-					$html = self::__decorate($html, self::$decorator_checkbox_radio ?: self::$decorator_fields);
+					$html = self::__decorate($html, self::$decorator_checkbox_radio ?: self::$decorator_fields,
+						$use_global_decorators);
 					break;
 
 				case self::TYPE_EMAIL:
@@ -551,7 +559,7 @@ class Form
 					$html = self::__decorate('<input type="' . $this->__fields[$id]['type'] . '"'
 						. self::__attributes($attributes) . '>',
 						$this->__fields[$id]['type'] !== self::TYPE_HIDDEN ? ( self::$decorator_field
-							?: self::$decorator_fields ) : null);
+							?: self::$decorator_fields ) : null, $use_global_decorators);
 					break;
 
 				case self::TYPE_SELECT:
@@ -578,7 +586,8 @@ class Form
 							? ' selected' : '' ) . '>' . $v	. '</option>';
 					}
 
-					$html = self::__decorate($html . '</select>', self::$decorator_select ?: self::$decorator_fields);
+					$html = self::__decorate($html . '</select>', self::$decorator_select ?: self::$decorator_fields,
+						$use_global_decorators);
 					break;
 
 				case self::TYPE_TEXTAREA:
@@ -589,7 +598,7 @@ class Form
 
 					$html = self::__decorate('<textarea' . self::__attributes($attributes) . '>'
 						. ( isset($this->__fields[$id]['value']) ? $this->__fields[$id]['value'] : '' )
-						. '</textarea>', self::$decorator_textarea ?: self::$decorator_fields);
+						. '</textarea>', self::$decorator_textarea ?: self::$decorator_fields, $use_global_decorators);
 					break;
 			}
 		}
@@ -685,7 +694,7 @@ class Form
 		if(isset($this->__fields[$id]['error']))
 		{
 			return self::__decorate(array_values($this->__fields[$id]['error'])[0],
-				$decorator ?: self::$decorator_error);
+				$decorator ?: ( $use_global_decorators ? self::$decorator_error : null ));
 		}
 
 		return '';
@@ -696,11 +705,12 @@ class Form
 	 *
 	 * @param string $id
 	 * @param mixed $attributes (array when setting, or null)
+	 * @param boolean $use_global_decorators
 	 * @return string
 	 */
-	public function getErrorAndField($id, $attributes = null)
+	public function getErrorAndField($id, $attributes = null, $use_global_decorators = true)
 	{
-		return $this->getError($id) . $this->get($id, $attributes);
+		return $this->getError($id) . $this->get($id, $attributes, $use_global_decorators);
 	}
 
 	/**
@@ -765,11 +775,12 @@ class Form
 	 *
 	 * @param string $id
 	 * @param mixed $attributes (array when setting, or null)
+	 * @param boolean $use_global_decorators
 	 * @return string
 	 */
-	public function getErrorsAndField($id, $attributes = null)
+	public function getErrorsAndField($id, $attributes = null, $use_global_decorators = true)
 	{
-		return $this->getErrors($id) . $this->get($id, $attributes);
+		return $this->getErrors($id) . $this->get($id, $attributes, $use_global_decorators);
 	}
 
 	/**

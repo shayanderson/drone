@@ -112,6 +112,7 @@ $this->form
 	->text('username');
 ```
 > A decorator can use the pattern like `{$string}<br />`, or simply `{$}<br />`, or if no `{$...}<br />` pattern is found the decorator is added to the end of the string like `[string]<br />`.
+
 Now in the view template:
 ```html+php
 <?=$form->get('username')?>

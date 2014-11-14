@@ -10,7 +10,7 @@
  */
 namespace Drone\View;
 
-use \Drone\Data;
+use Drone\Data;
 
 /**
  * View Form class - HTML form helper class
@@ -694,7 +694,7 @@ class Form
 		if(isset($this->__fields[$id]['error']))
 		{
 			return self::__decorate(array_values($this->__fields[$id]['error'])[0],
-				$decorator ?: ( $use_global_decorators ? self::$decorator_error : null ));
+				$decorator ?: self::$decorator_error);
 		}
 
 		return '';

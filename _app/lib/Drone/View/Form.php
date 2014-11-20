@@ -327,8 +327,19 @@ class Form
 			return $str;
 		}
 
-		return preg_match('/\{\$[a-z]*\}/i', $decorator) ? preg_replace('/\{\$[a-z]*\}/i', $str, $decorator)
-			: $str . $decorator; // if no decorator pattern like {$anything} append decorator to str
+		if(preg_match('/\{\$[a-z]*\}/i', $decorator)) // pattern like {$something} detected, apply decorator pattern
+		{
+			preg_replace_callback('/\{\$[a-z]*\}/i', function($m) use(&$str, &$decorator)
+			{
+				$str = str_replace($m[0], $str, $decorator);
+			}, $decorator);
+		}
+		else // if no decorator pattern like {$anything}, append decorator to str
+		{
+			$str .= $decorator;
+		}
+
+		return $str;
 	}
 
 	/**

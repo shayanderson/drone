@@ -704,11 +704,12 @@ class Form
 	 * @param string $id
 	 * @param mixed $attributes (array when setting, or null)
 	 * @param boolean $use_global_decorators
+	 * @param mixed $options_decorator (string when setting, or null)
 	 * @return string
 	 */
-	public function getErrorAndField($id, $attributes = null, $use_global_decorators = true)
+	public function getErrorAndField($id, $attributes = null, $use_global_decorators = true, $options_decorator = null)
 	{
-		return $this->getError($id) . $this->get($id, $attributes, $use_global_decorators);
+		return $this->getError($id) . $this->get($id, $attributes, $use_global_decorators, $options_decorator);
 	}
 
 	/**
@@ -774,11 +775,12 @@ class Form
 	 * @param string $id
 	 * @param mixed $attributes (array when setting, or null)
 	 * @param boolean $use_global_decorators
+	 * @param mixed $options_decorator (string when setting, or null)
 	 * @return string
 	 */
-	public function getErrorsAndField($id, $attributes = null, $use_global_decorators = true)
+	public function getErrorsAndField($id, $attributes = null, $use_global_decorators = true, $options_decorator = null)
 	{
-		return $this->getErrors($id) . $this->get($id, $attributes, $use_global_decorators);
+		return $this->getErrors($id) . $this->get($id, $attributes, $use_global_decorators, $options_decorator);
 	}
 
 	/**

@@ -10,8 +10,6 @@
  */
 namespace Drone\View;
 
-use Drone\Data;
-
 /**
  * View Form class - HTML form helper class
  *

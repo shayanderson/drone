@@ -14,7 +14,7 @@ Install Drone options:
 - **[Views](https://github.com/shayanderson/drone#views)**: [View Templates](https://github.com/shayanderson/drone#view-templates)
 - **[Logging](https://github.com/shayanderson/drone#logging)**: [Log Levels](https://github.com/shayanderson/drone#log-levels), [Log Configuration](https://github.com/shayanderson/drone#log-configuration), [Custom Log Handler](https://github.com/shayanderson/drone#custom-log-handler)
 - **[Error Handling](https://github.com/shayanderson/drone#error-handling)**: [Setting Error Handlers](https://github.com/shayanderson/drone#setting-error-handlers)
-- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**: [Parameters](https://github.com/shayanderson/drone#parameters), [Route Parameters](https://github.com/shayanderson/drone#route-parameters), [Hooks](https://github.com/shayanderson/drone#hooks), [Redirect](https://github.com/shayanderson/drone#redirect), [Headers](https://github.com/shayanderson/drone#headers), [Timers](https://github.com/shayanderson/drone#timers), [Stop Application](https://github.com/shayanderson/drone#stop-application)
+- **[Core Methods](https://github.com/shayanderson/drone#core-methods)**: [Registry](https://github.com/shayanderson/drone#registry), [Route Parameters](https://github.com/shayanderson/drone#route-parameters), [Hooks](https://github.com/shayanderson/drone#hooks), [Redirect](https://github.com/shayanderson/drone#redirect), [Headers](https://github.com/shayanderson/drone#headers), [Timers](https://github.com/shayanderson/drone#timers), [Stop Application](https://github.com/shayanderson/drone#stop-application)
 - **[Request Variables](https://github.com/shayanderson/drone#request-variables)**
 - **[Session Handling](https://github.com/shayanderson/drone#session-handling)**: [Flash Messages](https://github.com/shayanderson/drone#flash-messages)
 - **[Data Handling](https://github.com/shayanderson/drone#data-handling)**: [Filter](https://github.com/shayanderson/drone#filter), [Format](https://github.com/shayanderson/drone#format), [Validate](https://github.com/shayanderson/drone#validate)
@@ -26,7 +26,7 @@ Install Drone options:
 ## Quick Start
 To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.
 
-All of the Drone bootstrapping is done in the `index.php` file.
+All of the Drone bootstrapping is done in the `_app/com/xap.bootstrap.php` file.
 
 #### Directory Structure
 By default Drone uses the following directory structure:
@@ -71,29 +71,27 @@ Drone helper functions available:
 - [`error()`](https://github.com/shayanderson/drone#error-handling) - trigger error (`drone()->error()` alias)
 - [`error_last()`](https://github.com/shayanderson/drone#error-handling) - get last error (`drone()->errorLast()` alias)
 - [`flash()`](https://github.com/shayanderson/drone#flash-messages) - set flash message (`drone()->flash` alias)
-- [`get()`](https://github.com/shayanderson/drone#parameters) - get param value (`drone()->get()` alias)
 - [`logger()`](https://github.com/shayanderson/drone#logging) - `drone()->log` alias
 - `pa()` - string/array printer
 - [`param()`](https://github.com/shayanderson/drone#route-parameters) - get route param (similar to `view()->param()`)
 - [`redirect()`](https://github.com/shayanderson/drone#redirect) - redirect to location (`drone()->redirect()` alias)
 - [`request()`](https://github.com/shayanderson/drone#request-variables) - `drone()->request` alias
 - [`session()`](https://github.com/shayanderson/drone#session-handling) - `drone()->session` alias
-- [`set()`](https://github.com/shayanderson/drone#parameters) - set param value (`drone()->set()` alias)
 - [`template()`](https://github.com/shayanderson/drone#view-templates) - get template formatted name (`drone()->view->template()` alias)
 - [`template_global()`](https://github.com/shayanderson/drone#view-templates) - get global template formatted name (`drone()->view->templateGlobal()` alias)
 - [`view()`](https://github.com/shayanderson/drone#views) - `drone->view` alias
 
 #### Settings
-Drone can run without changing the default settings, however, the default settings should be changed in the `index.php` file when Drone is used in a production environment:
+Drone can run without changing the default settings, however, the default settings should be changed in the `_app/com/xap.bootstrap.php` file when Drone is used in a production environment:
 ```php
 // turn debug mode off - this will prevent unwanted output in a production environment
-drone()->set(\Drone\Core::KEY_DEBUG, false);
+\Drone\Registry::set(\Drone\Core::KEY_DEBUG, false);
 
 // turn off backtrace in log - this should only be used in a development environment
-drone()->set(\Drone\Core::KEY_ERROR_BACKTRACE, false);
+\Drone\Registry::set(\Drone\Core::KEY_ERROR_BACKTRACE, false);
 
 // turn on logging of errors in the default Web server log file
-drone()->set(\Drone\Core::KEY_ERROR_LOG, true);
+\Drone\Registry::set(\Drone\Core::KEY_ERROR_LOG, true);
 ```
 
 #### Run Application
@@ -131,7 +129,7 @@ Static routes require no mapping and instead rely on static file paths. For exam
 <blockquote>Static route lookups happen <i>after</i> mapped route lookups</blockquote>
 
 #### Mapped Routes
-Mapped routes require mapping in the `index.php` file, example:
+Mapped routes require mapping in the `_app/com/xap.bootstrap.php` file, example:
 ```php
 drone()->route([
 	'/item-view' => 'item/view',
@@ -343,7 +341,7 @@ This example includes the global template files `_app/tpl/_global/header.tpl` an
 > The helper function `template()` can be used to include non-global template files
 
 ##### Global View Header and Footer Templates
-Global view *header* and *footer* templates can be used, for example in the `index.php` file a *before* hook can be created to set the templates:
+Global view *header* and *footer* templates can be used, for example in the `_app/com/xap.bootstrap.php` file a *before* hook can be created to set the templates:
 ```php
 drone()->hook(\Drone\Core::HOOK_BEFORE, function(){
 	view()->templateHeader(template_global('header'));
@@ -389,7 +387,7 @@ Drone uses the following logging methods for the logging levels: *debug*, *warn*
 > The `logger()->trace` method is used by the framework for debugging purposes
 
 #### Log Configuration
-Logging configuration is done in the `index.php` file.
+Logging configuration is done in the `_app/com/xap.bootstrap.php` file.
 
 To set the global *log level* use:
 ```php
@@ -446,7 +444,7 @@ error(100, 'My custom error'); // trigger 100 error handler
 <blockquote>Errors are automatically sent to the <code>\Drone\Logger</code> object to be logged</blockquote>
 
 #### Setting Error Handlers
-By default at least three errors handlers should be set in the `index.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
+By default at least three errors handlers should be set in the `_app/com/xap.bootstrap.php` file: a *default* error handler, a *404* error handler and a *500* error handler, example:
 ```php
 drone()->error(function($error) { echo '<div style="color:#f00;">' . $error
 	. '</div>'; });
@@ -471,21 +469,22 @@ Now if a `100` error is triggered the handler would call the controller action m
 ## Core Methods
 There are Drone core (`\Drone\Core`) methods that are available for application use.
 
-#### Parameters
-Application parameters, or *params*, can be useful for global variables and objects. Params can be managed using the following helper functions or methods:
-- `drone()->clear()` - clear param
-- `get()` - get param value (drone()->get() alias)
-- `drone()->getAll()` - get all params as array
-- `drone()->has()` - check if param exists
-- `set()` - set param value (drone()->set() alias)
-Param example:
+#### Registry
+The \Drone\Registry class is useful for global variables and objects, here is an example:
 ```php
-set('user', new \User($user_id));
+use \Drone\Registry;
 ...
-if(get('user')->isActive())
+Registry::set('user', new \User($user_id)); // set key/value
+...
+if(Registry::has('user')) // check if key exists
 {
-	// do something
+	if(Registry::get('user')->isActive()) // get key value
+	{
+		// do something
+	}
 }
+...
+Registry::clear('user'); // unset key
 ```
 
 > Drone uses some params for internal use, these param keys all share the prefix `__DRONE__.`, for example a Drone param is `__DRONE__.error.backtrace`
@@ -517,7 +516,7 @@ if(count(params(null)) > 2) // more than 2 params
 #### Hooks
 Hooks can be used to initialize or finalize an application. The two types of hooks are: *before* (triggered before the controller file is imported) and *after* (triggered after the controller file is imported and action called when action exists).
 
-Example of *before* and *after* hooks set in `index.php`:
+Example of *before* and *after* hooks set in `_app/com/xap.bootstrap.php`:
 ```php
 // call function to init application logic
 drone()->hookBefore(function() { initAppLogic(); });
@@ -680,7 +679,7 @@ The flash message will only appear once, and be destroyed immediately after. Thi
 
 > When the `flash()` helper function is called a session with be started automatically if required
 
-The true power of flash messages is the use of templates, for example in the `index.php` file set a flash message template:
+The true power of flash messages is the use of templates, for example in the `_app/com/xap.bootstrap.php` file set a flash message template:
 ```php
 // sets template for flash message group 'error'
 \Drone\Flash::template('error', '<div class="error">{$message}</div>');
@@ -840,7 +839,7 @@ Get Xap options:
 - Subversion checkout URL: `https://github.com/shayanderson/xap/trunk`
 - Download [ZIP file](https://github.com/shayanderson/xap/archive/master.zip)
 
-To install Xap put the bootstrap file in `_app/com/xap.bootstrap.php`, put the `lib/Xap` directory in the `_app/lib` directory, and include the `_app/com/xap.bootstrap.php` in the `index.php` file.
+To install Xap put the bootstrap file in `_app/com/xap.bootstrap.php`, put the `lib/Xap` directory in the `_app/lib` directory, and include the `_app/com/xap.bootstrap.php` in the `_app/com/xap.bootstrap.php` file.
 
 <br /><br />
 

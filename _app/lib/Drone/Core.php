@@ -3,15 +3,12 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.2.1
- * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
+ * @version 0.2.2
+ * @copyright 2015 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/drone>
  */
 namespace Drone;
-
-use Drone\Logger;
-use Drone\Route;
 
 /**
  * Drone Core class
@@ -64,7 +61,7 @@ class Core
 	/**
 	 * Package version
 	 */
-	const VERSION = '0.2.1';
+	const VERSION = '0.2.2';
 
 	/**
 	 * Last error message
@@ -238,21 +235,6 @@ class Core
 	}
 
 	/**
-	 * Clear/unset param key/value pair
-	 *
-	 * @param string $key
-	 * @return void
-	 */
-	public function clear($key)
-	{
-		if($this->has($key))
-		{
-			unset($this->__params[$key]);
-			$this->log->trace('Cleared param: \'' . $key . '\'', Logger::CATEGORY_DRONE);
-		}
-	}
-
-	/**
 	 * Deny direct static access to controller (or mapped requests with no action)
 	 *
 	 * @staticvar boolean $deny
@@ -370,7 +352,7 @@ class Core
 		}
 
 		// add backtrace to log (not on 404)
-		if($code != self::ERROR_404 && $this->get(self::KEY_ERROR_BACKTRACE))
+		if($code != self::ERROR_404 && Registry::get(self::KEY_ERROR_BACKTRACE))
 		{
 			$this->log->trace('Debug backtrace: '
 				. print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), true), Logger::CATEGORY_DRONE);
@@ -442,7 +424,7 @@ class Core
 				break;
 		}
 
-		if(drone()->get(self::KEY_ERROR_LOG)) // log error
+		if(Registry::get(self::KEY_ERROR_LOG)) // log error
 		{
 			error_log($err_message, $err_no);
 		}
@@ -473,27 +455,6 @@ class Core
 	}
 
 	/**
-	 * Param value getter
-	 *
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function get($key)
-	{
-		return $this->has($key) ? $this->__params[$key] : null;
-	}
-
-	/**
-	 * Param array getter
-	 *
-	 * @return array
-	 */
-	public function getAll()
-	{
-		return $this->__params;
-	}
-
-	/**
 	 * Self instance getter
 	 *
 	 * @staticvar self $self
@@ -509,17 +470,6 @@ class Core
 		}
 
 		return $self;
-	}
-
-	/**
-	 * Param exists flag getter
-	 *
-	 * @param string $key
-	 * @return boolean
-	 */
-	public function has($key)
-	{
-		return isset($this->__params[$key]) || array_key_exists($key, $this->__params);
 	}
 
 	/**
@@ -654,33 +604,33 @@ class Core
 			// init param default values
 			foreach($default as $k => $v)
 			{
-				if(!$this->has($k))
+				if(!Registry::has($k))
 				{
-					$this->set($k, $v);
+					Registry::set($k, $v);
 				}
 			}
 
 			// set default error handler
-			if(is_array($this->get(self::KEY_ERROR_HANDLER)))
+			if(is_array(Registry::get(self::KEY_ERROR_HANDLER)))
 			{
-				set_error_handler($this->get(self::KEY_ERROR_HANDLER));
+				set_error_handler(Registry::get(self::KEY_ERROR_HANDLER));
 			}
 
 			// init paths
-			$this->__formatDir($this->__params[self::KEY_PATH_CONTROLLER]);
-			$this->__formatDir($this->__params[self::KEY_PATH_TEMPLATE]);
-			$this->__formatDir($this->__params[self::KEY_PATH_TEMPLATE_GLOBAL]);
+			$this->__formatDir(Registry::get(self::KEY_PATH_CONTROLLER));
+			$this->__formatDir(Registry::get(self::KEY_PATH_TEMPLATE));
+			$this->__formatDir(Registry::get(self::KEY_PATH_TEMPLATE_GLOBAL));
 
 			$is_init = true;
 		}
 
-		$this->set(self::KEY_ROUTE_CONTROLLER, false); // init controller
+		Registry::set(self::KEY_ROUTE_CONTROLLER, false); // init controller
 
 		if(!is_null($route)) // fire manual route
 		{
 			$routes[] = $route; // cache route
 			$route = new Route(null, $route);
-			$this->set([
+			Registry::set([
 				self::KEY_ROUTE_CONTROLLER => $route->getController(),
 				self::KEY_ROUTE_CLASS => $route->getClass(),
 				self::KEY_ROUTE_TEMPLATE => $route->getController()
@@ -688,10 +638,10 @@ class Core
 
 			if($route->isAction())
 			{
-				$this->set(self::KEY_ROUTE_ACTION, $route->getAction());
+				Registry::set(self::KEY_ROUTE_ACTION, $route->getAction());
 			}
 
-			$this->log->trace('Route set: \'' . $this->get(self::KEY_ROUTE_CONTROLLER) . '\'',
+			$this->log->trace('Route set: \'' . Registry::get(self::KEY_ROUTE_CONTROLLER) . '\'',
 				Logger::CATEGORY_DRONE);
 		}
 		else // detect route
@@ -699,7 +649,7 @@ class Core
 			$is_index = false;
 			$request = $_SERVER['REQUEST_URI'];
 			$this->log->trace('Process request: \'' . $request . '\'', Logger::CATEGORY_DRONE);
-			$this->set(self::KEY_REQUEST, $request);
+			Registry::set(self::KEY_REQUEST, $request);
 			if(($pos = strpos($request, '?')) !== false) // rm query string
 			{
 				$request = substr($request, 0, $pos);
@@ -711,17 +661,17 @@ class Core
 			if(substr($request, -1) != '/') // request is like '/page.htm'
 			{
 				// ensure request has web extension
-				if(substr($request, -(strlen($this->get(self::KEY_EXT_WEB)))) === $this->get(self::KEY_EXT_WEB))
+				if(substr($request, -(strlen(Registry::get(self::KEY_EXT_WEB)))) === Registry::get(self::KEY_EXT_WEB))
 				{
 					// do not allow direct access to index like '/path/index.htm'
-					if(basename($request) === 'index' . $this->get(self::KEY_EXT_WEB))
+					if(basename($request) === 'index' . Registry::get(self::KEY_EXT_WEB))
 					{
 						$this->error(self::ERROR_404); // kick direct index request
 						return;
 					}
 
 					// rm web extension
-					$request = substr($request, 0, strlen($request) - strlen($this->get(self::KEY_EXT_WEB)));
+					$request = substr($request, 0, strlen($request) - strlen(Registry::get(self::KEY_EXT_WEB)));
 				}
 				else // no web extension (not allowed)
 				{
@@ -739,7 +689,7 @@ class Core
 			{
 				if($r->match($request))
 				{
-					$this->set([
+					Registry::set([
 						self::KEY_ROUTE_CONTROLLER => $r->getController(),
 						self::KEY_ROUTE_CLASS => $r->getClass(),
 						self::KEY_ROUTE_TEMPLATE => $r->getController()
@@ -747,7 +697,7 @@ class Core
 
 					if($r->isAction())
 					{
-						$this->set(self::KEY_ROUTE_ACTION, $r->getAction());
+						Registry::set(self::KEY_ROUTE_ACTION, $r->getAction());
 					}
 
 					$this->view->setRouteParams($r->getParams()); // set route params
@@ -761,7 +711,7 @@ class Core
 			unset($r);
 
 			// test static routes
-			if($this->get(self::KEY_ROUTE_CONTROLLER) === false)
+			if(Registry::get(self::KEY_ROUTE_CONTROLLER) === false)
 			{
 				$request = str_replace('/', DIRECTORY_SEPARATOR, $request);
 
@@ -770,11 +720,11 @@ class Core
 					$request .= 'index';
 				}
 
-				$this->set([
+				Registry::set([
 					self::KEY_ROUTE_CONTROLLER => $request,
 					self::KEY_ROUTE_TEMPLATE => $request
 				]);
-				$this->log->trace('Route (static) detected: \'' . $this->get(self::KEY_ROUTE_CONTROLLER)
+				$this->log->trace('Route (static) detected: \'' . Registry::get(self::KEY_ROUTE_CONTROLLER)
 					. '\'', Logger::CATEGORY_DRONE);
 
 			}
@@ -791,20 +741,20 @@ class Core
 		}
 
 		// set full paths + extensions
-		$this->set(self::KEY_ROUTE_CONTROLLER, $this->get(self::KEY_PATH_CONTROLLER)
-			. ltrim($this->get(self::KEY_ROUTE_CONTROLLER), DIRECTORY_SEPARATOR) . '.php');
-		$this->set(self::KEY_ROUTE_TEMPLATE, $this->get(self::KEY_PATH_TEMPLATE)
-			. ltrim($this->get(self::KEY_ROUTE_TEMPLATE), DIRECTORY_SEPARATOR)
-			. $this->get(self::KEY_EXT_TEMPLATE));
+		Registry::set(self::KEY_ROUTE_CONTROLLER, Registry::get(self::KEY_PATH_CONTROLLER)
+			. ltrim(Registry::get(self::KEY_ROUTE_CONTROLLER), DIRECTORY_SEPARATOR) . '.php');
+		Registry::set(self::KEY_ROUTE_TEMPLATE, Registry::get(self::KEY_PATH_TEMPLATE)
+			. ltrim(Registry::get(self::KEY_ROUTE_TEMPLATE), DIRECTORY_SEPARATOR)
+			. Registry::get(self::KEY_EXT_TEMPLATE));
 
 		try // run controller
 		{
 			$this->view->resetTemplate(); // reset template (for multiple runs like errors)
-			$this->view->setDefaultTemplate($this->get(self::KEY_ROUTE_TEMPLATE)); // set default template
+			$this->view->setDefaultTemplate(Registry::get(self::KEY_ROUTE_TEMPLATE)); // set default template
 
 			$this->error(false); // reset error flag
 
-			if(is_file($this->get(self::KEY_ROUTE_CONTROLLER)))
+			if(is_file(Registry::get(self::KEY_ROUTE_CONTROLLER)))
 			{
 				ob_start(); // buffer output
 
@@ -818,19 +768,19 @@ class Core
 					unset($hook);
 				}
 
-				$this->log->trace('Loading controller: \'' . $this->get(self::KEY_ROUTE_CONTROLLER) . '\'',
+				$this->log->trace('Loading controller: \'' . Registry::get(self::KEY_ROUTE_CONTROLLER) . '\'',
 					Logger::CATEGORY_DRONE);
 
-				require_once $this->get(self::KEY_ROUTE_CONTROLLER);
+				require_once Registry::get(self::KEY_ROUTE_CONTROLLER);
 
 				$this->__headersSend(); // send headers
 
-				$controller_class = $this->get(self::KEY_ROUTE_CLASS);
+				$controller_class = Registry::get(self::KEY_ROUTE_CLASS);
 
 				// call controller action
-				if($this->has(self::KEY_ROUTE_ACTION))
+				if(Registry::has(self::KEY_ROUTE_ACTION))
 				{
-					$this->log->trace('Calling action: \'' . $this->get(self::KEY_ROUTE_ACTION)
+					$this->log->trace('Calling action: \'' . Registry::get(self::KEY_ROUTE_ACTION)
 						. '\' on controller class \'' . $controller_class . '\'', Logger::CATEGORY_DRONE);
 
 					if(!class_exists($controller_class, false))
@@ -846,10 +796,10 @@ class Core
 						return;
 					}
 
-					if(!method_exists($controller_class, $this->get(self::KEY_ROUTE_ACTION)))
+					if(!method_exists($controller_class, Registry::get(self::KEY_ROUTE_ACTION)))
 					{
 						$this->error(self::ERROR_500, 'Method \'' . $controller_class . '::'
-							. $this->get(self::KEY_ROUTE_ACTION) . '\' not found when calling route action');
+							. Registry::get(self::KEY_ROUTE_ACTION) . '\' not found when calling route action');
 						return;
 					}
 
@@ -862,7 +812,7 @@ class Core
 					}
 
 					// call controller action
-					$controller->{$this->get(self::KEY_ROUTE_ACTION)}();
+					$controller->{Registry::get(self::KEY_ROUTE_ACTION)}();
 
 					if(method_exists($controller, '__after'))
 					{
@@ -878,7 +828,7 @@ class Core
 
 				unset($controller_class); // cleanup
 
-				if(!$this->get(self::KEY_DEBUG)) // only flush if not debugging
+				if(!Registry::get(self::KEY_DEBUG)) // only flush if not debugging
 				{
 					$this->__bufferClean();
 				}
@@ -937,32 +887,6 @@ class Core
 		catch(\Exception $ex)
 		{
 			$this->error($ex);
-		}
-	}
-
-	/**
-	 * Param value setter
-	 *
-	 * @param array|string $key (array ex: ['k1' => 'v1', ...])
-	 * @param mixed $value
-	 * @return void
-	 */
-	public function set($key, $value = null)
-	{
-		if(!is_array($key))
-		{
-			if(!$this->has($key)) // only log initial time
-			{
-				$this->log->trace('Set param: \'' . $key . '\'', Logger::CATEGORY_DRONE);
-			}
-			$this->__params[$key] = $value;
-		}
-		else
-		{
-			foreach($key as $k => $v)
-			{
-				$this->set($k, $v);
-			}
 		}
 	}
 

@@ -3,8 +3,8 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.2.1
- * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
+ * @version 0.2.2
+ * @copyright 2015 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/drone>
  */
@@ -25,9 +25,9 @@ drone()->log->setLogLevel(\Drone\Logger::LEVEL_TRACE);
 // Settings
 //////////////////////////////////////////////////////////////////////////
 // framework settings
-// drone()->set(\Drone\Core::KEY_DEBUG, false); // debug mode - off for production
-// drone()->set(\Drone\Core::KEY_ERROR_BACKTRACE, false); // backtrace in log - off for production
-// drone()->set(\Drone\Core::KEY_ERROR_LOG, true); // errors to server log - on for production
+// \Drone\Registry::set(\Drone\Core::KEY_DEBUG, false); // debug mode - off for production
+// \Drone\Registry::set(\Drone\Core::KEY_ERROR_BACKTRACE, false); // backtrace in log - off for production
+// \Drone\Registry::set(\Drone\Core::KEY_ERROR_LOG, true); // errors to server log - on for production
 
 
 //////////////////////////////////////////////////////////////////////////

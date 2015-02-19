@@ -3,8 +3,8 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.2.1
- * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
+ * @version 0.2.2
+ * @copyright 2015 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/drone>
  */
@@ -96,17 +96,6 @@ function flash($key = null, $value = null)
 }
 
 /**
- * Param value getter (\Drone\Core->get() alias)
- *
- * @param string $key
- * @return mixed
- */
-function get($key)
-{
-	return drone()->get($key);
-}
-
-/**
  * \Drone\Logger instance getter (drone()->log alias)
  *
  * @return \Drone\Logger
@@ -180,18 +169,6 @@ function request()
 function session()
 {
 	return drone()->session;
-}
-
-/**
- * Param value setter (\Drone\Core->set() alias)
- *
- * @param array|string $key (array ex: ['k1' => 'v1', ...])
- * @param mixed $value
- * @return void
- */
-function set($key, $value = null)
-{
-	drone()->set($key, $value);
 }
 
 /**

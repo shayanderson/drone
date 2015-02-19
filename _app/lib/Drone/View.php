@@ -3,15 +3,12 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.2.1
- * @copyright 2014 Shay Anderson <http://www.shayanderson.com>
+ * @version 0.2.2
+ * @copyright 2015 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/drone>
  */
 namespace Drone;
-
-use Drone\Core;
-use Drone\Logger;
 
 /**
  * Drone View class
@@ -94,10 +91,10 @@ class View
 			$template = 'index';
 		}
 
-		if(substr($template, -(strlen(drone()->get(Core::KEY_EXT_TEMPLATE))))
-			!== drone()->get(Core::KEY_EXT_TEMPLATE))
+		if(substr($template, -(strlen(Registry::get(Core::KEY_EXT_TEMPLATE))))
+			!== Registry::get(Core::KEY_EXT_TEMPLATE))
 		{
-			$template .= drone()->get(Core::KEY_EXT_TEMPLATE);
+			$template .= Registry::get(Core::KEY_EXT_TEMPLATE);
 		}
 
 		return $template;
@@ -126,12 +123,12 @@ class View
 	{
 		if($template !== null) // template
 		{
-			$this->__template = drone()->get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
+			$this->__template = Registry::get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
 				. self::__formatTemplate($template);
 		}
 		else if(!empty($this->__template_display_path)) // controller display path + default template
 		{
-			$this->__template = drone()->get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
+			$this->__template = Registry::get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
 				. self::__formatTemplate(basename($this->__template_default));
 		}
 		else // default template
@@ -271,7 +268,7 @@ class View
 	 */
 	public function template($template)
 	{
-		$template = drone()->get(Core::KEY_PATH_TEMPLATE) . self::__formatTemplate($template);
+		$template = Registry::get(Core::KEY_PATH_TEMPLATE) . self::__formatTemplate($template);
 
 		if($template === $this->__template) // duplicate view template, stop template loop + memory overload
 		{
@@ -301,7 +298,7 @@ class View
 	 */
 	public function templateGlobal($template)
 	{
-		return drone()->get(Core::KEY_PATH_TEMPLATE_GLOBAL) . self::__formatTemplate($template);
+		return Registry::get(Core::KEY_PATH_TEMPLATE_GLOBAL) . self::__formatTemplate($template);
 	}
 
 	/**

@@ -43,7 +43,7 @@ drone()->error(500, function() { drone()->run('error->\ErrorController->_500'); 
 // Hooks
 //////////////////////////////////////////////////////////////////////////
 // after hook that displays log example:
-drone()->hookAfter(function() { pa('', 'Log:', drone()->log->get()); });
+drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log->get()); });
 
 
 //////////////////////////////////////////////////////////////////////////

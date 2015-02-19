@@ -512,14 +512,16 @@ if(count(params(null)) > 2) // more than 2 params
 > [*Optional*](https://github.com/shayanderson/drone#optional-route-parameters) and [*wildcard*](https://github.com/shayanderson/drone#wildcard-route-parameters) route params are also available
 
 #### Hooks
-Hooks can be used to initialize or finalize an application. The two types of hooks are: *before* (triggered before the controller file is imported) and *after* (triggered after the controller file is imported and action called when action exists).
+Hooks can be used to initialize, import logic into or finalize an application. The three types of hooks are: *before* (triggered before the controller file is imported), *middle* (triggered after action is called and before template is loaded), and *after* (triggered after the controller file is imported and action called when action exists).
 
-Example of *before* and *after* hooks set in `_app/com/xap.bootstrap.php`:
+Example of *before*, *middle* and *after* hooks set in `_app/com/xap.bootstrap.php`:
 ```php
 // call function to init application logic
-drone()->hookBefore(function() { initAppLogic(); });
+drone()->hook(\Drone\Core::HOOK_BEFORE, function() { initAppLogic(); });
+// import some app front logic
+drone()->hook(\Drone\Core::HOOK_MIDDLE, function() { include PATH_ROOT . '_app/com/front.php'; });
 // print Drone log
-drone()->hookAfter(function() { pa('', 'Log:', drone()->log->get()); });
+drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log->get()); });
 ```
 
 > For controller level hooks (special methods `__before()` and `__after`) see [Controller Class](https://github.com/shayanderson/drone#controller-class)

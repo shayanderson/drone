@@ -37,7 +37,8 @@ class Core
 	 */
 	const
 		HOOK_AFTER = 1,
-		HOOK_BEFORE = 2;
+		HOOK_BEFORE = 2,
+		HOOK_MIDDLE = 3;
 
 	/**
 	 * Framework param keys
@@ -221,17 +222,24 @@ class Core
 	}
 
 	/**
-	 * Register hook
+	 * Trigger hook(s) by type
 	 *
 	 * @param int $type
-	 * @param callable $hook
+	 * @param string $name (ex: 'after')
 	 * @return void
 	 */
-	public function __hook($type, callable $hook)
+	private function __hooks($type, $name)
 	{
-		$this->__hooks[$type][] = $hook;
-		$this->log->trace('Hook registered (' . ( $type == self::HOOK_BEFORE ? 'before' : 'after' ) . ')',
-			Logger::CATEGORY_DRONE);
+		if(isset($this->__hooks[$type])) // fire hook(s)
+		{
+			$this->log->trace('Calling ' . $name . ' hook(s)', Logger::CATEGORY_DRONE);
+
+			foreach($this->__hooks[$type] as $hook)
+			{
+				$hook();
+			}
+			unset($hook);
+		}
 	}
 
 	/**
@@ -512,25 +520,17 @@ class Core
 	}
 
 	/**
-	 * Register after hook
+	 * Register hook
 	 *
+	 * @param int $type
 	 * @param callable $hook
 	 * @return void
 	 */
-	public function hookAfter(callable $hook)
+	public function hook($type, callable $hook)
 	{
-		$this->__hook(self::HOOK_AFTER, $hook);
-	}
+		$this->__hooks[$type][] = $hook;
 
-	/**
-	 * Register before hook
-	 *
-	 * @param callable $hook
-	 * @return void
-	 */
-	public function hookBefore(callable $hook)
-	{
-		$this->__hook(self::HOOK_BEFORE, $hook);
+		$this->log->trace('Hook registered (type: ' . $type . ')', Logger::CATEGORY_DRONE);
 	}
 
 	/**
@@ -758,15 +758,7 @@ class Core
 			{
 				ob_start(); // buffer output
 
-				if(isset($this->__hooks[self::HOOK_BEFORE])) // fire before hooks
-				{
-					$this->log->trace('Calling before hook(s)', Logger::CATEGORY_DRONE);
-					foreach($this->__hooks[self::HOOK_BEFORE] as $hook)
-					{
-						$hook();
-					}
-					unset($hook);
-				}
+				$this->__hooks(self::HOOK_BEFORE, 'before');
 
 				$this->log->trace('Loading controller: \'' . Registry::get(self::KEY_ROUTE_CONTROLLER) . '\'',
 					Logger::CATEGORY_DRONE);
@@ -832,6 +824,8 @@ class Core
 				{
 					$this->__bufferClean();
 				}
+
+				$this->__hooks(self::HOOK_MIDDLE, 'middle');
 
 				// view display template
 				if(!is_null($this->view->getTemplate()))
@@ -899,14 +893,8 @@ class Core
 	{
 		$this->log->trace('Finalizing', Logger::CATEGORY_DRONE);
 
-		if(isset($this->__hooks[self::HOOK_AFTER]))
-		{
-			$this->log->trace('Calling after hook(s)', Logger::CATEGORY_DRONE);
-			foreach($this->__hooks[self::HOOK_AFTER] as $hook)
-			{
-				$hook();
-			}
-		}
+		$this->__hooks(self::HOOK_AFTER, 'after');
+
 		exit;
 	}
 

@@ -27,5 +27,3 @@ view()->display();
 
 // log example
 logger()->debug('Index controller end');
-
-logger()->debug('Memory: ' . memory_get_usage());

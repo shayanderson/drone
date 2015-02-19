@@ -26,8 +26,6 @@ Install Drone options:
 ## Quick Start
 To install Drone simply download the package and install in your project directory. For Apache use the `./.htaccess` file, for Nginx refer to the `./nginx.conf` example configuration file.
 
-All of the Drone bootstrapping is done in the `_app/com/xap.bootstrap.php` file.
-
 #### Directory Structure
 By default Drone uses the following directory structure:
 - **_app** (framework + application source files)

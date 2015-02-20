@@ -20,6 +20,7 @@ Install Drone options:
 - **[Data Handling](https://github.com/shayanderson/drone#data-handling)**: [Filter](https://github.com/shayanderson/drone#filter), [Format](https://github.com/shayanderson/drone#format), [Validate](https://github.com/shayanderson/drone#validate)
 - **[Database Handling](https://github.com/shayanderson/drone#database-handling)**
 - Helper Classes
+  - [Config Helper](https://github.com/shayanderson/drone/blob/master/docs/conf.md)
   - **[Filesystem](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md)**: [Directory](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md#dronefilesystemdirectory), [File](https://github.com/shayanderson/drone/blob/master/docs/filesystem.md#dronefilesystemfile)
   - View: [Breadcrumb](https://github.com/shayanderson/drone/blob/master/docs/view-breadcrumb.md), [Decorate](https://github.com/shayanderson/drone/blob/master/docs/view-decorate.md), [Form](https://github.com/shayanderson/drone/blob/master/docs/view-form.md), [Table](https://github.com/shayanderson/drone/blob/master/docs/view-table.md)
 

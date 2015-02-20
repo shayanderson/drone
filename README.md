@@ -527,6 +527,13 @@ drone()->hook(\Drone\Core::HOOK_AFTER, function() { pa('', 'Log:', drone()->log-
 
 > For controller level hooks (special methods `__before()` and `__after`) see [Controller Class](https://github.com/shayanderson/drone#controller-class)
 
+Hooks can also be set to require a hook file instead of using a callable. Simply use a `string` instead of `callable`, for example:
+```php
+// hook to require file for front logic
+drone()->hook(\Drone\Core::HOOK_MIDDLE, PATH_ROOT . '_app/com/hook/middle.php);
+```
+> Note: *before* and *middle* hook files will be in the scope of view variables (meaning a variable `$var` set in a hook file will be accessible in the view template as `$var`), but *after* hook files are outside that scope.
+
 #### Redirect
 Redirection to another location can be done in controller files use the `redirect()` (`\Drone\Core->redirect()` alias) function, for example:
 ```php

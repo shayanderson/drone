@@ -234,11 +234,15 @@ class Core
 		{
 			$this->log->trace('Calling ' . $name . ' hook(s)', Logger::CATEGORY_DRONE);
 
-			foreach($this->__hooks[$type] as $hook)
+			foreach($this->__hooks[$type] as $k => $hook)
 			{
-				$hook();
+				if(is_callable($hook))
+				{
+					$hook();
+					unset($this->__hooks[$type][$k]);
+				}
+				unset($hook);
 			}
-			unset($hook);
 		}
 	}
 
@@ -523,10 +527,10 @@ class Core
 	 * Register hook
 	 *
 	 * @param int $type
-	 * @param callable $hook
+	 * @param mixed $hook (callable|string, string will require file ex: PATH_ROOT . 'file.php')
 	 * @return void
 	 */
-	public function hook($type, callable $hook)
+	public function hook($type, $hook)
 	{
 		$this->__hooks[$type][] = $hook;
 
@@ -760,6 +764,14 @@ class Core
 
 				$this->__hooks(self::HOOK_BEFORE, 'before');
 
+				if(isset($this->__hooks[self::HOOK_BEFORE]))
+				{
+					foreach($this->__hooks[self::HOOK_BEFORE] as $hook) // file hooks
+					{
+						require $hook;
+					}
+				}
+
 				$this->log->trace('Loading controller: \'' . Registry::get(self::KEY_ROUTE_CONTROLLER) . '\'',
 					Logger::CATEGORY_DRONE);
 
@@ -826,6 +838,14 @@ class Core
 				}
 
 				$this->__hooks(self::HOOK_MIDDLE, 'middle');
+
+				if(isset($this->__hooks[self::HOOK_MIDDLE]))
+				{
+					foreach($this->__hooks[self::HOOK_MIDDLE] as $hook) // file hooks
+					{
+						require $hook;
+					}
+				}
 
 				// view display template
 				if(!is_null($this->view->getTemplate()))
@@ -894,6 +914,14 @@ class Core
 		$this->log->trace('Finalizing', Logger::CATEGORY_DRONE);
 
 		$this->__hooks(self::HOOK_AFTER, 'after');
+
+		if(isset($this->__hooks[self::HOOK_AFTER]))
+		{
+			foreach($this->__hooks[self::HOOK_AFTER] as $hook) // file hooks
+			{
+				require $hook;
+			}
+		}
 
 		exit;
 	}

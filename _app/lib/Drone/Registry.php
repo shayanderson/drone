@@ -30,7 +30,7 @@ class Registry
 	 * @param string $key
 	 * @return void
 	 */
-	public function clear($key)
+	public static function clear($key)
 	{
 		if(self::has($key))
 		{
@@ -45,7 +45,7 @@ class Registry
 	 * @param string $key
 	 * @return mixed (null if key does not exist)
 	 */
-	public function &get($key)
+	public static function &get($key)
 	{
 		if(self::has($key))
 		{
@@ -63,7 +63,7 @@ class Registry
 	 *
 	 * @return array
 	 */
-	public function getAll()
+	public static function getAll()
 	{
 		return self::$__reg;
 	}
@@ -74,7 +74,7 @@ class Registry
 	 * @param string $key
 	 * @return boolean
 	 */
-	public function has($key)
+	public static function has($key)
 	{
 		return isset(self::$__reg[$key]) || array_key_exists($key, self::$__reg);
 	}
@@ -86,7 +86,7 @@ class Registry
 	 * @param mixed $value
 	 * @return void
 	 */
-	public function set($key, $value = null)
+	public static function set($key, $value = null)
 	{
 		if(!is_array($key))
 		{

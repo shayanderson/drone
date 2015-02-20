@@ -83,13 +83,13 @@ Drone helper functions available:
 Drone can run without changing the default settings, however, the default settings should be changed in the `_app/com/xap.bootstrap.php` file when Drone is used in a production environment:
 ```php
 // turn debug mode off - this will prevent unwanted output in a production environment
-registry()->set(\Drone\Core::KEY_DEBUG, false);
+\Drone\Registry::set(\Drone\Core::KEY_DEBUG, false);
 
 // turn off backtrace in log - this should only be used in a development environment
-registry()->set(\Drone\Core::KEY_ERROR_BACKTRACE, false);
+\Drone\Registry::set(\Drone\Core::KEY_ERROR_BACKTRACE, false);
 
 // turn on logging of errors in the default Web server log file
-registry()->set(\Drone\Core::KEY_ERROR_LOG, true);
+\Drone\Registry::set(\Drone\Core::KEY_ERROR_LOG, true);
 ```
 
 #### Run Application
@@ -470,18 +470,19 @@ There are Drone core (`\Drone\Core`) methods that are available for application 
 #### Registry
 The \Drone\Registry class is useful for global variables and objects, here is an example:
 ```php
+use \Drone\Registry;
 ...
-registry()->set('user', new \User($user_id)); // set key/value
+Registry::set('user', new \User($user_id)); // set key/value
 ...
-if(registry()->has('user')) // check if key exists
+if(Registry::has('user')) // check if key exists
 {
-	if(registry()->get('user')->isActive()) // get key value
+	if(Registry::get('user')->isActive()) // get key value
 	{
 		// do something
 	}
 }
 ...
-registry()->clear('user'); // unset key
+Registry::clear('user'); // unset key
 ```
 
 > Drone uses some params for internal use, these param keys all share the prefix `__DRONE__.`, for example a Drone param is `__DRONE__.error.backtrace`

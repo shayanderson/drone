@@ -91,10 +91,10 @@ class View
 			$template = 'index';
 		}
 
-		if(substr($template, -(strlen(drone()->registry->get(Core::KEY_EXT_TEMPLATE))))
-			!== drone()->registry->get(Core::KEY_EXT_TEMPLATE))
+		if(substr($template, -(strlen(Registry::get(Core::KEY_EXT_TEMPLATE))))
+			!== Registry::get(Core::KEY_EXT_TEMPLATE))
 		{
-			$template .= drone()->registry->get(Core::KEY_EXT_TEMPLATE);
+			$template .= Registry::get(Core::KEY_EXT_TEMPLATE);
 		}
 
 		return $template;
@@ -123,12 +123,12 @@ class View
 	{
 		if($template !== null) // template
 		{
-			$this->__template = drone()->registry->get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
+			$this->__template = Registry::get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
 				. self::__formatTemplate($template);
 		}
 		else if(!empty($this->__template_display_path)) // controller display path + default template
 		{
-			$this->__template = drone()->registry->get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
+			$this->__template = Registry::get(Core::KEY_PATH_TEMPLATE) . $this->__template_display_path
 				. self::__formatTemplate(basename($this->__template_default));
 		}
 		else // default template
@@ -268,7 +268,7 @@ class View
 	 */
 	public function template($template)
 	{
-		$template = drone()->registry->get(Core::KEY_PATH_TEMPLATE) . self::__formatTemplate($template);
+		$template = Registry::get(Core::KEY_PATH_TEMPLATE) . self::__formatTemplate($template);
 
 		if($template === $this->__template) // duplicate view template, stop template loop + memory overload
 		{
@@ -298,7 +298,7 @@ class View
 	 */
 	public function templateGlobal($template)
 	{
-		return drone()->registry->get(Core::KEY_PATH_TEMPLATE_GLOBAL) . self::__formatTemplate($template);
+		return Registry::get(Core::KEY_PATH_TEMPLATE_GLOBAL) . self::__formatTemplate($template);
 	}
 
 	/**

@@ -152,16 +152,6 @@ function redirect($location, $use_301 = false)
 }
 
 /**
- * \Drone\Registry instance getter (drone()->registry alias)
- *
- * @return \Drone\Registry
- */
-function registry()
-{
-	return drone()->registry;
-}
-
-/**
  * \Drone\Request instance getter (drone()->request alias)
  *
  * @return \Drone\Request

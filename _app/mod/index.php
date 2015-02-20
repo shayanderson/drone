@@ -20,7 +20,7 @@ logger()->debug('Index controller start');
 
 // set params
 view()->drone_ver = \Drone\Core::VERSION;
-view()->drone_params = registry()->getAll();
+view()->drone_params = \Drone\Registry::getAll();
 
 // display view (displays '_app/tpl/index.tpl' when no template name)
 view()->display();

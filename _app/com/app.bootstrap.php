@@ -25,9 +25,9 @@ drone()->log->setLogLevel(\Drone\Logger::LEVEL_TRACE);
 // Settings
 //////////////////////////////////////////////////////////////////////////
 // framework settings
-// \Drone\Registry::set(\Drone\Core::KEY_DEBUG, false); // debug mode - off for production
-// \Drone\Registry::set(\Drone\Core::KEY_ERROR_BACKTRACE, false); // backtrace in log - off for production
-// \Drone\Registry::set(\Drone\Core::KEY_ERROR_LOG, true); // errors to server log - on for production
+// registry()->set(\Drone\Core::KEY_DEBUG, false); // debug mode - off for production
+// registry()->set(\Drone\Core::KEY_ERROR_BACKTRACE, false); // backtrace in log - off for production
+// registry()->set(\Drone\Core::KEY_ERROR_LOG, true); // errors to server log - on for production
 
 
 //////////////////////////////////////////////////////////////////////////

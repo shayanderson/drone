@@ -114,11 +114,19 @@ class Core
 	private $__routes = [];
 
 	/**
+	 * Registry object
+	 *
+	 * @var \Drone\Registry
+	 */
+	public $registry;
+
+	/**
 	 * Restricted init
 	 */
 	private function __construct()
 	{
 		$this->timer(); // init core timer
+		$this->registry = new Registry;
 	}
 
 	/**
@@ -360,7 +368,7 @@ class Core
 		}
 
 		// add backtrace to log (not on 404)
-		if($code != self::ERROR_404 && Registry::get(self::KEY_ERROR_BACKTRACE))
+		if($code != self::ERROR_404 && $this->registry->get(self::KEY_ERROR_BACKTRACE))
 		{
 			$this->log->trace('Debug backtrace: '
 				. print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), true), Logger::CATEGORY_DRONE);
@@ -432,7 +440,7 @@ class Core
 				break;
 		}
 
-		if(Registry::get(self::KEY_ERROR_LOG)) // log error
+		if(drone()->registry->get(self::KEY_ERROR_LOG)) // log error
 		{
 			error_log($err_message, $err_no);
 		}
@@ -604,33 +612,33 @@ class Core
 			// init param default values
 			foreach($default as $k => $v)
 			{
-				if(!Registry::has($k))
+				if(!$this->registry->has($k))
 				{
-					Registry::set($k, $v);
+					$this->registry->set($k, $v);
 				}
 			}
 
 			// set default error handler
-			if(is_array(Registry::get(self::KEY_ERROR_HANDLER)))
+			if(is_array($this->registry->get(self::KEY_ERROR_HANDLER)))
 			{
-				set_error_handler(Registry::get(self::KEY_ERROR_HANDLER));
+				set_error_handler($this->registry->get(self::KEY_ERROR_HANDLER));
 			}
 
 			// init paths
-			$this->__formatDir(Registry::get(self::KEY_PATH_CONTROLLER));
-			$this->__formatDir(Registry::get(self::KEY_PATH_TEMPLATE));
-			$this->__formatDir(Registry::get(self::KEY_PATH_TEMPLATE_GLOBAL));
+			$this->__formatDir($this->registry->get(self::KEY_PATH_CONTROLLER));
+			$this->__formatDir($this->registry->get(self::KEY_PATH_TEMPLATE));
+			$this->__formatDir($this->registry->get(self::KEY_PATH_TEMPLATE_GLOBAL));
 
 			$is_init = true;
 		}
 
-		Registry::set(self::KEY_ROUTE_CONTROLLER, false); // init controller
+		$this->registry->set(self::KEY_ROUTE_CONTROLLER, false); // init controller
 
 		if(!is_null($route)) // fire manual route
 		{
 			$routes[] = $route; // cache route
 			$route = new Route(null, $route);
-			Registry::set([
+			$this->registry->set([
 				self::KEY_ROUTE_CONTROLLER => $route->getController(),
 				self::KEY_ROUTE_CLASS => $route->getClass(),
 				self::KEY_ROUTE_TEMPLATE => $route->getController()
@@ -638,10 +646,10 @@ class Core
 
 			if($route->isAction())
 			{
-				Registry::set(self::KEY_ROUTE_ACTION, $route->getAction());
+				$this->registry->set(self::KEY_ROUTE_ACTION, $route->getAction());
 			}
 
-			$this->log->trace('Route set: \'' . Registry::get(self::KEY_ROUTE_CONTROLLER) . '\'',
+			$this->log->trace('Route set: \'' . $this->registry->get(self::KEY_ROUTE_CONTROLLER) . '\'',
 				Logger::CATEGORY_DRONE);
 		}
 		else // detect route
@@ -649,7 +657,7 @@ class Core
 			$is_index = false;
 			$request = $_SERVER['REQUEST_URI'];
 			$this->log->trace('Process request: \'' . $request . '\'', Logger::CATEGORY_DRONE);
-			Registry::set(self::KEY_REQUEST, $request);
+			$this->registry->set(self::KEY_REQUEST, $request);
 			if(($pos = strpos($request, '?')) !== false) // rm query string
 			{
 				$request = substr($request, 0, $pos);
@@ -661,17 +669,18 @@ class Core
 			if(substr($request, -1) != '/') // request is like '/page.htm'
 			{
 				// ensure request has web extension
-				if(substr($request, -(strlen(Registry::get(self::KEY_EXT_WEB)))) === Registry::get(self::KEY_EXT_WEB))
+				if(substr($request, -(strlen($this->registry->get(self::KEY_EXT_WEB))))
+					=== $this->registry->get(self::KEY_EXT_WEB))
 				{
 					// do not allow direct access to index like '/path/index.htm'
-					if(basename($request) === 'index' . Registry::get(self::KEY_EXT_WEB))
+					if(basename($request) === 'index' . $this->registry->get(self::KEY_EXT_WEB))
 					{
 						$this->error(self::ERROR_404); // kick direct index request
 						return;
 					}
 
 					// rm web extension
-					$request = substr($request, 0, strlen($request) - strlen(Registry::get(self::KEY_EXT_WEB)));
+					$request = substr($request, 0, strlen($request) - strlen($this->registry->get(self::KEY_EXT_WEB)));
 				}
 				else // no web extension (not allowed)
 				{
@@ -689,7 +698,7 @@ class Core
 			{
 				if($r->match($request))
 				{
-					Registry::set([
+					$this->registry->set([
 						self::KEY_ROUTE_CONTROLLER => $r->getController(),
 						self::KEY_ROUTE_CLASS => $r->getClass(),
 						self::KEY_ROUTE_TEMPLATE => $r->getController()
@@ -697,7 +706,7 @@ class Core
 
 					if($r->isAction())
 					{
-						Registry::set(self::KEY_ROUTE_ACTION, $r->getAction());
+						$this->registry->set(self::KEY_ROUTE_ACTION, $r->getAction());
 					}
 
 					$this->view->setRouteParams($r->getParams()); // set route params
@@ -711,7 +720,7 @@ class Core
 			unset($r);
 
 			// test static routes
-			if(Registry::get(self::KEY_ROUTE_CONTROLLER) === false)
+			if($this->registry->get(self::KEY_ROUTE_CONTROLLER) === false)
 			{
 				$request = str_replace('/', DIRECTORY_SEPARATOR, $request);
 
@@ -720,11 +729,11 @@ class Core
 					$request .= 'index';
 				}
 
-				Registry::set([
+				$this->registry->set([
 					self::KEY_ROUTE_CONTROLLER => $request,
 					self::KEY_ROUTE_TEMPLATE => $request
 				]);
-				$this->log->trace('Route (static) detected: \'' . Registry::get(self::KEY_ROUTE_CONTROLLER)
+				$this->log->trace('Route (static) detected: \'' . $this->registry->get(self::KEY_ROUTE_CONTROLLER)
 					. '\'', Logger::CATEGORY_DRONE);
 
 			}
@@ -741,38 +750,38 @@ class Core
 		}
 
 		// set full paths + extensions
-		Registry::set(self::KEY_ROUTE_CONTROLLER, Registry::get(self::KEY_PATH_CONTROLLER)
-			. ltrim(Registry::get(self::KEY_ROUTE_CONTROLLER), DIRECTORY_SEPARATOR) . '.php');
-		Registry::set(self::KEY_ROUTE_TEMPLATE, Registry::get(self::KEY_PATH_TEMPLATE)
-			. ltrim(Registry::get(self::KEY_ROUTE_TEMPLATE), DIRECTORY_SEPARATOR)
-			. Registry::get(self::KEY_EXT_TEMPLATE));
+		$this->registry->set(self::KEY_ROUTE_CONTROLLER, $this->registry->get(self::KEY_PATH_CONTROLLER)
+			. ltrim($this->registry->get(self::KEY_ROUTE_CONTROLLER), DIRECTORY_SEPARATOR) . '.php');
+		$this->registry->set(self::KEY_ROUTE_TEMPLATE, $this->registry->get(self::KEY_PATH_TEMPLATE)
+			. ltrim($this->registry->get(self::KEY_ROUTE_TEMPLATE), DIRECTORY_SEPARATOR)
+			. $this->registry->get(self::KEY_EXT_TEMPLATE));
 
 		try // run controller
 		{
 			$this->view->resetTemplate(); // reset template (for multiple runs like errors)
-			$this->view->setDefaultTemplate(Registry::get(self::KEY_ROUTE_TEMPLATE)); // set default template
+			$this->view->setDefaultTemplate($this->registry->get(self::KEY_ROUTE_TEMPLATE)); // set default template
 
 			$this->error(false); // reset error flag
 
-			if(is_file(Registry::get(self::KEY_ROUTE_CONTROLLER)))
+			if(is_file($this->registry->get(self::KEY_ROUTE_CONTROLLER)))
 			{
 				ob_start(); // buffer output
 
 				$this->__hooks(self::HOOK_BEFORE, 'before');
 
-				$this->log->trace('Loading controller: \'' . Registry::get(self::KEY_ROUTE_CONTROLLER) . '\'',
+				$this->log->trace('Loading controller: \'' . $this->registry->get(self::KEY_ROUTE_CONTROLLER) . '\'',
 					Logger::CATEGORY_DRONE);
 
-				require_once Registry::get(self::KEY_ROUTE_CONTROLLER);
+				require_once $this->registry->get(self::KEY_ROUTE_CONTROLLER);
 
 				$this->__headersSend(); // send headers
 
-				$controller_class = Registry::get(self::KEY_ROUTE_CLASS);
+				$controller_class = $this->registry->get(self::KEY_ROUTE_CLASS);
 
 				// call controller action
-				if(Registry::has(self::KEY_ROUTE_ACTION))
+				if($this->registry->has(self::KEY_ROUTE_ACTION))
 				{
-					$this->log->trace('Calling action: \'' . Registry::get(self::KEY_ROUTE_ACTION)
+					$this->log->trace('Calling action: \'' . $this->registry->get(self::KEY_ROUTE_ACTION)
 						. '\' on controller class \'' . $controller_class . '\'', Logger::CATEGORY_DRONE);
 
 					if(!class_exists($controller_class, false))
@@ -788,10 +797,10 @@ class Core
 						return;
 					}
 
-					if(!method_exists($controller_class, Registry::get(self::KEY_ROUTE_ACTION)))
+					if(!method_exists($controller_class, $this->registry->get(self::KEY_ROUTE_ACTION)))
 					{
 						$this->error(self::ERROR_500, 'Method \'' . $controller_class . '::'
-							. Registry::get(self::KEY_ROUTE_ACTION) . '\' not found when calling route action');
+							. $this->registry->get(self::KEY_ROUTE_ACTION) . '\' not found when calling route action');
 						return;
 					}
 
@@ -804,7 +813,7 @@ class Core
 					}
 
 					// call controller action
-					$controller->{Registry::get(self::KEY_ROUTE_ACTION)}();
+					$controller->{$this->registry->get(self::KEY_ROUTE_ACTION)}();
 
 					if(method_exists($controller, '__after'))
 					{
@@ -820,7 +829,7 @@ class Core
 
 				unset($controller_class); // cleanup
 
-				if(!Registry::get(self::KEY_DEBUG)) // only flush if not debugging
+				if(!$this->registry->get(self::KEY_DEBUG)) // only flush if not debugging
 				{
 					$this->__bufferClean();
 				}

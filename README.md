@@ -478,7 +478,7 @@ if(Registry::has('user')) // check if key exists
 {
 	if(Registry::get('user')->isActive()) // get key value
 	{
-		// do something
+		// or $user = &Registry::get('user'); // as reference
 	}
 }
 ...

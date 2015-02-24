@@ -226,7 +226,7 @@ drone()->route([
 	'/product:' => PATH_ROOT . '_app/com/route/product.php'
 ]);
 ```
-The `PATH_ROOT . '_app/com/route/product.php'` file should return an array of routes, for example:
+The `PATH_ROOT . '_app/com/route/product.php'` file should return an array of mapped routes, for example:
 ```php
 return [
 	'/product/:id/delete' => 'product->delete',

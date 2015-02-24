@@ -233,7 +233,7 @@ return [
 	'/product/:id' => 'product->view'
 ];
 ```
-> Note a *route file* matched route will override any mapped route following the route file entry
+> A *route file* matched route will override any mapped route following the route file entry
 
 ## Controllers
 Controllers are files that may or may not contain a `Controller` class depending on if the requested route is mapped, and mapped with an action (see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)).

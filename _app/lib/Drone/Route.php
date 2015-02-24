@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.2.2
+ * @version 0.2.3
  * @copyright 2015 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/drone>
@@ -26,6 +26,7 @@ class Route
 	 * Route parameter special characters
 	 */
 	const
+		PARAM_FILE_CHARACTER = ':',
 		PARAM_OPTIONAL_CHARACTER = '?',
 		PARAM_WILDCARD_CHARACTER = '*';
 
@@ -301,5 +302,29 @@ class Route
 		$this->__params = &$params;
 
 		return true; // all parts match
+	}
+
+	/**
+	 * Route file loader
+	 *
+	 * @param string $request_path
+	 * @return mixed (array of routes on match, or null)
+	 */
+	public function matchFile($request_path)
+	{
+		if(substr($this->__path, -1) === self::PARAM_FILE_CHARACTER) // match '/path:' (route file)
+		{
+			if(strpos($request_path, '/', 1) !== false) // match '/x/y/z', not '/x'
+			{
+				$request_path = substr($request_path, 0, strpos($request_path, '/', 1)); // '/x/y/z' => '/x'
+			}
+
+			if(substr($this->__path, 0, -1) == $request_path) // compare '/x'
+			{
+				return require $this->__controller; // require route file
+			}
+		}
+
+		return null; // no match
 	}
 }

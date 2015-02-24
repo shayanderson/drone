@@ -3,7 +3,7 @@
  * Drone - Rapid Development Framework for PHP 5.5+
  *
  * @package Drone
- * @version 0.2.2
+ * @version 0.2.3
  * @copyright 2015 Shay Anderson <http://www.shayanderson.com>
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  * @link <https://github.com/shayanderson/drone>
@@ -62,7 +62,7 @@ class Core
 	/**
 	 * Package version
 	 */
-	const VERSION = '0.2.2';
+	const VERSION = '0.2.3';
 
 	/**
 	 * Last error message
@@ -630,7 +630,7 @@ class Core
 
 		Registry::set(self::KEY_ROUTE_CONTROLLER, false); // init controller
 
-		if(!is_null($route)) // fire manual route
+		if($route !== null) // fire manual route
 		{
 			$routes[] = $route; // cache route
 			$route = new Route(null, $route);
@@ -688,28 +688,45 @@ class Core
 				$is_index = true;
 			}
 
-			// test mapped routes
 			foreach($this->__routes as $r)
 			{
-				if($r->match($request))
+				if(($rf = $r->matchFile($request))) // route file
 				{
-					Registry::set([
-						self::KEY_ROUTE_CONTROLLER => $r->getController(),
-						self::KEY_ROUTE_CLASS => $r->getClass(),
-						self::KEY_ROUTE_TEMPLATE => $r->getController()
-					]);
-
-					if($r->isAction())
+					foreach($rf as $k => $v)
 					{
-						Registry::set(self::KEY_ROUTE_ACTION, $r->getAction());
+						$r = new Route($k, $v);
+
+						if($r->match($request))
+						{
+							break 2; // match
+						}
 					}
-
-					$this->view->setRouteParams($r->getParams()); // set route params
-
-					$this->log->trace('Route (mapped) detected: \'' . $r->getPath() . '\'',
-						Logger::CATEGORY_DRONE);
-					break;
 				}
+				else if($r->match($request)) // not route file
+				{
+					break; // match
+				}
+
+				$r = null; // no match
+			}
+
+			if($r)
+			{
+				Registry::set([
+					self::KEY_ROUTE_CONTROLLER => $r->getController(),
+					self::KEY_ROUTE_CLASS => $r->getClass(),
+					self::KEY_ROUTE_TEMPLATE => $r->getController()
+				]);
+
+				if($r->isAction())
+				{
+					Registry::set(self::KEY_ROUTE_ACTION, $r->getAction());
+				}
+
+				$this->view->setRouteParams($r->getParams()); // set route params
+
+				$this->log->trace('Route (mapped) detected: \'' . $r->getPath() . '\'',
+					Logger::CATEGORY_DRONE);
 			}
 
 			unset($r);

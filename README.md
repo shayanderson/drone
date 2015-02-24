@@ -218,6 +218,23 @@ A request mapped to a route with *optional* or *wildcard* params *must* end in '
 
 > Likewise, a request mapped to a route with *optional* or *wildcard* route params must *not* end in '/' when using params, for example route `/route/x/y/z/` would result in a 404 error, but `/route/x/y/z.htm` will work.
 
+##### Route Files
+A *route file* can be used for any base route (using the pattern `/[base route]:`), for example:
+```php
+drone()->route([
+	// setup route file for base route
+	'/product:' => PATH_ROOT . '_app/com/route/product.php'
+]);
+```
+The `PATH_ROOT . '_app/com/route/product.php'` file should return an array of routes, for example:
+```php
+return [
+	'/product/:id/delete' => 'product->delete',
+	'/product/:id' => 'product->view'
+];
+```
+> Note a *route file* matched route will override any mapped route following the route file entry
+
 ## Controllers
 Controllers are files that may or may not contain a `Controller` class depending on if the requested route is mapped, and mapped with an action (see [Mapped Routes](https://github.com/shayanderson/drone#mapped-routes)).
 

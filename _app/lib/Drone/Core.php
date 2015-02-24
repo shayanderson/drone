@@ -688,6 +688,7 @@ class Core
 				$is_index = true;
 			}
 
+			$r = null;
 			foreach($this->__routes as $r)
 			{
 				if(($rf = $r->matchFile($request))) // route file

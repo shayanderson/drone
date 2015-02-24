@@ -716,6 +716,9 @@ class Core
 
 			if($r)
 			{
+				$this->log->trace('Route (mapped) detected: \'' . $r->getPath() . '\'',
+					Logger::CATEGORY_DRONE);
+
 				Registry::set([
 					self::KEY_ROUTE_CONTROLLER => $r->getController(),
 					self::KEY_ROUTE_CLASS => $r->getClass(),
@@ -728,9 +731,6 @@ class Core
 				}
 
 				$this->view->setRouteParams($r->getParams()); // set route params
-
-				$this->log->trace('Route (mapped) detected: \'' . $r->getPath() . '\'',
-					Logger::CATEGORY_DRONE);
 			}
 
 			unset($r);

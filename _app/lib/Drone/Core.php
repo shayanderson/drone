@@ -693,6 +693,9 @@ class Core
 			{
 				if(($rf = $r->matchFile($request))) // route file
 				{
+					$this->log->trace('Route file loaded: \'' . $r->getController() . '\'',
+						Logger::CATEGORY_DRONE);
+
 					foreach($rf as $k => $v)
 					{
 						$r = new Route($k, $v);

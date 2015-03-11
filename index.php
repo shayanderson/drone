@@ -1,6 +1,6 @@
 <?php
 /**
- * Drone - Rapid Development Framework for PHP 5.5+
+ * Drone - Rapid Development Framework for PHP 5.5.0+
  *
  * @package Drone
  * @version 0.2.3

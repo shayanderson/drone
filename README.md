@@ -1,5 +1,5 @@
 # Drone
-### Rapid Development Framework for PHP 5.5+
+### Rapid Development Framework for PHP 5.5.0+
 
 Install Drone options:
 - Git clone: git clone `https://github.com/shayanderson/drone.git`

@@ -87,6 +87,29 @@ Global attribute example:
 // default field class
 \Drone\View\Form::$attributes_field = ['class' => 'form-control'];
 ```
+> Global attributes merge with get method attributes, for example:
+```php
+// set global attribute
+\Drone\View\Form::$attributes_field = ['class' => 'my-class'];
+```
+In HTML:
+```html+php
+<?=$form->get('username', ['maxlength' => 30])?>
+```
+Now the field as both attributes `class` and `maxlength`. However, a get method attribute will override a global attribute, for example:
+```php
+// set global attribute
+\Drone\View\Form::$attributes_field = ['class' => 'my-class'];
+```
+In HTML:
+```html+php
+<?=$form->get('username', ['class' => 'custom-class', 'maxlength' => 30])?>
+```
+Now the field as the class attribute set to `custom-class`. If a global attribute is unwanted in a get method simple set the attribute value to `null`, for example:
+```html+php
+<?=$form->get('username', ['class' => null, 'maxlength' => 30])?>
+```
+The field now has no `class` attribute even if the global attribute `class` is set.
 
 ### Form Field Decorators
 Global decorators can be used for form fields. The global decorators are:

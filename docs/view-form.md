@@ -105,11 +105,11 @@ In HTML:
 ```html+php
 <?=$form->get('username', ['class' => 'custom-class', 'maxlength' => 30])?>
 ```
-Now the field as the class attribute set to `custom-class`. If a global attribute is unwanted in a get method simple set the attribute value to `null`, for example:
+Now the field as the class attribute set to `custom-class`. If a global attribute is unwanted in a get method set the attribute value to `null`, for example:
 ```html+php
 <?=$form->get('username', ['class' => null, 'maxlength' => 30])?>
 ```
-The field now has no `class` attribute even if the global attribute `class` is set.
+The field now has no `class` attribute even if the global attribute `class` is set for the field type.
 
 ### Form Field Decorators
 Global decorators can be used for form fields. The global decorators are:

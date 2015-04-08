@@ -305,6 +305,8 @@ class Form
 		{
 			$attributes += $fields_attributes;
 		}
+
+		$attributes = array_filter($attributes); // clear empty attributes
 	}
 
 	/**
@@ -499,11 +501,8 @@ class Form
 			{
 				case self::TYPE_CHECKBOX:
 				case self::TYPE_RADIO:
-					if(count($attributes) === 1) // set default attributes
-					{
-						self::__attributesGlobal($attributes, self::$attributes_checkbox_radio,
-							self::$attributes_fields);
-					}
+					self::__attributesGlobal($attributes, self::$attributes_checkbox_radio,
+						self::$attributes_fields);
 
 					foreach($this->__fields[$id]['options'] as $k => $v)
 					{
@@ -555,10 +554,8 @@ class Form
 				case self::TYPE_HIDDEN:
 				case self::TYPE_PASSWORD:
 				case self::TYPE_TEXT:
-					if(count($attributes) === 1) // set default attributes
-					{
-						self::__attributesGlobal($attributes, self::$attributes_field, self::$attributes_fields);
-					}
+					self::__attributesGlobal($attributes, self::$attributes_field,
+						self::$attributes_fields);
 
 					if(isset($this->__fields[$id]['value'])) // set default value
 					{
@@ -572,10 +569,8 @@ class Form
 					break;
 
 				case self::TYPE_SELECT:
-					if(count($attributes) === 1) // set default attributes
-					{
-						self::__attributesGlobal($attributes, self::$attributes_select, self::$attributes_fields);
-					}
+					self::__attributesGlobal($attributes, self::$attributes_select,
+						self::$attributes_fields);
 
 					if(isset($attributes['selected']))
 					{
@@ -600,10 +595,8 @@ class Form
 					break;
 
 				case self::TYPE_TEXTAREA:
-					if(count($attributes) === 1) // set default attributes
-					{
-						self::__attributesGlobal($attributes, self::$attributes_textarea, self::$attributes_fields);
-					}
+					self::__attributesGlobal($attributes, self::$attributes_textarea,
+						self::$attributes_fields);
 
 					$html = self::__decorate('<textarea' . self::__attributes($attributes) . '>'
 						. ( isset($this->__fields[$id]['value']) ? $this->__fields[$id]['value'] : '' )
